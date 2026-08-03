@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>홈트레이닝 트래커</title>
-<meta name="description" content="전신 순환 운동 루틴 실행 및 기록 트래커">
+<title>홈트레이닝 코치</title>
+<meta name="description" content="혼자서도 안전하고 정확하게 운동하도록 도와주는 개인 코치 앱">
 <meta name="theme-color" content="#0f1115">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -19,7 +19,7 @@
 
   <header id="app-header">
     <button id="btn-back" class="icon-btn" aria-label="뒤로" hidden>&#8592;</button>
-    <h1 id="header-title">홈트레이닝 트래커</h1>
+    <h1 id="header-title">홈트레이닝 코치</h1>
     <button id="btn-settings" class="icon-btn" aria-label="설정">&#9881;</button>
   </header>
 
@@ -50,6 +50,41 @@
       </div>
     </section>
 
+    <!-- TODAY'S WORKOUT PREVIEW (4.1.1) -->
+    <section id="screen-preview" class="screen">
+      <div class="card">
+        <p class="eyebrow">오늘의 루틴</p>
+        <ol id="preview-exercise-list" class="preview-list"></ol>
+      </div>
+      <div class="card">
+        <div class="preview-stat-row">
+          <div>
+            <p class="muted-text">예상 소요 시간</p>
+            <p id="preview-duration" class="stat-value">약 30분</p>
+          </div>
+          <div>
+            <p class="muted-text">예상 소모 칼로리</p>
+            <p id="preview-calories" class="stat-value">약 160~220kcal</p>
+          </div>
+        </div>
+        <p class="muted-text" style="margin-top:6px;">* 개인차가 큰 대략적인 추정치예요</p>
+      </div>
+      <div class="card quote-card">
+        <p id="preview-quote" class="quote-text"></p>
+      </div>
+      <button id="btn-preview-go" class="primary-btn big-cta">시작하기</button>
+    </section>
+
+    <!-- PRE-EXERCISE CHECKLIST (gating) -->
+    <section id="screen-checklist" class="screen">
+      <div class="card">
+        <p class="eyebrow">시작 전 확인</p>
+        <h2 id="checklist-exercise-name">스쿼트</h2>
+        <ul id="checklist-items" class="checklist"></ul>
+      </div>
+      <button id="btn-checklist-start" class="primary-btn big-cta" disabled>시작</button>
+    </section>
+
     <!-- WORKOUT -->
     <section id="screen-workout" class="screen">
       <div class="progress-bar-track"><div id="workout-progress-bar" class="progress-bar-fill"></div></div>
@@ -67,77 +102,7 @@
         <h2 id="workout-exercise-name" class="exercise-name">스쿼트</h2>
         <p id="workout-set-label" class="set-label">1 / 3세트</p>
 
-        <div class="stickman-wrap">
-          <svg id="stickman" class="stickman" viewBox="0 -30 120 210" xmlns="http://www.w3.org/2000/svg">
-            <line class="ground-line" x1="14" y1="173" x2="106" y2="173" />
-            <g class="figure-orient">
-              <g class="figure">
-
-                <!-- back leg -->
-                <g transform="translate(67,98)">
-                  <g class="j-thighR joint">
-                    <line x1="0" y1="0" x2="0" y2="40" class="limb limb-thick" />
-                    <g transform="translate(0,40)">
-                      <g class="j-shinR joint">
-                        <line x1="0" y1="0" x2="0" y2="36" class="limb" />
-                        <ellipse cx="4" cy="37" rx="9" ry="4.5" class="foot" />
-                      </g>
-                    </g>
-                  </g>
-                </g>
-
-                <!-- front leg -->
-                <g transform="translate(53,98)">
-                  <g class="j-thighL joint">
-                    <line x1="0" y1="0" x2="0" y2="40" class="limb limb-thick" />
-                    <g transform="translate(0,40)">
-                      <g class="j-shinL joint">
-                        <line x1="0" y1="0" x2="0" y2="36" class="limb" />
-                        <ellipse cx="-4" cy="37" rx="9" ry="4.5" class="foot" />
-                      </g>
-                    </g>
-                  </g>
-                </g>
-
-                <!-- spine: torso + arms + head, pivots at hip for forward lean -->
-                <g transform="translate(60,98)">
-                  <g class="j-spine joint">
-                    <rect x="-16" y="-58" width="32" height="60" rx="15" class="torso-shape" />
-
-                    <g transform="translate(11,-54)">
-                      <g class="j-upperArmR joint">
-                        <line x1="0" y1="0" x2="0" y2="26" class="limb limb-thick" />
-                        <g transform="translate(0,26)">
-                          <g class="j-forearmR joint">
-                            <line x1="0" y1="0" x2="0" y2="24" class="limb" />
-                            <circle cx="0" cy="26" r="6" class="hand" />
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-
-                    <g transform="translate(-11,-54)">
-                      <g class="j-upperArmL joint">
-                        <line x1="0" y1="0" x2="0" y2="26" class="limb limb-thick" />
-                        <g transform="translate(0,26)">
-                          <g class="j-forearmL joint">
-                            <line x1="0" y1="0" x2="0" y2="24" class="limb" />
-                            <circle cx="0" cy="26" r="6" class="hand" />
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-
-                    <circle cx="0" cy="-72" r="14" class="head-shape" />
-                    <circle cx="-5" cy="-74" r="1.6" class="eye" />
-                    <circle cx="5" cy="-74" r="1.6" class="eye" />
-                  </g>
-                </g>
-
-              </g>
-            </g>
-          </svg>
-        </div>
+        <div id="pose-row" class="pose-row"></div>
 
         <div id="workout-target" class="target-line">목표: 12~15회</div>
 
@@ -146,9 +111,21 @@
           <p id="timer-value" class="timer-value">00:30</p>
         </div>
 
+        <div id="checkpoint-box" class="checkpoint-box">
+          <p class="section-label">✔ 올바른 자세</p>
+          <ul id="checkpoint-list" class="checkpoint-list"></ul>
+        </div>
+
+        <div id="mistake-box" class="mistake-box">
+          <p class="section-label">가장 많이 하는 실수</p>
+          <div class="mistake-row">
+            <div id="mistake-pose" class="pose-slot pose-slot--small"></div>
+            <ul id="mistake-list" class="mistake-list"></ul>
+          </div>
+        </div>
+
         <div class="tip-box">
-          <p id="tip-breath"><strong>호흡:</strong> -</p>
-          <p id="tip-form"><strong>신경 쓸 부위:</strong> -</p>
+          <p id="tip-breath" class="breath-line"><strong>호흡</strong></p>
         </div>
       </div>
 
@@ -168,13 +145,22 @@
       </div>
 
       <div class="card">
-        <h2>체감 강도 (RPE)</h2>
-        <div id="rpe-picker" class="rpe-picker">
-          <button class="rpe-btn" data-rpe="1">1<span>아주 쉬움</span></button>
-          <button class="rpe-btn" data-rpe="2">2<span>쉬움</span></button>
-          <button class="rpe-btn" data-rpe="3">3<span>보통</span></button>
-          <button class="rpe-btn" data-rpe="4">4<span>힘듦</span></button>
-          <button class="rpe-btn" data-rpe="5">5<span>매우 힘듦</span></button>
+        <h2>오늘은?</h2>
+        <div id="rpe-picker" class="rpe-picker rpe-picker--emoji">
+          <button class="rpe-btn" data-rpe="2">😀<span>쉬웠다</span></button>
+          <button class="rpe-btn" data-rpe="3">🙂<span>적당했다</span></button>
+          <button class="rpe-btn" data-rpe="5">😵<span>힘들었다</span></button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>가장 힘들었던 부위 (선택)</h2>
+        <div id="bodypart-picker" class="chip-grid">
+          <button class="chip-btn" data-part="허벅지">허벅지</button>
+          <button class="chip-btn" data-part="엉덩이">엉덩이</button>
+          <button class="chip-btn" data-part="어깨">어깨</button>
+          <button class="chip-btn" data-part="가슴">가슴</button>
+          <button class="chip-btn" data-part="복부">복부</button>
         </div>
       </div>
 
@@ -224,11 +210,17 @@
       </div>
 
       <div class="card row-card">
-        <span>음성 안내<br><span class="muted-text" style="font-size:12px;">운동 이름, 호흡법, 카운트다운을 읽어줘요</span></span>
+        <span>음성 코치<br><span class="muted-text" style="font-size:12px;">시작/큐/호흡/휴식 카운트다운을 음성으로 안내해요</span></span>
         <label class="switch">
           <input type="checkbox" id="setting-voice">
           <span class="switch-slider"></span>
         </label>
+      </div>
+
+      <div class="card">
+        <h2>운동 레벨</h2>
+        <p class="muted-text" style="margin:0 0 10px;">맨몸 운동(스쿼트/런지/푸시업/브릿지) 시작 목표 횟수를 정해요</p>
+        <div id="level-choice" class="chip-grid chip-grid--3"></div>
       </div>
 
       <div class="card">
@@ -269,6 +261,17 @@
     <div class="modal-actions">
       <button id="confirm-modal-cancel" class="secondary-btn">취소</button>
       <button id="confirm-modal-ok" class="danger-btn">확인</button>
+    </div>
+  </div>
+</div>
+
+<div id="onboarding-modal" class="modal" hidden>
+  <div class="modal-card">
+    <p class="modal-title">처음 운동인가요?</p>
+    <div id="onboarding-choice" class="onboarding-choice">
+      <button class="onboarding-btn" data-level="beginner">완전 초보</button>
+      <button class="onboarding-btn" data-level="some">조금 해봤어요</button>
+      <button class="onboarding-btn" data-level="familiar">익숙합니다</button>
     </div>
   </div>
 </div>
