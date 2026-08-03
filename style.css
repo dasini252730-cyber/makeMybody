@@ -14,6 +14,9 @@
   --radius-lg: 20px;
   --radius-md: 14px;
   --radius-sm: 10px;
+  --figure-line: #2b2d33;
+  --figure-fill: #ff6b4a;
+  --figure-skin: #ffd9c2;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
@@ -34,6 +37,9 @@
     --success: #34d399;
     --danger: #f87171;
     --danger-soft: #3a1f1f;
+    --figure-line: #f2f3f5;
+    --figure-fill: #ff8465;
+    --figure-skin: #5a3a2c;
     color-scheme: dark;
   }
 }
@@ -241,22 +247,42 @@ button, input, textarea, select {
 .set-label { margin: 0 0 8px; color: var(--text-muted); font-weight: 700; }
 
 .stickman-wrap { display: flex; justify-content: center; margin: 6px 0; }
-.stickman { width: 160px; height: 210px; }
-.stickman .figure-orient { transform-origin: 60px 87px; transform-box: view-box; }
-.stickman line, .stickman circle {
-  stroke: var(--text);
-  fill: var(--text);
-  stroke-width: 6;
+.stickman { width: 168px; height: 220px; overflow: visible; }
+
+.stickman .ground-line { stroke: var(--border); stroke-width: 3; stroke-linecap: round; }
+
+.stickman .figure-orient { transform-origin: 60px 98px; transform-box: view-box; }
+.stickman .figure { transform-origin: 60px 98px; transform-box: view-box; }
+
+/* every jointed group rotates around its own local (0,0), which SVG transform
+   attributes on its parent <g> already positioned at the joint - see joint rig in index.html */
+.stickman .joint { transform-origin: 0px 0px; transform-box: view-box; }
+
+.stickman .limb {
+  stroke: var(--figure-line, var(--text));
+  stroke-width: 7;
   stroke-linecap: round;
+  fill: none;
 }
-.stickman circle.p-head { fill: none; stroke-width: 5; }
-.stickman .p-armL, .stickman .p-armR, .stickman .p-legL, .stickman .p-legR, .stickman .p-torso { transform-box: view-box; }
-.stickman .p-armL { transform-origin: 52px 55px; }
-.stickman .p-armR { transform-origin: 68px 55px; }
-.stickman .p-legL { transform-origin: 52px 95px; }
-.stickman .p-legR { transform-origin: 68px 95px; }
-.stickman .p-torso { transform-origin: 60px 50px; }
-.stickman .figure { transform-box: view-box; transform-origin: 60px 95px; }
+.stickman .limb-thick { stroke-width: 8.5; }
+.stickman .foot, .stickman .hand {
+  fill: var(--figure-line, var(--text));
+}
+.stickman .torso-shape {
+  fill: var(--figure-fill, var(--accent));
+  stroke: var(--figure-line, var(--text));
+  stroke-width: 3;
+}
+.stickman .head-shape {
+  fill: var(--figure-skin, var(--accent-soft));
+  stroke: var(--figure-line, var(--text));
+  stroke-width: 4;
+}
+.stickman .eye { fill: var(--figure-line, var(--text)); }
+
+/* resting baseline pose - overridden by exercise-specific keyframes while animating */
+.stickman .j-upperArmL { transform: rotate(-10deg); }
+.stickman .j-upperArmR { transform: rotate(10deg); }
 
 .target-line { font-weight: 700; margin: 4px 0; }
 
@@ -375,116 +401,166 @@ textarea, .text-input {
 .modal-actions { display: flex; gap: 10px; }
 .modal-actions button { flex: 1; }
 
-/* ===== Stick-figure exercise animations ===== */
-.stickman .p-torso, .stickman .p-armL, .stickman .p-armR, .stickman .p-legL, .stickman .p-legR, .stickman .figure, .stickman .figure-orient {
-  animation-duration: 2s;
+/* ===== Stick-figure exercise animations =====
+   Rig: hips/knees/shoulders/elbows are separate nested joints (see index.html),
+   so every bend below animates a real two-segment limb instead of a single rigid line. */
+:root { --ease-organic: cubic-bezier(0.45, 0, 0.4, 1); }
+
+.stickman .j-thighL, .stickman .j-thighR, .stickman .j-shinL, .stickman .j-shinR,
+.stickman .j-upperArmL, .stickman .j-upperArmR, .stickman .j-forearmL, .stickman .j-forearmR,
+.stickman .j-spine, .stickman .figure, .stickman .figure-orient {
+  animation-duration: 2.2s;
   animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: var(--ease-organic);
 }
 
-/* Squat: whole figure sinks + legs bend outward */
-@keyframes sq-figure { 0%,100% { transform: translateY(0); } 50% { transform: translateY(14px); } }
-@keyframes sq-legL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-16deg); } }
-@keyframes sq-legR { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(16deg); } }
-@keyframes sq-armL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(45deg); } }
-@keyframes sq-armR { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-45deg); } }
+/* Squat: hips sink, knees track slightly outward (never crossing), arms rise up and out for balance.
+   Sign convention throughout this file: for the LEFT limb, a positive rotate() sweeps it outward
+   (away from the body midline); for the RIGHT limb, a negative rotate() sweeps it outward. Mixing
+   these up is what makes arms/legs cross into an "X" - verified empirically, see pivot test. */
+@keyframes sq-figure   { 0%,100% { transform: translateY(0); }        50% { transform: translateY(15px); } }
+@keyframes sq-thighL   { 0%,100% { transform: rotate(0deg); }         50% { transform: rotate(18deg); } }
+@keyframes sq-thighR   { 0%,100% { transform: rotate(0deg); }         50% { transform: rotate(-18deg); } }
+@keyframes sq-shinL    { 0%,100% { transform: rotate(0deg); }         50% { transform: rotate(14deg); } }
+@keyframes sq-shinR    { 0%,100% { transform: rotate(0deg); }         50% { transform: rotate(-14deg); } }
+@keyframes sq-upperArmL{ 0%,100% { transform: rotate(-10deg); }       50% { transform: rotate(150deg); } }
+@keyframes sq-upperArmR{ 0%,100% { transform: rotate(10deg); }        50% { transform: rotate(-150deg); } }
+@keyframes sq-forearmL { 0%,100% { transform: rotate(0deg); }         50% { transform: rotate(20deg); } }
+@keyframes sq-forearmR { 0%,100% { transform: rotate(0deg); }         50% { transform: rotate(-20deg); } }
 .ex-squat .figure { animation-name: sq-figure; }
-.ex-squat .p-legL { animation-name: sq-legL; }
-.ex-squat .p-legR { animation-name: sq-legR; }
-.ex-squat .p-armL { animation-name: sq-armL; }
-.ex-squat .p-armR { animation-name: sq-armR; }
+.ex-squat .j-thighL { animation-name: sq-thighL; }
+.ex-squat .j-thighR { animation-name: sq-thighR; }
+.ex-squat .j-shinL { animation-name: sq-shinL; }
+.ex-squat .j-shinR { animation-name: sq-shinR; }
+.ex-squat .j-upperArmL { animation-name: sq-upperArmL; }
+.ex-squat .j-upperArmR { animation-name: sq-upperArmR; }
+.ex-squat .j-forearmL { animation-name: sq-forearmL; }
+.ex-squat .j-forearmR { animation-name: sq-forearmR; }
 
-/* Lunge: front/back leg alternation */
-@keyframes lg-legL { 0%,45% { transform: rotate(-30deg) translateY(6px); } 50%,95% { transform: rotate(20deg) translateY(0); } 100% { transform: rotate(-30deg) translateY(6px); } }
-@keyframes lg-legR { 0%,45% { transform: rotate(20deg) translateY(0); } 50%,95% { transform: rotate(-30deg) translateY(6px); } 100% { transform: rotate(20deg) translateY(0); } }
-@keyframes lg-figure { 0%,45% { transform: translateY(10px); } 50%,95% { transform: translateY(10px); } }
-.ex-lunge { animation-duration: 2.4s; }
-.ex-lunge .p-legL { animation-name: lg-legL; animation-duration: 2.4s; }
-.ex-lunge .p-legR { animation-name: lg-legR; animation-duration: 2.4s; }
-.ex-lunge .figure { animation-name: lg-figure; animation-duration: 2.4s; }
+/* Lunge: front knee drives forward and bends ~90 deg while the back leg extends behind, alternating sides */
+@keyframes lg-figure  { 0%,100% { transform: translateY(9px); } }
+@keyframes lg-thighL  { 0%,45% { transform: rotate(-52deg); } 50%,95% { transform: rotate(24deg); } 100% { transform: rotate(-52deg); } }
+@keyframes lg-shinL   { 0%,45% { transform: rotate(58deg); }  50%,95% { transform: rotate(-8deg); } 100% { transform: rotate(58deg); } }
+@keyframes lg-thighR  { 0%,45% { transform: rotate(24deg); }  50%,95% { transform: rotate(-52deg); } 100% { transform: rotate(24deg); } }
+@keyframes lg-shinR   { 0%,45% { transform: rotate(-8deg); }  50%,95% { transform: rotate(58deg); } 100% { transform: rotate(-8deg); } }
+@keyframes lg-spine   { 0%,45% { transform: rotate(6deg); }   50%,95% { transform: rotate(-6deg); } 100% { transform: rotate(6deg); } }
+.ex-lunge { animation-duration: 2.6s; }
+.ex-lunge .figure { animation-name: lg-figure; animation-duration: 2.6s; }
+.ex-lunge .j-thighL { animation-name: lg-thighL; animation-duration: 2.6s; }
+.ex-lunge .j-shinL { animation-name: lg-shinL; animation-duration: 2.6s; }
+.ex-lunge .j-thighR { animation-name: lg-thighR; animation-duration: 2.6s; }
+.ex-lunge .j-shinR { animation-name: lg-shinR; animation-duration: 2.6s; }
+.ex-lunge .j-spine { animation-name: lg-spine; animation-duration: 2.6s; }
 
-/* Pushup: prone orientation, torso + arms bend */
-@keyframes pu-figure { 0%,100% { transform: translate(0,0); } 50% { transform: translate(0,10px); } }
-@keyframes pu-armL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(35deg); } }
-@keyframes pu-armR { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-35deg); } }
+/* Pushup: prone, elbows bend to lower the chest then press back up */
+@keyframes pu-figure    { 0%,100% { transform: translate(0,0); }  50% { transform: translate(0,9px); } }
+@keyframes pu-upperArmL { 0%,100% { transform: rotate(-10deg); }  50% { transform: rotate(-52deg); } }
+@keyframes pu-upperArmR { 0%,100% { transform: rotate(10deg); }   50% { transform: rotate(52deg); } }
+@keyframes pu-forearmL  { 0%,100% { transform: rotate(0deg); }    50% { transform: rotate(48deg); } }
+@keyframes pu-forearmR  { 0%,100% { transform: rotate(0deg); }    50% { transform: rotate(-48deg); } }
+.ex-pushup { animation-duration: 1.9s; }
 .ex-pushup .figure-orient { transform: rotate(90deg); }
-.ex-pushup .figure { animation-name: pu-figure; }
-.ex-pushup .p-armL { animation-name: pu-armL; }
-.ex-pushup .p-armR { animation-name: pu-armR; }
+.ex-pushup .figure { animation-name: pu-figure; animation-duration: 1.9s; }
+.ex-pushup .j-upperArmL { animation-name: pu-upperArmL; animation-duration: 1.9s; }
+.ex-pushup .j-upperArmR { animation-name: pu-upperArmR; animation-duration: 1.9s; }
+.ex-pushup .j-forearmL { animation-name: pu-forearmL; animation-duration: 1.9s; }
+.ex-pushup .j-forearmR { animation-name: pu-forearmR; animation-duration: 1.9s; }
 
-/* Glute bridge: lying on back, hips rise/fall */
-@keyframes gb-figure { 0%,100% { transform: translate(0,0); } 50% { transform: translate(0,-14px); } }
+/* Glute bridge: lying on back, knees bent feet-down; hips drive up and squeeze, then lower */
 .ex-glutebridge .figure-orient { transform: rotate(-90deg); }
-.ex-glutebridge .figure { animation-name: gb-figure; }
+.ex-glutebridge .j-thighL, .ex-glutebridge .j-thighR { transform: rotate(-76deg); }
+.ex-glutebridge .j-shinL, .ex-glutebridge .j-shinR { transform: rotate(98deg); }
+@keyframes gb-figure { 0%,20% { transform: translate(0,0); } 55% { transform: translate(0,-15px); } 100% { transform: translate(0,0); } }
+.ex-glutebridge { animation-duration: 2.4s; }
+.ex-glutebridge .figure { animation-name: gb-figure; animation-duration: 2.4s; }
 
-/* Plank: prone static hold with subtle breathing pulse */
+/* Plank: prone static hold, straight line from shoulders to heels, gentle breathing pulse only */
 @keyframes pl-figure { 0%,100% { transform: scale(1); } 50% { transform: scale(1.015); } }
 .ex-plank .figure-orient { transform: rotate(90deg); }
-.ex-plank .figure { animation-name: pl-figure; animation-duration: 2.6s; }
+.ex-plank .figure { animation-name: pl-figure; animation-duration: 2.8s; }
+.ex-plank .j-upperArmL, .ex-plank .j-upperArmR { transform: rotate(0deg); }
 
-/* Shoulder press / row: arms raise overhead and back */
-@keyframes sh-armL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-150deg); } }
-@keyframes sh-armR { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(150deg); } }
-.ex-shoulder .p-armL { animation-name: sh-armL; }
-.ex-shoulder .p-armR { animation-name: sh-armR; }
+/* Shoulder press / row: arms drive from shoulder height straight overhead and back down */
+@keyframes sh-upperArmL { 0%,100% { transform: rotate(90deg); }  50% { transform: rotate(165deg); } }
+@keyframes sh-upperArmR { 0%,100% { transform: rotate(-90deg); } 50% { transform: rotate(-165deg); } }
+@keyframes sh-forearmL  { 0%,100% { transform: rotate(-50deg); } 50% { transform: rotate(-5deg); } }
+@keyframes sh-forearmR  { 0%,100% { transform: rotate(50deg); }  50% { transform: rotate(5deg); } }
+.ex-shoulder .j-upperArmL { animation-name: sh-upperArmL; }
+.ex-shoulder .j-upperArmR { animation-name: sh-upperArmR; }
+.ex-shoulder .j-forearmL { animation-name: sh-forearmL; }
+.ex-shoulder .j-forearmR { animation-name: sh-forearmR; }
 
-/* Burpee: squat + explosive jump */
-@keyframes bp-figure { 0%,20% { transform: translateY(14px); } 45% { transform: translateY(14px); } 70% { transform: translateY(-18px); } 100% { transform: translateY(14px); } }
-@keyframes bp-legL { 0%,45% { transform: rotate(-16deg); } 70%,100% { transform: rotate(10deg); } }
-@keyframes bp-legR { 0%,45% { transform: rotate(16deg); } 70%,100% { transform: rotate(-10deg); } }
-@keyframes bp-armL { 0%,45% { transform: rotate(20deg); } 70%,100% { transform: rotate(-60deg); } }
-@keyframes bp-armR { 0%,45% { transform: rotate(-20deg); } 70%,100% { transform: rotate(60deg); } }
-.ex-burpee { animation-duration: 1.6s; }
-.ex-burpee .figure { animation-name: bp-figure; animation-duration: 1.6s; }
-.ex-burpee .p-legL { animation-name: bp-legL; animation-duration: 1.6s; }
-.ex-burpee .p-legR { animation-name: bp-legR; animation-duration: 1.6s; }
-.ex-burpee .p-armL { animation-name: bp-armL; animation-duration: 1.6s; }
-.ex-burpee .p-armR { animation-name: bp-armR; animation-duration: 1.6s; }
+/* Burpee: squat down with hands to floor, then explode into a jump with arms overhead */
+@keyframes bp-figure    { 0%,40% { transform: translateY(15px); } 65% { transform: translateY(-20px); } 100% { transform: translateY(15px); } }
+@keyframes bp-thighL    { 0%,40% { transform: rotate(18deg); } 65%,100% { transform: rotate(0deg); } }
+@keyframes bp-thighR    { 0%,40% { transform: rotate(-18deg); }  65%,100% { transform: rotate(0deg); } }
+@keyframes bp-shinL     { 0%,40% { transform: rotate(16deg); } 65%,100% { transform: rotate(0deg); } }
+@keyframes bp-shinR     { 0%,40% { transform: rotate(-16deg); } 65%,100% { transform: rotate(0deg); } }
+@keyframes bp-upperArmL { 0%,40% { transform: rotate(30deg); } 65%,100% { transform: rotate(165deg); } }
+@keyframes bp-upperArmR { 0%,40% { transform: rotate(-30deg); }  65%,100% { transform: rotate(-165deg); } }
+.ex-burpee { animation-duration: 1.7s; }
+.ex-burpee .figure { animation-name: bp-figure; animation-duration: 1.7s; }
+.ex-burpee .j-thighL { animation-name: bp-thighL; animation-duration: 1.7s; }
+.ex-burpee .j-thighR { animation-name: bp-thighR; animation-duration: 1.7s; }
+.ex-burpee .j-shinL { animation-name: bp-shinL; animation-duration: 1.7s; }
+.ex-burpee .j-shinR { animation-name: bp-shinR; animation-duration: 1.7s; }
+.ex-burpee .j-upperArmL { animation-name: bp-upperArmL; animation-duration: 1.7s; }
+.ex-burpee .j-upperArmR { animation-name: bp-upperArmR; animation-duration: 1.7s; }
 
-/* Mountain climber: prone, alternating knee drive */
-@keyframes mc-legL { 0%,45% { transform: rotate(-45deg) translateX(10px); } 50%,95% { transform: rotate(0deg); } 100% { transform: rotate(-45deg) translateX(10px); } }
-@keyframes mc-legR { 0%,45% { transform: rotate(0deg); } 50%,95% { transform: rotate(-45deg) translateX(10px); } 100% { transform: rotate(0deg); } }
-.ex-mountainclimber { animation-duration: 1s; }
+/* Mountain climber: prone plank position, knees alternate driving in toward the chest */
+@keyframes mc-thighL { 0%,45% { transform: rotate(-96deg); } 50%,95% { transform: rotate(0deg); } 100% { transform: rotate(-96deg); } }
+@keyframes mc-shinL  { 0%,45% { transform: rotate(90deg); }  50%,95% { transform: rotate(0deg); } 100% { transform: rotate(90deg); } }
+@keyframes mc-thighR { 0%,45% { transform: rotate(0deg); }   50%,95% { transform: rotate(-96deg); } 100% { transform: rotate(0deg); } }
+@keyframes mc-shinR  { 0%,45% { transform: rotate(0deg); }   50%,95% { transform: rotate(90deg); } 100% { transform: rotate(0deg); } }
+.ex-mountainclimber { animation-duration: 0.95s; }
 .ex-mountainclimber .figure-orient { transform: rotate(90deg); }
-.ex-mountainclimber .p-legL { animation-name: mc-legL; animation-duration: 1s; }
-.ex-mountainclimber .p-legR { animation-name: mc-legR; animation-duration: 1s; }
+.ex-mountainclimber .j-thighL { animation-name: mc-thighL; animation-duration: 0.95s; animation-timing-function: ease-in-out; }
+.ex-mountainclimber .j-shinL { animation-name: mc-shinL; animation-duration: 0.95s; animation-timing-function: ease-in-out; }
+.ex-mountainclimber .j-thighR { animation-name: mc-thighR; animation-duration: 0.95s; animation-timing-function: ease-in-out; }
+.ex-mountainclimber .j-shinR { animation-name: mc-shinR; animation-duration: 0.95s; animation-timing-function: ease-in-out; }
 
-/* Jumping jack: arms/legs open and close */
-@keyframes jj-legL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-22deg); } }
-@keyframes jj-legR { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(22deg); } }
-@keyframes jj-armL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(160deg); } }
-@keyframes jj-armR { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-160deg); } }
-.ex-jumpingjack { animation-duration: 1s; }
-.ex-jumpingjack .p-legL { animation-name: jj-legL; animation-duration: 1s; }
-.ex-jumpingjack .p-legR { animation-name: jj-legR; animation-duration: 1s; }
-.ex-jumpingjack .p-armL { animation-name: jj-armL; animation-duration: 1s; }
-.ex-jumpingjack .p-armR { animation-name: jj-armR; animation-duration: 1s; }
+/* Jumping jack: legs splay open while arms swing overhead, together, then close */
+@keyframes jj-figure    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes jj-thighL    { 0%,100% { transform: rotate(0deg); }  50% { transform: rotate(26deg); } }
+@keyframes jj-thighR    { 0%,100% { transform: rotate(0deg); }  50% { transform: rotate(-26deg); } }
+@keyframes jj-upperArmL { 0%,100% { transform: rotate(-10deg); } 50% { transform: rotate(172deg); } }
+@keyframes jj-upperArmR { 0%,100% { transform: rotate(10deg); }  50% { transform: rotate(-172deg); } }
+.ex-jumpingjack { animation-duration: 0.9s; }
+.ex-jumpingjack .figure { animation-name: jj-figure; animation-duration: 0.9s; }
+.ex-jumpingjack .j-thighL { animation-name: jj-thighL; animation-duration: 0.9s; }
+.ex-jumpingjack .j-thighR { animation-name: jj-thighR; animation-duration: 0.9s; }
+.ex-jumpingjack .j-upperArmL { animation-name: jj-upperArmL; animation-duration: 0.9s; }
+.ex-jumpingjack .j-upperArmR { animation-name: jj-upperArmR; animation-duration: 0.9s; }
 
-/* Warmup: march in place */
-@keyframes wm-legL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } }
-@keyframes wm-legR { 0%,100% { transform: rotate(30deg); } 50% { transform: rotate(0deg); } }
-@keyframes wm-armL { 0%,100% { transform: rotate(30deg); } 50% { transform: rotate(-20deg); } }
-@keyframes wm-armR { 0%,100% { transform: rotate(-30deg); } 50% { transform: rotate(20deg); } }
-.ex-march { animation-duration: 0.9s; }
-.ex-march .p-legL { animation-name: wm-legL; animation-duration: 0.9s; }
-.ex-march .p-legR { animation-name: wm-legR; animation-duration: 0.9s; }
-.ex-march .p-armL { animation-name: wm-armL; animation-duration: 0.9s; }
-.ex-march .p-armR { animation-name: wm-armR; animation-duration: 0.9s; }
+/* Warmup march: alternating knee lift with opposite-arm swing, like marching in place */
+@keyframes wm-thighL    { 0%,100% { transform: rotate(0deg); }    50% { transform: rotate(-58deg); } }
+@keyframes wm-shinL     { 0%,100% { transform: rotate(0deg); }    50% { transform: rotate(64deg); } }
+@keyframes wm-thighR    { 0%,50% { transform: rotate(0deg); }     100% { transform: rotate(-58deg); } }
+@keyframes wm-shinR     { 0%,50% { transform: rotate(0deg); }     100% { transform: rotate(64deg); } }
+@keyframes wm-upperArmL { 0%,100% { transform: rotate(-10deg); }  50% { transform: rotate(70deg); } }
+@keyframes wm-upperArmR { 0%,100% { transform: rotate(10deg); }   50% { transform: rotate(-70deg); } }
+.ex-march { animation-duration: 0.85s; animation-timing-function: ease-in-out; }
+.ex-march .j-thighL { animation-name: wm-thighL; animation-duration: 0.85s; animation-timing-function: ease-in-out; }
+.ex-march .j-shinL { animation-name: wm-shinL; animation-duration: 0.85s; animation-timing-function: ease-in-out; }
+.ex-march .j-thighR { animation-name: wm-thighR; animation-duration: 1.7s; animation-timing-function: ease-in-out; }
+.ex-march .j-shinR { animation-name: wm-shinR; animation-duration: 1.7s; animation-timing-function: ease-in-out; }
+.ex-march .j-upperArmL { animation-name: wm-upperArmL; animation-duration: 0.85s; animation-timing-function: ease-in-out; }
+.ex-march .j-upperArmR { animation-name: wm-upperArmR; animation-duration: 0.85s; animation-timing-function: ease-in-out; }
 
-/* Warmup: arm circle / hip circle */
-@keyframes ac-armL { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-@keyframes ac-armR { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
-@keyframes ac-figure { 0%,100% { transform: translateX(0); } 25% { transform: translateX(4px); } 75% { transform: translateX(-4px); } }
-.ex-armcircle .p-armL { animation-name: ac-armL; animation-timing-function: linear; }
-.ex-armcircle .p-armR { animation-name: ac-armR; animation-timing-function: linear; }
+/* Warmup: big continuous arm circles plus a small hip sway */
+@keyframes ac-upperArmL { 0% { transform: rotate(-10deg); } 100% { transform: rotate(-370deg); } }
+@keyframes ac-upperArmR { 0% { transform: rotate(10deg); }  100% { transform: rotate(370deg); } }
+@keyframes ac-figure    { 0%,100% { transform: translateX(0); } 25% { transform: translateX(4px); } 75% { transform: translateX(-4px); } }
+.ex-armcircle .j-upperArmL { animation-name: ac-upperArmL; animation-timing-function: linear; }
+.ex-armcircle .j-upperArmR { animation-name: ac-upperArmR; animation-timing-function: linear; }
 .ex-armcircle .figure { animation-name: ac-figure; }
 
-/* Cooldown stretch: gentle sway + arm reach */
-@keyframes cd-figure { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(6deg); } }
-@keyframes cd-armL { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-140deg); } }
-.ex-stretch { animation-duration: 3s; }
-.ex-stretch .figure { animation-name: cd-figure; animation-duration: 3s; transform-origin: 60px 130px; }
-.ex-stretch .p-armL { animation-name: cd-armL; animation-duration: 3s; }
+/* Cooldown stretch: whole body leans side to side while one arm reaches overhead */
+@keyframes cd-spine     { 0%,100% { transform: rotate(0deg); }  50% { transform: rotate(10deg); } }
+@keyframes cd-upperArmL { 0%,100% { transform: rotate(-10deg); } 50% { transform: rotate(165deg); } }
+.ex-stretch { animation-duration: 3.2s; }
+.ex-stretch .j-spine { animation-name: cd-spine; animation-duration: 3.2s; }
+.ex-stretch .j-upperArmL { animation-name: cd-upperArmL; animation-duration: 3.2s; }
 
 @media (prefers-reduced-motion: reduce) {
   .stickman * { animation: none !important; }

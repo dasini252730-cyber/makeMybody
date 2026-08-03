@@ -73,7 +73,7 @@ function getSessions() { return readJSON(STORAGE_KEYS.sessions, []); }
 function saveSessions(list) { writeJSON(STORAGE_KEYS.sessions, list); }
 
 function defaultSettings() {
-  return { restSeconds: 30, soundOn: true, tabataEnabled: true, tabataExercise: 'jumpingjack' };
+  return { restSeconds: 30, soundOn: true, voiceOn: true, tabataEnabled: true, tabataExercise: 'jumpingjack' };
 }
 function getSettings() { return Object.assign(defaultSettings(), readJSON(STORAGE_KEYS.settings, {})); }
 function saveSettings(s) { writeJSON(STORAGE_KEYS.settings, s); }
@@ -190,6 +190,34 @@ function feedbackSetDone() { beep(880, 220); vibrate(80); }
 function feedbackRestDone() { beep(660, 300); vibrate([60, 60, 60]); }
 function vibrate(pattern) {
   if (navigator.vibrate) { try { navigator.vibrate(pattern); } catch (e) {} }
+}
+
+/* Voice guidance via Web Speech API - reads exercise/breathing cues and countdown ticks aloud
+   so the routine can be followed without looking at the screen. Best effort, ignore if unsupported. */
+function speak(text) {
+  const settings = getSettings();
+  if (!settings.voiceOn) return;
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'ko-KR';
+    utter.rate = 1;
+    window.speechSynthesis.speak(utter);
+  } catch (e) { /* speech unavailable - ignore */ }
+}
+function speakCountdownTick(remaining) {
+  if (remaining === 3 || remaining === 2 || remaining === 1) speak(String(remaining));
+}
+function announceForStep(step) {
+  const ex = step.exercise;
+  const tip = tipTextFor(step);
+  let setPart = '';
+  if (step.setTotal > 1) {
+    const unit = step.phase === 'tabata' ? '라운드' : '세트';
+    setPart = `${step.setIndex}번째 ${unit}. `;
+  }
+  return `${ex.name}. ${setPart}${tip.breath}`;
 }
 
 /* Wake Lock API - best effort, ignore if unsupported */
@@ -424,6 +452,7 @@ function renderWorkoutStep() {
       onTick: (remaining) => {
         $('#timer-value').textContent = formatDuration(remaining);
         $('#timer-value').classList.toggle('urgent', remaining <= 5);
+        speakCountdownTick(remaining);
       },
       onDone: () => {
         feedbackSetDone();
@@ -435,6 +464,7 @@ function renderWorkoutStep() {
   }
 
   renderSuggestionBadge(step);
+  speak(announceForStep(step));
   saveDraftNow();
 }
 
@@ -541,12 +571,14 @@ function startRest(seconds) {
     onTick: (remaining) => {
       $('#timer-value').textContent = formatDuration(remaining);
       $('#timer-value').classList.toggle('urgent', remaining <= 5);
+      speakCountdownTick(remaining);
     },
     onDone: () => {
       feedbackRestDone();
       finishRest();
     }
   });
+  speak(`휴식 ${seconds}초. 잠시 숨을 고르세요`);
   saveDraftNow();
 }
 
@@ -566,6 +598,7 @@ function finishWorkout() {
   $all('.rpe-btn').forEach(b => b.classList.remove('selected'));
   $('#complete-notes').value = '';
   $('#complete-duration').textContent = formatDuration(pendingCompleteDurationSec);
+  speak('모든 운동을 완료했어요. 수고하셨어요!');
   goToScreen('complete');
 }
 
@@ -712,6 +745,7 @@ function renderSettings() {
   $('#setting-rest').value = settings.restSeconds;
   $('#setting-rest-value').textContent = settings.restSeconds + '초';
   $('#setting-sound').checked = settings.soundOn;
+  $('#setting-voice').checked = settings.voiceOn;
   $('#setting-tabata-enabled').checked = settings.tabataEnabled;
 
   const choiceEl = $('#tabata-choice');
@@ -815,6 +849,12 @@ function init() {
     const s = getSettings();
     s.soundOn = $('#setting-sound').checked;
     saveSettings(s);
+  });
+  $('#setting-voice').addEventListener('change', () => {
+    const s = getSettings();
+    s.voiceOn = $('#setting-voice').checked;
+    saveSettings(s);
+    if (s.voiceOn) speak('음성 안내를 켰어요');
   });
   $('#setting-tabata-enabled').addEventListener('change', () => {
     const s = getSettings();

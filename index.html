@@ -68,15 +68,72 @@
         <p id="workout-set-label" class="set-label">1 / 3세트</p>
 
         <div class="stickman-wrap">
-          <svg id="stickman" class="stickman" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+          <svg id="stickman" class="stickman" viewBox="0 -30 120 210" xmlns="http://www.w3.org/2000/svg">
+            <line class="ground-line" x1="14" y1="173" x2="106" y2="173" />
             <g class="figure-orient">
               <g class="figure">
-                <line class="p-legL" x1="52" y1="95" x2="45" y2="140" />
-                <line class="p-legR" x1="68" y1="95" x2="75" y2="140" />
-                <line class="p-armL" x1="52" y1="55" x2="35" y2="80" />
-                <line class="p-armR" x1="68" y1="55" x2="85" y2="80" />
-                <line class="p-torso" x1="60" y1="50" x2="60" y2="95" />
-                <circle class="p-head" cx="60" cy="35" r="13" />
+
+                <!-- back leg -->
+                <g transform="translate(67,98)">
+                  <g class="j-thighR joint">
+                    <line x1="0" y1="0" x2="0" y2="40" class="limb limb-thick" />
+                    <g transform="translate(0,40)">
+                      <g class="j-shinR joint">
+                        <line x1="0" y1="0" x2="0" y2="36" class="limb" />
+                        <ellipse cx="4" cy="37" rx="9" ry="4.5" class="foot" />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- front leg -->
+                <g transform="translate(53,98)">
+                  <g class="j-thighL joint">
+                    <line x1="0" y1="0" x2="0" y2="40" class="limb limb-thick" />
+                    <g transform="translate(0,40)">
+                      <g class="j-shinL joint">
+                        <line x1="0" y1="0" x2="0" y2="36" class="limb" />
+                        <ellipse cx="-4" cy="37" rx="9" ry="4.5" class="foot" />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- spine: torso + arms + head, pivots at hip for forward lean -->
+                <g transform="translate(60,98)">
+                  <g class="j-spine joint">
+                    <rect x="-16" y="-58" width="32" height="60" rx="15" class="torso-shape" />
+
+                    <g transform="translate(11,-54)">
+                      <g class="j-upperArmR joint">
+                        <line x1="0" y1="0" x2="0" y2="26" class="limb limb-thick" />
+                        <g transform="translate(0,26)">
+                          <g class="j-forearmR joint">
+                            <line x1="0" y1="0" x2="0" y2="24" class="limb" />
+                            <circle cx="0" cy="26" r="6" class="hand" />
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+
+                    <g transform="translate(-11,-54)">
+                      <g class="j-upperArmL joint">
+                        <line x1="0" y1="0" x2="0" y2="26" class="limb limb-thick" />
+                        <g transform="translate(0,26)">
+                          <g class="j-forearmL joint">
+                            <line x1="0" y1="0" x2="0" y2="24" class="limb" />
+                            <circle cx="0" cy="26" r="6" class="hand" />
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+
+                    <circle cx="0" cy="-72" r="14" class="head-shape" />
+                    <circle cx="-5" cy="-74" r="1.6" class="eye" />
+                    <circle cx="5" cy="-74" r="1.6" class="eye" />
+                  </g>
+                </g>
+
               </g>
             </g>
           </svg>
@@ -162,6 +219,14 @@
         <span>알림음</span>
         <label class="switch">
           <input type="checkbox" id="setting-sound">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <div class="card row-card">
+        <span>음성 안내<br><span class="muted-text" style="font-size:12px;">운동 이름, 호흡법, 카운트다운을 읽어줘요</span></span>
+        <label class="switch">
+          <input type="checkbox" id="setting-voice">
           <span class="switch-slider"></span>
         </label>
       </div>
