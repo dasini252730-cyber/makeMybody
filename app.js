@@ -299,8 +299,10 @@ function getSessions() { return readJSON(STORAGE_KEYS.sessions, []); }
 function saveSessions(list) { writeJSON(STORAGE_KEYS.sessions, list); }
 
 function defaultSettings() {
-  return { restSeconds: 30, soundOn: true, voiceOn: true, tabataEnabled: true, tabataExercise: 'jumpingjack' };
+  return { restSeconds: 30, soundOn: true, voiceOn: true, tabataEnabled: true, tabataExercise: 'jumpingjack', repTempo: 'normal' };
 }
+const REP_TEMPO_SEC = { slow: 4, normal: 3, fast: 2 };
+const REP_TEMPO_LABELS = { slow: '느리게', normal: '보통', fast: '빠르게' };
 function getSettings() { return Object.assign(defaultSettings(), readJSON(STORAGE_KEYS.settings, {})); }
 function saveSettings(s) { writeJSON(STORAGE_KEYS.settings, s); }
 
@@ -674,6 +676,31 @@ function timerSecondsFor(step) {
   return null;
 }
 
+function repCountTarget(step) {
+  const ex = step.exercise;
+  if (step.phase === 'main') {
+    const exState = getExerciseState();
+    return exState[ex.id].repsLow;
+  }
+  return ex.reps || 10;
+}
+
+// Counts reps out loud on a steady cadence (spec 4.2 "음성 코치가 동행") instead of
+// leaving the user to self-pace and tap 완료 - the app works out along with them.
+function runRepCounter(target, tempoSec, { onTick, onDone }) {
+  let count = 0;
+  onTick(count);
+  timerInterval = setInterval(() => {
+    count++;
+    onTick(count);
+    if (count >= target) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      onDone();
+    }
+  }, tempoSec * 1000);
+}
+
 function renderPoseRow(exId) {
   const info = EXERCISE_INFO[exId] || {};
   const poses = info.poses || [];
@@ -722,7 +749,7 @@ function renderWorkoutStep() {
 
   $('#btn-skip').hidden = false;
   $('#btn-skip').textContent = '건너뛰기';
-  $('#btn-complete-set').textContent = '완료';
+  $('#btn-complete-set').textContent = (ex.type === 'reps' && timerSecondsFor(step) == null) ? '먼저 끝내기' : '완료';
 
   const secs = timerSecondsFor(step);
   const timerWrap = $('#timer-wrap');
@@ -742,15 +769,36 @@ function renderWorkoutStep() {
     if (step.phase === 'main' && ex.category === 'time') {
       scheduleCue('자연스럽게 호흡하세요', Math.max(2000, (secs * 1000) / 2));
     }
+  } else if (ex.type === 'reps') {
+    // Reps have no natural timer, but pacing this manually (self-count, then tap 완료)
+    // doesn't feel like the app is working out WITH you - so count reps out loud on a
+    // steady cadence instead, and auto-advance when the target is reached.
+    const target = repCountTarget(step);
+    const tempoSec = REP_TEMPO_SEC[getSettings().repTempo] || REP_TEMPO_SEC.normal;
+    const midCue = (step.phase === 'main' && CUE_SEQUENCES[ex.id]) ? CUE_SEQUENCES[ex.id][1] : null;
+    timerWrap.hidden = false;
+    $('#timer-label').textContent = '함께 세는 중';
+    runRepCounter(target, tempoSec, {
+      onTick: (count) => {
+        $('#timer-value').textContent = `${count} / ${target}`;
+        if (count > 0) {
+          beep(700, 90);
+          vibrate(30);
+          if (midCue && count === Math.ceil(target / 2)) speakQueue(midCue);
+          else speakQueue(String(count));
+        }
+      },
+      onDone: () => {
+        feedbackSetDone();
+        completeCurrentStep();
+      }
+    });
   } else {
     timerWrap.hidden = true;
   }
 
   renderSuggestionBadge(step);
   speakQueue(announceForStep(step));
-  if (step.phase === 'main' && ex.type === 'reps' && CUE_SEQUENCES[ex.id]) {
-    CUE_SEQUENCES[ex.id].forEach((line, i) => scheduleCue(line, 1900 * (i + 1)));
-  }
   saveDraftNow();
 }
 
@@ -1079,6 +1127,24 @@ function renderLevelChoice() {
   });
 }
 
+function renderTempoChoice() {
+  const settings = getSettings();
+  const container = $('#tempo-choice');
+  container.innerHTML = '';
+  Object.keys(REP_TEMPO_LABELS).forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = 'chip-btn' + (settings.repTempo === key ? ' chip-btn--accent' : '');
+    btn.textContent = REP_TEMPO_LABELS[key];
+    btn.onclick = () => {
+      const s = getSettings();
+      s.repTempo = key;
+      saveSettings(s);
+      renderTempoChoice();
+    };
+    container.appendChild(btn);
+  });
+}
+
 function renderSettings() {
   const settings = getSettings();
   $('#setting-rest').value = settings.restSeconds;
@@ -1088,6 +1154,7 @@ function renderSettings() {
   $('#setting-tabata-enabled').checked = settings.tabataEnabled;
 
   renderLevelChoice();
+  renderTempoChoice();
 
   const choiceEl = $('#tabata-choice');
   choiceEl.innerHTML = '';
