@@ -595,7 +595,6 @@ let workoutInProgress = false;
 let pendingCompleteDurationSec = 0;
 let selectedRpe = null;
 let selectedBodyPart = null;
-let pendingChecklistStep = null;
 
 function buildQueue(settings) {
   const steps = [];
@@ -642,29 +641,8 @@ function startWorkout() {
 }
 
 function proceedToCurrentStep() {
-  const step = currentStep();
-  if (step.phase === 'main' && step.setIndex === 1) {
-    showChecklistFor(step);
-  } else {
-    forceGoToScreen('workout');
-    renderWorkoutStep();
-  }
-}
-
-function showChecklistFor(step) {
-  pendingChecklistStep = step;
-  const info = EXERCISE_INFO[step.exercise.id] || {};
-  $('#checklist-exercise-name').textContent = step.exercise.name;
-  const items = (info.checkpoints && info.checkpoints.length) ? info.checkpoints : ['준비 자세를 확인하세요'];
-  $('#checklist-items').innerHTML = items.map((c, i) => `
-    <li class="checklist-item">
-      <label>
-        <input type="checkbox" class="checklist-checkbox" data-idx="${i}">
-        <span>${c}</span>
-      </label>
-    </li>`).join('');
-  $('#btn-checklist-start').disabled = true;
-  forceGoToScreen('checklist');
+  forceGoToScreen('workout');
+  renderWorkoutStep();
 }
 
 function currentStep() { return currentQueue[currentStepIndex]; }
@@ -1159,7 +1137,7 @@ function forceGoToScreen(name) {
   $all('.screen').forEach(s => s.classList.remove('active'));
   $('#screen-' + name).classList.add('active');
 
-  const titles = { home: '홈트레이닝 코치', preview: '오늘의 루틴', checklist: '준비 체크', workout: '운동 진행', complete: '운동 완료', history: '기록 / 통계', settings: '설정' };
+  const titles = { home: '홈트레이닝 코치', preview: '오늘의 루틴', workout: '운동 진행', complete: '운동 완료', history: '기록 / 통계', settings: '설정' };
   $('#header-title').textContent = titles[name] || '홈트레이닝 코치';
   $('#btn-back').hidden = (name === 'home' || name === 'complete');
   $('#btn-settings').hidden = (name !== 'home');
@@ -1182,17 +1160,6 @@ function init() {
   $('#btn-view-history').addEventListener('click', () => goToScreen('history'));
   $('#btn-settings').addEventListener('click', () => goToScreen('settings'));
   $('#btn-back').addEventListener('click', () => goToScreen('home'));
-
-  $('#checklist-items').addEventListener('change', (e) => {
-    if (!e.target.classList.contains('checklist-checkbox')) return;
-    const boxes = $all('.checklist-checkbox');
-    $('#btn-checklist-start').disabled = !boxes.every(cb => cb.checked);
-  });
-  $('#btn-checklist-start').addEventListener('click', () => {
-    if ($('#btn-checklist-start').disabled) return;
-    forceGoToScreen('workout');
-    renderWorkoutStep();
-  });
 
   $('#btn-complete-set').addEventListener('click', () => {
     if (uiMode === 'rest') finishRest();
