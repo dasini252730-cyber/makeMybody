@@ -491,12 +491,32 @@ function speakQueue(text) {
 function cancelSpeech() {
   if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch (e) {} }
 }
+// Speaks text and calls callback once it actually finishes (not a guessed delay) -
+// used before starting a timed cadence so the visible counter never gets ahead of
+// what's actually been heard. fallbackMs is a safety net in case onend never fires
+// (voice off, synthesis unavailable, or a browser that drops the event).
+function speakThen(text, callback, fallbackMs) {
+  const settings = getSettings();
+  if (!settings.voiceOn || !('speechSynthesis' in window)) {
+    cueTimeouts.push(setTimeout(callback, 0));
+    return;
+  }
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR'; u.rate = 1;
+    let done = false;
+    const finish = () => { if (done) return; done = true; callback(); };
+    u.onend = finish;
+    u.onerror = finish;
+    window.speechSynthesis.speak(u);
+    cueTimeouts.push(setTimeout(finish, fallbackMs || 3000));
+  } catch (e) {
+    callback();
+  }
+}
 
 let cueTimeouts = [];
 function clearCueTimeouts() { cueTimeouts.forEach(clearTimeout); cueTimeouts = []; }
-function scheduleCue(text, delayMs) {
-  cueTimeouts.push(setTimeout(() => speakQueue(text), delayMs));
-}
 
 function announceForStep(step) {
   const ex = step.exercise;
@@ -749,8 +769,7 @@ function runRepCounter(exId, target, tempoSec, { onTick, onDone }) {
     cueTimeouts.push(setTimeout(() => step(i + 1), thisTempo * 1000));
   }
 
-  speakQueue('천천히 첫 동작 해볼게요');
-  cueTimeouts.push(setTimeout(() => step(1), 1400));
+  speakThen('천천히 첫 동작 해볼게요', () => step(1), 2600);
 }
 
 function renderPoseRow(exId) {
