@@ -6,7 +6,7 @@
 
 const ROUTINE = {
   name: '전신 순환 트레이닝',
-  frequency: '주 3~4회',
+  frequency: '주 3회',
   warmup: [
     { id: 'march', name: '제자리 걷기/스텝터치', type: 'time', durationSec: 120 },
     { id: 'armcircle', name: '팔 돌리기, 골반 돌리기', type: 'time', durationSec: 30 },
@@ -18,7 +18,8 @@ const ROUTINE = {
     { id: 'pushup', name: '푸시업', type: 'reps', category: 'pushup', sets: 3 },
     { id: 'glutebridge', name: '글루트 브릿지', type: 'reps', category: 'bodyweight', sets: 3 },
     { id: 'plank', name: '플랭크', type: 'time', category: 'time', sets: 3 },
-    { id: 'shoulder', name: '숄더프레스 / 로우', type: 'reps', category: 'weighted', sets: 3 }
+    { id: 'pikepushup', name: '파이크 푸시업', type: 'reps', category: 'pushup', sets: 3 },
+    { id: 'superman', name: '슈퍼맨', type: 'reps', category: 'bodyweight', sets: 3 }
   ],
   tabataOptions: [
     { id: 'burpee', name: '버피' },
@@ -32,6 +33,7 @@ const ROUTINE = {
 };
 
 const PHASE_LABEL = { warmup: '워밍업', main: '본운동', tabata: '마무리 유산소 (타바타)', cooldown: '쿨다운' };
+const WEEKLY_GOAL = 3;
 
 /* =====================================================================
    2. PARAMETRIC SIDE-VIEW SKELETON (spec 3.6)
@@ -163,61 +165,84 @@ const EXERCISE_INFO = {
     breath: '앉을 때 코로 들이마시고, 일어설 때 입으로 내쉬기',
     checkpoints: ['무릎이 발끝보다 앞으로 나가지 않게', '발뒤꿈치에 체중', '허리 중립', '시선은 정면'],
     mistakes: ['무릎이 발끝 넘음', '허리 말림(굽음)', '발뒤꿈치 들림'],
+    midReminder: '무릎, 발끝 넘지 않게!',
+    selfCheckQuestion: '무릎이 발끝을 넘었나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 6, shoulder: -10, elbow: 0 },
-      { label: '②', hip: 30, knee: -22, back: 20, shoulder: 50, elbow: 8 },
-      { label: '③', hip: 55, knee: -38, back: 33, shoulder: 88, elbow: 14 }
+      { label: '②', hip: 45, knee: -42, back: 20, shoulder: 50, elbow: 8 },
+      { label: '③', hip: 90, knee: -85, back: 38, shoulder: 90, elbow: 15 }
     ],
-    wrongPose: { hip: 55, knee: -12, back: 33, shoulder: 88, elbow: 14, highlight: 'knee' }
+    wrongPose: { hip: 90, knee: -40, back: 38, shoulder: 90, elbow: 15, highlight: 'knee' }
   },
   lunge: {
     breath: '내려갈 때 들이마시고, 올라올 때 내쉬기',
     checkpoints: ['앞무릎이 발끝 넘지 않게', '상체는 세운 상태 유지', '뒷무릎은 바닥 살짝 앞에서 멈춤'],
     mistakes: ['앞무릎이 발끝 넘음', '상체가 앞으로 쏠림', '뒷무릎이 바닥을 쾅 침'],
+    midReminder: '앞무릎, 발끝 넘지 않게!',
+    selfCheckQuestion: '앞무릎이 발끝을 넘었나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, hip2: 0, knee2: 0, back: 6, shoulder: -10, elbow: 0, twoLeg: true },
-      { label: '②', hip: 48, knee: -58, hip2: -32, knee2: 18, back: 12, shoulder: 22, elbow: 10, twoLeg: true }
+      { label: '②', hip: 85, knee: -85, hip2: -35, knee2: -95, back: 12, shoulder: 22, elbow: 10, twoLeg: true }
     ],
-    wrongPose: { hip: 70, knee: -25, hip2: -32, knee2: 18, back: 12, shoulder: 22, elbow: 10, twoLeg: true, highlight: 'knee' }
+    wrongPose: { hip: 100, knee: -55, hip2: -35, knee2: -95, back: 12, shoulder: 22, elbow: 10, twoLeg: true, highlight: 'knee' }
   },
   pushup: {
     breath: '내려갈 때 들이마시고, 밀어 올릴 때 내쉬기',
     checkpoints: ['팔꿈치는 몸통에서 45도', '허리 처지지 않게 코어 긴장 유지'],
     mistakes: ['골반/허리 처짐', '팔꿈치 과도하게 벌어짐(어깨 부담)', '목이 앞으로 빠짐'],
+    midReminder: '허리 처지지 않게!',
+    selfCheckQuestion: '골반이나 허리가 처졌나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 0, shoulder: 95, elbow: 0, orient: 90 },
-      { label: '②', hip: 0, knee: 0, back: 0, shoulder: 68, elbow: -45, orient: 90 }
+      { label: '②', hip: 0, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90 }
     ],
-    wrongPose: { hip: -18, knee: 0, back: 0, shoulder: 68, elbow: -45, orient: 90, highlight: 'hip' }
+    wrongPose: { hip: -22, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90, highlight: 'hip' }
   },
   glutebridge: {
     breath: '골반 들어올릴 때 내쉬며 둔근에 힘주기, 내려갈 때 들이마시기',
     checkpoints: ['엉덩이 힘으로 밀어올리기', '정점에서 1초 멈춰 둔근 수축'],
     mistakes: ['허리로 밀어올림(과신전)', '무릎이 안쪽으로 모임', '반동 사용'],
+    midReminder: '허리 말고 엉덩이 힘으로!',
+    selfCheckQuestion: '허리로 밀어올렸나요? (과신전)',
     poses: [
-      { label: '①', hip: -82, knee: 100, back: 0, shoulder: -10, elbow: 0, orient: -90 },
-      { label: '②', hip: -18, knee: 100, back: 0, shoulder: -10, elbow: 0, orient: -90 }
+      { label: '①', hip: -75, knee: 95, back: 0, shoulder: -10, elbow: 0, orient: -90 },
+      { label: '②', hip: -5, knee: 95, back: 0, shoulder: -10, elbow: 0, orient: -90 }
     ],
-    wrongPose: { hip: -18, knee: 100, back: -25, shoulder: -10, elbow: 0, orient: -90, highlight: 'back' }
+    wrongPose: { hip: -5, knee: 95, back: -25, shoulder: -10, elbow: 0, orient: -90, highlight: 'back' }
   },
   plank: {
     breath: '자세 유지 동안 자연스럽게 호흡 지속 (숨 참지 않기)',
     checkpoints: ['몸이 일직선', '어깨는 손목 바로 위', '코어와 둔근 동시 긴장'],
     mistakes: ['엉덩이가 너무 높이 뜸', '허리(골반)가 처짐', '어깨가 손목에서 벗어남'],
+    selfCheckQuestion: '엉덩이가 너무 뜨거나 처졌나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 0, shoulder: 95, elbow: -90, orient: 90 }
     ],
     wrongPose: { hip: -14, knee: 0, back: 0, shoulder: 95, elbow: -90, orient: 90, highlight: 'hip' }
   },
-  shoulder: {
-    breath: '밀거나 당길 때 내쉬고, 제자리로 돌아올 때 들이마시기',
-    checkpoints: ['어깨는 내린 상태 유지', '허리 중립'],
-    mistakes: ['어깨가 으쓱 올라감', '허리 과신전(젖힘)', '반동으로 들어올림'],
+  pikepushup: {
+    breath: '내려갈 때 들이마시고, 밀어 올릴 때 내쉬기',
+    checkpoints: ['엉덩이를 높이 들어 몸을 역V자로', '정수리 방향으로 내려가기', '팔꿈치는 살짝 뒤쪽(45도 내외)'],
+    mistakes: ['엉덩이가 낮아져 일반 푸시업처럼 됨', '팔꿈치가 옆으로 과도하게 벌어짐', '목으로 바닥 짚으려 함'],
+    midReminder: '엉덩이 높이 유지!',
+    selfCheckQuestion: '엉덩이가 낮아져 일반 푸시업처럼 됐나요?',
     poses: [
-      { label: '①', hip: 0, knee: 0, back: 0, shoulder: 85, elbow: -90 },
-      { label: '②', hip: 0, knee: 0, back: 0, shoulder: 172, elbow: -5 }
+      { label: '①', hip: 95, knee: 0, back: 0, shoulder: 95, elbow: 0, orient: 90 },
+      { label: '②', hip: 95, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90 }
     ],
-    wrongPose: { hip: 0, knee: 0, back: -22, shoulder: 172, elbow: -5, highlight: 'back' }
+    wrongPose: { hip: 20, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90, highlight: 'hip' }
+  },
+  superman: {
+    breath: '팔다리 들어올릴 때 내쉬고, 내릴 때 들이마시기',
+    checkpoints: ['허리가 아닌 등 전체 힘으로 들어올리기', '시선은 바닥 살짝 앞', '정점에서 1~2초 멈춤'],
+    mistakes: ['허리를 과도하게 젖힘(꺾음)', '목을 뒤로 젖혀 위를 봄', '반동으로 튕겨 올림'],
+    midReminder: '허리 너무 젖히지 말고!',
+    selfCheckQuestion: '허리를 과도하게 젖혔나요?',
+    poses: [
+      { label: '①', hip: 0, knee: 0, back: 0, shoulder: 165, elbow: 0, orient: 90 },
+      { label: '②', hip: 18, knee: 0, back: -10, shoulder: 175, elbow: 0, orient: 90 }
+    ],
+    wrongPose: { hip: 18, knee: 0, back: -38, shoulder: 175, elbow: 0, orient: 90, highlight: 'back' }
   },
   burpee: {
     breath: '숨이 가빠도 괜찮아요, 가능한 범위에서 최선을 다해보세요',
@@ -249,12 +274,16 @@ const EXERCISE_INFO = {
   }
 };
 
-const CUE_SEQUENCES = {
-  squat: ['내려가세요', '무릎보다 엉덩이를 먼저 뒤로 보내세요', '좋습니다, 올라오세요'],
-  lunge: ['앞무릎이 발끝을 넘지 않게 내려가세요', '상체는 세운 채 유지하세요', '좋습니다, 올라오세요'],
-  pushup: ['천천히 내려가세요', '팔꿈치는 몸통 가까이', '밀어 올리세요'],
-  glutebridge: ['엉덩이를 들어올리세요', '정점에서 1초 멈추고 조여주세요', '천천히 내려오세요'],
-  shoulder: ['천천히 밀어 올리세요', '어깨는 내린 채 유지하세요', '천천히 내려오세요']
+/* Per-rep base tempo in seconds (spec 3.9). Counting itself is a fixed "하나, 둘"
+   repeated every rep (하나=down beat, 둘=up beat) rather than counting up toward
+   the target - that's how a real trainer counts a lift, not a running tally. */
+const REP_PACING = {
+  squat: { baseSec: 4 },
+  lunge: { baseSec: 4 },
+  pushup: { baseSec: 4 },
+  glutebridge: { baseSec: 3 },
+  pikepushup: { baseSec: 4 },
+  superman: { baseSec: 3 }
 };
 
 const QUOTES = [
@@ -301,8 +330,8 @@ function saveSessions(list) { writeJSON(STORAGE_KEYS.sessions, list); }
 function defaultSettings() {
   return { restSeconds: 30, soundOn: true, voiceOn: true, tabataEnabled: true, tabataExercise: 'jumpingjack', repTempo: 'normal' };
 }
-const REP_TEMPO_SEC = { slow: 4, normal: 3, fast: 2 };
-const REP_TEMPO_LABELS = { slow: '느리게', normal: '보통', fast: '빠르게' };
+const REP_TEMPO_MULTIPLIER = { slow: 1.3, normal: 1.0, fast: 0.8 };
+const REP_TEMPO_LABELS = { slow: '천천히', normal: '보통', fast: '빠르게' };
 function getSettings() { return Object.assign(defaultSettings(), readJSON(STORAGE_KEYS.settings, {})); }
 function saveSettings(s) { writeJSON(STORAGE_KEYS.settings, s); }
 
@@ -322,7 +351,8 @@ function defaultExerciseState() {
     pushup: { repsLow: 12, repsHigh: 12, kneeAssist: true },
     glutebridge: { repsLow: 12, repsHigh: 12 },
     plank: { seconds: 30 },
-    shoulder: { repsLow: 12, repsHigh: 15, weightKg: 2 }
+    pikepushup: { repsLow: 12, repsHigh: 12, kneeAssist: true },
+    superman: { repsLow: 12, repsHigh: 12 }
   };
 }
 function getExerciseState() {
@@ -333,7 +363,7 @@ function saveExerciseState(s) { writeJSON(STORAGE_KEYS.exerciseState, s); }
 function applyLevelToExerciseState(level) {
   const exState = getExerciseState();
   const startReps = LEVEL_STARTING_REPS[level] || 12;
-  ['squat', 'lunge', 'glutebridge', 'pushup'].forEach(id => {
+  ['squat', 'lunge', 'glutebridge', 'pushup', 'pikepushup', 'superman'].forEach(id => {
     exState[id].repsLow = startReps;
     exState[id].repsHigh = startReps;
   });
@@ -514,11 +544,10 @@ function getRecentTwo(exerciseId, sessions) {
 function suggestionMessageFor(exerciseId, exState) {
   const meta = ROUTINE.main.find(e => e.id === exerciseId);
   if (!meta) return '';
-  if (meta.category === 'weighted') return '무게를 1~2kg 올려보세요';
   if (meta.category === 'pushup') {
-    return exState.pushup.kneeAssist ? '무릎 떼고 시도해보세요' : '횟수를 늘려보세요';
+    return exState[exerciseId].kneeAssist ? '무릎 떼고 시도해보세요' : '횟수를 15~18회로 늘리거나, 템포를 늦춰보세요';
   }
-  if (meta.category === 'bodyweight') return '횟수를 늘려보세요';
+  if (meta.category === 'bodyweight') return '횟수를 15~18회로 늘리거나, 템포를 늦춰보세요';
   if (meta.category === 'time') return '시간을 35~40초로 늘려보세요';
   return '';
 }
@@ -548,11 +577,9 @@ function applyProgressiveOverload(exerciseId) {
   const exState = getExerciseState();
   const meta = ROUTINE.main.find(e => e.id === exerciseId);
   if (!meta) return;
-  if (meta.category === 'weighted') {
-    exState[exerciseId].weightKg = Math.round((exState[exerciseId].weightKg + 1.5) * 10) / 10;
-  } else if (meta.category === 'pushup') {
-    if (exState.pushup.kneeAssist) exState.pushup.kneeAssist = false;
-    else advanceBodyweightLadder(exState.pushup);
+  if (meta.category === 'pushup') {
+    if (exState[exerciseId].kneeAssist) exState[exerciseId].kneeAssist = false;
+    else advanceBodyweightLadder(exState[exerciseId]);
   } else if (meta.category === 'bodyweight') {
     advanceBodyweightLadder(exState[exerciseId]);
   } else if (meta.category === 'time') {
@@ -620,7 +647,6 @@ function initLogFor(step) {
   const log = { id: ex.id, name: ex.name, setsCompleted: 0, setsTarget: step.setTotal, skipped: false };
   if (step.phase === 'main') {
     const st = exState[ex.id];
-    if (ex.category === 'weighted') log.weightKg = st.weightKg;
     if (ex.category === 'pushup') { log.repsLow = st.repsLow; log.repsHigh = st.repsHigh; log.kneeAssist = st.kneeAssist; }
     if (ex.category === 'bodyweight') { log.repsLow = st.repsLow; log.repsHigh = st.repsHigh; }
     if (ex.category === 'time') { log.seconds = st.seconds; }
@@ -654,7 +680,6 @@ function targetLineText(step) {
   const exState = getExerciseState();
   if (step.phase === 'main') {
     const st = exState[ex.id];
-    if (ex.category === 'weighted') return `목표: ${st.repsLow}~${st.repsHigh}회 · ${st.weightKg}kg`;
     if (ex.category === 'pushup' || ex.category === 'bodyweight') {
       const reps = st.repsLow === st.repsHigh ? `${st.repsLow}회` : `${st.repsLow}~${st.repsHigh}회`;
       return `목표: ${reps}` + (ex.category === 'pushup' ? (st.kneeAssist ? ' (무릎 대고)' : ' (무릎 떼고)') : '');
@@ -685,20 +710,47 @@ function repCountTarget(step) {
   return ex.reps || 10;
 }
 
-// Counts reps out loud on a steady cadence (spec 4.2 "음성 코치가 동행") instead of
-// leaving the user to self-pace and tap 완료 - the app works out along with them.
-function runRepCounter(target, tempoSec, { onTick, onDone }) {
-  let count = 0;
-  onTick(count);
-  timerInterval = setInterval(() => {
-    count++;
-    onTick(count);
-    if (count >= target) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      onDone();
+function effectiveTempoSec(exId) {
+  const base = (REP_PACING[exId] && REP_PACING[exId].baseSec) || 3.5;
+  const mult = REP_TEMPO_MULTIPLIER[getSettings().repTempo] || 1;
+  return base * mult;
+}
+
+// Counts reps out loud on a steady "하나(내려가고) 둘(올라오고)" cadence repeated
+// every rep (spec 3.9/4.2) - the same two beats each time, not a running tally -
+// instead of leaving the user to self-pace and tap 완료. Rep 1 runs at 1.5x tempo
+// as a slow form-check rep; the halfway rep swaps in a short mistake reminder;
+// the last 3 reps count down with encouragement instead of "하나".
+function runRepCounter(exId, target, tempoSec, { onTick, onDone }) {
+  const midReminder = (EXERCISE_INFO[exId] || {}).midReminder;
+  const halfPoint = Math.ceil(target / 2);
+  onTick(0);
+
+  function step(i) {
+    const thisTempo = i === 1 ? tempoSec * 1.5 : tempoSec;
+    const halfMs = (thisTempo * 1000) / 2;
+    onTick(i);
+    beep(700, 90);
+    vibrate(30);
+    const remainingIncl = target - i + 1;
+    let text;
+    if (remainingIncl === 1) text = '마지막 하나!';
+    else if (remainingIncl === 2) text = '2개 남았어요';
+    else if (remainingIncl === 3) text = '3개 남았어요';
+    else if (i === halfPoint && midReminder) text = midReminder;
+    else text = '하나';
+    speakQueue(text);
+
+    if (i >= target) {
+      cueTimeouts.push(setTimeout(() => { feedbackSetDone(); onDone(); }, thisTempo * 1000));
+      return;
     }
-  }, tempoSec * 1000);
+    cueTimeouts.push(setTimeout(() => speakQueue('둘'), halfMs));
+    cueTimeouts.push(setTimeout(() => step(i + 1), thisTempo * 1000));
+  }
+
+  speakQueue('천천히 첫 동작 해볼게요');
+  cueTimeouts.push(setTimeout(() => step(1), 1400));
 }
 
 function renderPoseRow(exId) {
@@ -756,42 +808,30 @@ function renderWorkoutStep() {
   if (secs != null) {
     timerWrap.hidden = false;
     $('#timer-label').textContent = '세트 진행';
+    const isPlank = step.phase === 'main' && ex.category === 'time';
     runCountdown(secs, {
       onTick: (remaining) => {
         $('#timer-value').textContent = formatDuration(remaining);
         $('#timer-value').classList.toggle('urgent', remaining <= 5);
+        const elapsed = secs - remaining;
+        if (isPlank && elapsed > 0 && elapsed % 10 === 0) speakQueue(`${elapsed}초`);
       },
       onDone: () => {
         feedbackSetDone();
         completeCurrentStep();
       }
     });
-    if (step.phase === 'main' && ex.category === 'time') {
-      scheduleCue('자연스럽게 호흡하세요', Math.max(2000, (secs * 1000) / 2));
-    }
   } else if (ex.type === 'reps') {
     // Reps have no natural timer, but pacing this manually (self-count, then tap 완료)
     // doesn't feel like the app is working out WITH you - so count reps out loud on a
-    // steady cadence instead, and auto-advance when the target is reached.
+    // steady cadence instead, and auto-advance when the target is reached (spec 3.9/4.2).
     const target = repCountTarget(step);
-    const tempoSec = REP_TEMPO_SEC[getSettings().repTempo] || REP_TEMPO_SEC.normal;
-    const midCue = (step.phase === 'main' && CUE_SEQUENCES[ex.id]) ? CUE_SEQUENCES[ex.id][1] : null;
+    const tempoSec = effectiveTempoSec(ex.id);
     timerWrap.hidden = false;
     $('#timer-label').textContent = '함께 세는 중';
-    runRepCounter(target, tempoSec, {
-      onTick: (count) => {
-        $('#timer-value').textContent = `${count} / ${target}`;
-        if (count > 0) {
-          beep(700, 90);
-          vibrate(30);
-          if (midCue && count === Math.ceil(target / 2)) speakQueue(midCue);
-          else speakQueue(String(count));
-        }
-      },
-      onDone: () => {
-        feedbackSetDone();
-        completeCurrentStep();
-      }
+    runRepCounter(ex.id, target, tempoSec, {
+      onTick: (count) => { $('#timer-value').textContent = `${count} / ${target}`; },
+      onDone: () => completeCurrentStep()
     });
   } else {
     timerWrap.hidden = true;
@@ -869,12 +909,44 @@ function skipCurrentExercise() {
 function advanceAfter(finishedStep) {
   currentStepIndex++;
   const needsRest = (finishedStep.phase === 'main' || finishedStep.phase === 'tabata') && currentStepIndex < currentQueue.length;
-  if (needsRest) {
-    const restSec = finishedStep.phase === 'tabata' ? ROUTINE.tabata.restSec : getSettings().restSeconds;
-    startRest(restSec);
-  } else {
-    proceedToNextStepOrFinish();
+  function proceed() {
+    if (needsRest) {
+      const restSec = finishedStep.phase === 'tabata' ? ROUTINE.tabata.restSec : getSettings().restSeconds;
+      startRest(restSec);
+    } else {
+      proceedToNextStepOrFinish();
+    }
   }
+  const isLastSetOfExercise = finishedStep.phase === 'main' && finishedStep.setIndex === finishedStep.setTotal;
+  if (isLastSetOfExercise) showSelfCheck(finishedStep.exercise.id, proceed);
+  else proceed();
+}
+
+// Quick 1-tap self-check after an exercise's last set (spec 4.2) - not camera
+// verification, just a self-report the user can answer in a couple seconds.
+function showSelfCheck(exerciseId, onDone) {
+  const question = (EXERCISE_INFO[exerciseId] || {}).selfCheckQuestion;
+  if (!question) { onDone(); return; }
+  const modal = $('#selfcheck-modal');
+  $('#selfcheck-question').textContent = question;
+  modal.hidden = false;
+  const yesBtn = $('#selfcheck-yes');
+  const noBtn = $('#selfcheck-no');
+  function cleanup() {
+    modal.hidden = true;
+    yesBtn.removeEventListener('click', onYes);
+    noBtn.removeEventListener('click', onNo);
+  }
+  function answer(val) {
+    const log = sessionExerciseLog[exerciseId];
+    if (log) log.mistakeReported = val;
+    cleanup();
+    onDone();
+  }
+  function onYes() { answer(true); }
+  function onNo() { answer(false); }
+  yesBtn.addEventListener('click', onYes);
+  noBtn.addEventListener('click', onNo);
 }
 
 function proceedToNextStepOrFinish() {
@@ -974,11 +1046,11 @@ function saveSessionAndReturnHome() {
 function renderHome() {
   const sessions = getSessions();
   const weekCount = computeWeekCount(sessions);
-  $('#home-week-progress').textContent = `${weekCount} / 4회`;
+  $('#home-week-progress').textContent = `${weekCount} / ${WEEKLY_GOAL}회`;
 
   const dotsEl = $('#home-week-dots');
   dotsEl.innerHTML = '';
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < WEEKLY_GOAL; i++) {
     const dot = document.createElement('span');
     dot.className = 'dot' + (i < weekCount ? ' done' : '');
     dotsEl.appendChild(dot);
