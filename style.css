@@ -308,7 +308,6 @@ button, input, textarea, select {
 
 /* Onboarding modal */
 .modal-title { font-size: 17px; font-weight: 800; text-align: center; margin: 0 0 16px; }
-.selfcheck-question { text-align: center; font-size: 15px; margin: 0 0 16px; }
 .onboarding-choice { display: flex; flex-direction: column; gap: 10px; }
 .onboarding-btn {
   border: 1px solid var(--border);

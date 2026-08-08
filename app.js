@@ -166,7 +166,6 @@ const EXERCISE_INFO = {
     checkpoints: ['무릎이 발끝보다 앞으로 나가지 않게', '발뒤꿈치에 체중', '허리 중립', '시선은 정면'],
     mistakes: ['무릎이 발끝 넘음', '허리 말림(굽음)', '발뒤꿈치 들림'],
     midReminder: '무릎, 발끝 넘지 않게!',
-    selfCheckQuestion: '무릎이 발끝을 넘었나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 6, shoulder: -10, elbow: 0 },
       { label: '②', hip: 45, knee: -42, back: 20, shoulder: 50, elbow: 8 },
@@ -179,7 +178,6 @@ const EXERCISE_INFO = {
     checkpoints: ['앞무릎이 발끝 넘지 않게', '상체는 세운 상태 유지', '뒷무릎은 바닥 살짝 앞에서 멈춤'],
     mistakes: ['앞무릎이 발끝 넘음', '상체가 앞으로 쏠림', '뒷무릎이 바닥을 쾅 침'],
     midReminder: '앞무릎, 발끝 넘지 않게!',
-    selfCheckQuestion: '앞무릎이 발끝을 넘었나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, hip2: 0, knee2: 0, back: 6, shoulder: -10, elbow: 0, twoLeg: true },
       { label: '②', hip: 85, knee: -85, hip2: -35, knee2: -95, back: 12, shoulder: 22, elbow: 10, twoLeg: true }
@@ -191,7 +189,6 @@ const EXERCISE_INFO = {
     checkpoints: ['팔꿈치는 몸통에서 45도', '허리 처지지 않게 코어 긴장 유지'],
     mistakes: ['골반/허리 처짐', '팔꿈치 과도하게 벌어짐(어깨 부담)', '목이 앞으로 빠짐'],
     midReminder: '허리 처지지 않게!',
-    selfCheckQuestion: '골반이나 허리가 처졌나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 0, shoulder: 95, elbow: 0, orient: 90 },
       { label: '②', hip: 0, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90 }
@@ -203,7 +200,6 @@ const EXERCISE_INFO = {
     checkpoints: ['엉덩이 힘으로 밀어올리기', '정점에서 1초 멈춰 둔근 수축'],
     mistakes: ['허리로 밀어올림(과신전)', '무릎이 안쪽으로 모임', '반동 사용'],
     midReminder: '허리 말고 엉덩이 힘으로!',
-    selfCheckQuestion: '허리로 밀어올렸나요? (과신전)',
     poses: [
       { label: '①', hip: -75, knee: 95, back: 0, shoulder: -10, elbow: 0, orient: -90 },
       { label: '②', hip: -5, knee: 95, back: 0, shoulder: -10, elbow: 0, orient: -90 }
@@ -214,7 +210,6 @@ const EXERCISE_INFO = {
     breath: '자세 유지 동안 자연스럽게 호흡 지속 (숨 참지 않기)',
     checkpoints: ['몸이 일직선', '어깨는 손목 바로 위', '코어와 둔근 동시 긴장'],
     mistakes: ['엉덩이가 너무 높이 뜸', '허리(골반)가 처짐', '어깨가 손목에서 벗어남'],
-    selfCheckQuestion: '엉덩이가 너무 뜨거나 처졌나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 0, shoulder: 95, elbow: -90, orient: 90 }
     ],
@@ -225,7 +220,6 @@ const EXERCISE_INFO = {
     checkpoints: ['엉덩이를 높이 들어 몸을 역V자로', '정수리 방향으로 내려가기', '팔꿈치는 살짝 뒤쪽(45도 내외)'],
     mistakes: ['엉덩이가 낮아져 일반 푸시업처럼 됨', '팔꿈치가 옆으로 과도하게 벌어짐', '목으로 바닥 짚으려 함'],
     midReminder: '엉덩이 높이 유지!',
-    selfCheckQuestion: '엉덩이가 낮아져 일반 푸시업처럼 됐나요?',
     poses: [
       { label: '①', hip: 95, knee: 0, back: 0, shoulder: 95, elbow: 0, orient: 90 },
       { label: '②', hip: 95, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90 }
@@ -237,7 +231,6 @@ const EXERCISE_INFO = {
     checkpoints: ['허리가 아닌 등 전체 힘으로 들어올리기', '시선은 바닥 살짝 앞', '정점에서 1~2초 멈춤'],
     mistakes: ['허리를 과도하게 젖힘(꺾음)', '목을 뒤로 젖혀 위를 봄', '반동으로 튕겨 올림'],
     midReminder: '허리 너무 젖히지 말고!',
-    selfCheckQuestion: '허리를 과도하게 젖혔나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 0, shoulder: 165, elbow: 0, orient: 90 },
       { label: '②', hip: 18, knee: 0, back: -10, shoulder: 175, elbow: 0, orient: 90 }
@@ -475,7 +468,7 @@ function speak(text) {
   try {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR'; u.rate = 1;
+    u.lang = 'ko-KR';
     window.speechSynthesis.speak(u);
   } catch (e) { /* speech unavailable - ignore */ }
 }
@@ -484,7 +477,7 @@ function speakQueue(text) {
   if (!settings.voiceOn || !('speechSynthesis' in window)) return;
   try {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR'; u.rate = 1;
+    u.lang = 'ko-KR';
     window.speechSynthesis.speak(u);
   } catch (e) { /* speech unavailable - ignore */ }
 }
@@ -503,7 +496,7 @@ function speakThen(text, callback, fallbackMs) {
   }
   try {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR'; u.rate = 1;
+    u.lang = 'ko-KR';
     let done = false;
     const finish = () => { if (done) return; done = true; callback(); };
     u.onend = finish;
@@ -736,11 +729,12 @@ function effectiveTempoSec(exId) {
   return base * mult;
 }
 
-// Counts reps out loud on a steady "하나(내려가고) 둘(올라오고)" cadence repeated
-// every rep (spec 3.9/4.2) - the same two beats each time, not a running tally -
-// instead of leaving the user to self-pace and tap 완료. Rep 1 runs at 1.5x tempo
-// as a slow form-check rep; the halfway rep swaps in a short mistake reminder;
-// the last 3 reps count down with encouragement instead of "하나".
+// Paces reps on a steady beat (beep + vibrate + on-screen counter) so the app
+// still "works out with you" (spec 3.9/4.2), but speech is reserved for what
+// actually matters for form - the slow first-rep announcement and the one
+// mid-set accuracy reminder - instead of narrating every single rep. Speech
+// timing has real per-call startup latency that a fixed beat schedule doesn't,
+// so keeping voice off the beat avoids the two drifting apart over a long set.
 function runRepCounter(exId, target, tempoSec, { onTick, onDone }) {
   const midReminder = (EXERCISE_INFO[exId] || {}).midReminder;
   const halfPoint = Math.ceil(target / 2);
@@ -748,24 +742,15 @@ function runRepCounter(exId, target, tempoSec, { onTick, onDone }) {
 
   function step(i) {
     const thisTempo = i === 1 ? tempoSec * 1.5 : tempoSec;
-    const halfMs = (thisTempo * 1000) / 2;
     onTick(i);
     beep(700, 90);
     vibrate(30);
-    const remainingIncl = target - i + 1;
-    let text;
-    if (remainingIncl === 1) text = '마지막 하나!';
-    else if (remainingIncl === 2) text = '2개 남았어요';
-    else if (remainingIncl === 3) text = '3개 남았어요';
-    else if (i === halfPoint && midReminder) text = midReminder;
-    else text = '하나';
-    speakQueue(text);
+    if (i === halfPoint && midReminder) speakQueue(midReminder);
 
     if (i >= target) {
       cueTimeouts.push(setTimeout(() => { feedbackSetDone(); onDone(); }, thisTempo * 1000));
       return;
     }
-    cueTimeouts.push(setTimeout(() => speakQueue('둘'), halfMs));
     cueTimeouts.push(setTimeout(() => step(i + 1), thisTempo * 1000));
   }
 
@@ -928,44 +913,12 @@ function skipCurrentExercise() {
 function advanceAfter(finishedStep) {
   currentStepIndex++;
   const needsRest = (finishedStep.phase === 'main' || finishedStep.phase === 'tabata') && currentStepIndex < currentQueue.length;
-  function proceed() {
-    if (needsRest) {
-      const restSec = finishedStep.phase === 'tabata' ? ROUTINE.tabata.restSec : getSettings().restSeconds;
-      startRest(restSec);
-    } else {
-      proceedToNextStepOrFinish();
-    }
+  if (needsRest) {
+    const restSec = finishedStep.phase === 'tabata' ? ROUTINE.tabata.restSec : getSettings().restSeconds;
+    startRest(restSec);
+  } else {
+    proceedToNextStepOrFinish();
   }
-  const isLastSetOfExercise = finishedStep.phase === 'main' && finishedStep.setIndex === finishedStep.setTotal;
-  if (isLastSetOfExercise) showSelfCheck(finishedStep.exercise.id, proceed);
-  else proceed();
-}
-
-// Quick 1-tap self-check after an exercise's last set (spec 4.2) - not camera
-// verification, just a self-report the user can answer in a couple seconds.
-function showSelfCheck(exerciseId, onDone) {
-  const question = (EXERCISE_INFO[exerciseId] || {}).selfCheckQuestion;
-  if (!question) { onDone(); return; }
-  const modal = $('#selfcheck-modal');
-  $('#selfcheck-question').textContent = question;
-  modal.hidden = false;
-  const yesBtn = $('#selfcheck-yes');
-  const noBtn = $('#selfcheck-no');
-  function cleanup() {
-    modal.hidden = true;
-    yesBtn.removeEventListener('click', onYes);
-    noBtn.removeEventListener('click', onNo);
-  }
-  function answer(val) {
-    const log = sessionExerciseLog[exerciseId];
-    if (log) log.mistakeReported = val;
-    cleanup();
-    onDone();
-  }
-  function onYes() { answer(true); }
-  function onNo() { answer(false); }
-  yesBtn.addEventListener('click', onYes);
-  noBtn.addEventListener('click', onNo);
 }
 
 function proceedToNextStepOrFinish() {
