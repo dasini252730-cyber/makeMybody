@@ -18,8 +18,8 @@ const ROUTINE = {
     { id: 'pushup', name: '푸시업', type: 'reps', category: 'pushup', sets: 3 },
     { id: 'glutebridge', name: '글루트 브릿지', type: 'reps', category: 'bodyweight', sets: 3 },
     { id: 'plank', name: '플랭크', type: 'time', category: 'time', sets: 3 },
-    { id: 'pikepushup', name: '파이크 푸시업', type: 'reps', category: 'pushup', sets: 3 },
-    { id: 'superman', name: '슈퍼맨', type: 'reps', category: 'bodyweight', sets: 3 }
+    { id: 'shoulderpress', name: '숄더프레스', type: 'reps', category: 'weighted', sets: 3 },
+    { id: 'row', name: '로우', type: 'reps', category: 'weighted', sets: 3 }
   ],
   tabataOptions: [
     { id: 'burpee', name: '버피' },
@@ -166,6 +166,7 @@ const EXERCISE_INFO = {
     checkpoints: ['무릎이 발끝보다 앞으로 나가지 않게', '발뒤꿈치에 체중', '허리 중립', '시선은 정면'],
     mistakes: ['무릎이 발끝 넘음', '허리 말림(굽음)', '발뒤꿈치 들림'],
     midReminder: '무릎, 발끝 넘지 않게!',
+    selfCheckQuestion: '무릎이 발끝을 넘었나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 6, shoulder: -10, elbow: 0 },
       { label: '②', hip: 45, knee: -42, back: 20, shoulder: 50, elbow: 8 },
@@ -178,6 +179,7 @@ const EXERCISE_INFO = {
     checkpoints: ['앞무릎이 발끝 넘지 않게', '상체는 세운 상태 유지', '뒷무릎은 바닥 살짝 앞에서 멈춤'],
     mistakes: ['앞무릎이 발끝 넘음', '상체가 앞으로 쏠림', '뒷무릎이 바닥을 쾅 침'],
     midReminder: '앞무릎, 발끝 넘지 않게!',
+    selfCheckQuestion: '앞무릎이 발끝을 넘었나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, hip2: 0, knee2: 0, back: 6, shoulder: -10, elbow: 0, twoLeg: true },
       { label: '②', hip: 85, knee: -85, hip2: -35, knee2: -95, back: 12, shoulder: 22, elbow: 10, twoLeg: true }
@@ -189,6 +191,7 @@ const EXERCISE_INFO = {
     checkpoints: ['팔꿈치는 몸통에서 45도', '허리 처지지 않게 코어 긴장 유지'],
     mistakes: ['골반/허리 처짐', '팔꿈치 과도하게 벌어짐(어깨 부담)', '목이 앞으로 빠짐'],
     midReminder: '허리 처지지 않게!',
+    selfCheckQuestion: '골반이나 허리가 처졌나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 0, shoulder: 95, elbow: 0, orient: 90 },
       { label: '②', hip: 0, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90 }
@@ -200,6 +203,7 @@ const EXERCISE_INFO = {
     checkpoints: ['엉덩이 힘으로 밀어올리기', '정점에서 1초 멈춰 둔근 수축'],
     mistakes: ['허리로 밀어올림(과신전)', '무릎이 안쪽으로 모임', '반동 사용'],
     midReminder: '허리 말고 엉덩이 힘으로!',
+    selfCheckQuestion: '허리로 밀어올렸나요? (과신전)',
     poses: [
       { label: '①', hip: -75, knee: 95, back: 0, shoulder: -10, elbow: 0, orient: -90 },
       { label: '②', hip: -5, knee: 95, back: 0, shoulder: -10, elbow: 0, orient: -90 }
@@ -210,32 +214,35 @@ const EXERCISE_INFO = {
     breath: '자세 유지 동안 자연스럽게 호흡 지속 (숨 참지 않기)',
     checkpoints: ['몸이 일직선', '어깨는 손목 바로 위', '코어와 둔근 동시 긴장'],
     mistakes: ['엉덩이가 너무 높이 뜸', '허리(골반)가 처짐', '어깨가 손목에서 벗어남'],
+    selfCheckQuestion: '엉덩이가 너무 뜨거나 처졌나요?',
     poses: [
       { label: '①', hip: 0, knee: 0, back: 0, shoulder: 95, elbow: -90, orient: 90 }
     ],
     wrongPose: { hip: -14, knee: 0, back: 0, shoulder: 95, elbow: -90, orient: 90, highlight: 'hip' }
   },
-  pikepushup: {
-    breath: '내려갈 때 들이마시고, 밀어 올릴 때 내쉬기',
-    checkpoints: ['엉덩이를 높이 들어 몸을 역V자로', '정수리 방향으로 내려가기', '팔꿈치는 살짝 뒤쪽(45도 내외)'],
-    mistakes: ['엉덩이가 낮아져 일반 푸시업처럼 됨', '팔꿈치가 옆으로 과도하게 벌어짐', '목으로 바닥 짚으려 함'],
-    midReminder: '엉덩이 높이 유지!',
+  shoulderpress: {
+    breath: '밀어 올릴 때 내쉬고, 내릴 때 들이마시기',
+    checkpoints: ['어깨는 내린 상태로 시작', '팔꿈치가 완전히 안 펴질 만큼만 밀기', '허리 중립 유지'],
+    mistakes: ['어깨가 으쓱 올라감', '허리 과신전(젖힘)', '반동으로 밀어올림'],
+    midReminder: '어깨 으쓱 올리지 말고!',
+    selfCheckQuestion: '어깨가 으쓱 올라갔나요?',
     poses: [
-      { label: '①', hip: 95, knee: 0, back: 0, shoulder: 95, elbow: 0, orient: 90 },
-      { label: '②', hip: 95, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90 }
+      { label: '①', hip: 0, knee: 0, back: 0, shoulder: 85, elbow: -90 },
+      { label: '②', hip: 0, knee: 0, back: 0, shoulder: 172, elbow: -5 }
     ],
-    wrongPose: { hip: 20, knee: 0, back: 0, shoulder: 75, elbow: -85, orient: 90, highlight: 'hip' }
+    wrongPose: { hip: 0, knee: 0, back: -22, shoulder: 172, elbow: -5, highlight: 'back' }
   },
-  superman: {
-    breath: '팔다리 들어올릴 때 내쉬고, 내릴 때 들이마시기',
-    checkpoints: ['허리가 아닌 등 전체 힘으로 들어올리기', '시선은 바닥 살짝 앞', '정점에서 1~2초 멈춤'],
-    mistakes: ['허리를 과도하게 젖힘(꺾음)', '목을 뒤로 젖혀 위를 봄', '반동으로 튕겨 올림'],
-    midReminder: '허리 너무 젖히지 말고!',
+  row: {
+    breath: '당길 때 내쉬고, 되돌릴 때 들이마시기',
+    checkpoints: ['팔이 아닌 등(날개뼈)으로 당기기', '몸통은 고정, 반동 없이', '허리 중립'],
+    mistakes: ['몸통을 크게 흔들어 반동 사용', '어깨가 으쓱 올라감', '팔로만 당김(등 자극 없음)'],
+    midReminder: '반동 말고 등 힘으로!',
+    selfCheckQuestion: '몸통을 흔들어 반동을 사용했나요?',
     poses: [
-      { label: '①', hip: 0, knee: 0, back: 0, shoulder: 165, elbow: 0, orient: 90 },
-      { label: '②', hip: 18, knee: 0, back: -10, shoulder: 175, elbow: 0, orient: 90 }
+      { label: '①', hip: 20, knee: -15, back: 45, shoulder: 0, elbow: 0 },
+      { label: '②', hip: 20, knee: -15, back: 45, shoulder: -20, elbow: -70 }
     ],
-    wrongPose: { hip: 18, knee: 0, back: -38, shoulder: 175, elbow: 0, orient: 90, highlight: 'back' }
+    wrongPose: { hip: 20, knee: -15, back: 10, shoulder: -20, elbow: -70, highlight: 'back' }
   },
   burpee: {
     breath: '숨이 가빠도 괜찮아요, 가능한 범위에서 최선을 다해보세요',
@@ -275,8 +282,8 @@ const REP_PACING = {
   lunge: { baseSec: 4 },
   pushup: { baseSec: 4 },
   glutebridge: { baseSec: 3 },
-  pikepushup: { baseSec: 4 },
-  superman: { baseSec: 3 }
+  shoulderpress: { baseSec: 3 },
+  row: { baseSec: 3 }
 };
 
 const QUOTES = [
@@ -335,6 +342,7 @@ function getLevel() { return readJSON(STORAGE_KEYS.level, null); }
 function saveLevel(l) { writeJSON(STORAGE_KEYS.level, l); }
 const LEVEL_LABELS = { beginner: '완전 초보', some: '조금 해봤어요', familiar: '익숙합니다' };
 const LEVEL_STARTING_REPS = { beginner: 8, some: 10, familiar: 12 };
+const LEVEL_STARTING_WEIGHT = { beginner: 0.5, some: 1, familiar: 2 };
 const BODYWEIGHT_LADDER = [8, 10, 12, 15];
 
 function defaultExerciseState() {
@@ -344,8 +352,8 @@ function defaultExerciseState() {
     pushup: { repsLow: 12, repsHigh: 12, kneeAssist: true },
     glutebridge: { repsLow: 12, repsHigh: 12 },
     plank: { seconds: 30 },
-    pikepushup: { repsLow: 12, repsHigh: 12, kneeAssist: true },
-    superman: { repsLow: 12, repsHigh: 12 }
+    shoulderpress: { repsLow: 12, repsHigh: 15, weightKg: 2 },
+    row: { repsLow: 12, repsHigh: 15, weightKg: 2 }
   };
 }
 function getExerciseState() {
@@ -356,9 +364,13 @@ function saveExerciseState(s) { writeJSON(STORAGE_KEYS.exerciseState, s); }
 function applyLevelToExerciseState(level) {
   const exState = getExerciseState();
   const startReps = LEVEL_STARTING_REPS[level] || 12;
-  ['squat', 'lunge', 'glutebridge', 'pushup', 'pikepushup', 'superman'].forEach(id => {
+  const startWeight = LEVEL_STARTING_WEIGHT[level] || 2;
+  ['squat', 'lunge', 'glutebridge', 'pushup'].forEach(id => {
     exState[id].repsLow = startReps;
     exState[id].repsHigh = startReps;
+  });
+  ['shoulderpress', 'row'].forEach(id => {
+    exState[id].weightKg = startWeight;
   });
   saveExerciseState(exState);
 }
@@ -481,7 +493,15 @@ function speakQueue(text) {
     window.speechSynthesis.speak(u);
   } catch (e) { /* speech unavailable - ignore */ }
 }
+// speakThen chains rep-counting progression off actual speech completion (see
+// runRepCounter), so a stale callback from a step that's since moved on must
+// never be allowed to fire and keep that old chain alive in parallel with the
+// new one. speechEpoch is a cancellation token: every cancelSpeech() call (run
+// at the top of each new step) bumps it, and any speakThen callback captured
+// under an older epoch silently no-ops instead of continuing its dead chain.
+let speechEpoch = 0;
 function cancelSpeech() {
+  speechEpoch++;
   if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch (e) {} }
 }
 // Speaks text and calls callback once it actually finishes (not a guessed delay) -
@@ -490,6 +510,7 @@ function cancelSpeech() {
 // (voice off, synthesis unavailable, or a browser that drops the event).
 function speakThen(text, callback, fallbackMs) {
   const settings = getSettings();
+  const epoch = speechEpoch;
   if (!settings.voiceOn || !('speechSynthesis' in window)) {
     cueTimeouts.push(setTimeout(callback, 0));
     return;
@@ -498,7 +519,12 @@ function speakThen(text, callback, fallbackMs) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'ko-KR';
     let done = false;
-    const finish = () => { if (done) return; done = true; callback(); };
+    const finish = () => {
+      if (done) return;
+      done = true;
+      if (epoch !== speechEpoch) return;
+      callback();
+    };
     u.onend = finish;
     u.onerror = finish;
     window.speechSynthesis.speak(u);
@@ -562,6 +588,7 @@ function suggestionMessageFor(exerciseId, exState) {
   }
   if (meta.category === 'bodyweight') return '횟수를 15~18회로 늘리거나, 템포를 늦춰보세요';
   if (meta.category === 'time') return '시간을 35~40초로 늘려보세요';
+  if (meta.category === 'weighted') return '무게를 1~2kg 올려보세요';
   return '';
 }
 
@@ -597,6 +624,8 @@ function applyProgressiveOverload(exerciseId) {
     advanceBodyweightLadder(exState[exerciseId]);
   } else if (meta.category === 'time') {
     exState.plank.seconds = Math.min(40, exState.plank.seconds + 5);
+  } else if (meta.category === 'weighted') {
+    exState[exerciseId].weightKg = Math.round((exState[exerciseId].weightKg + 1.5) * 10) / 10;
   }
   saveExerciseState(exState);
 }
@@ -663,6 +692,7 @@ function initLogFor(step) {
     if (ex.category === 'pushup') { log.repsLow = st.repsLow; log.repsHigh = st.repsHigh; log.kneeAssist = st.kneeAssist; }
     if (ex.category === 'bodyweight') { log.repsLow = st.repsLow; log.repsHigh = st.repsHigh; }
     if (ex.category === 'time') { log.seconds = st.seconds; }
+    if (ex.category === 'weighted') { log.repsLow = st.repsLow; log.repsHigh = st.repsHigh; log.weightKg = st.weightKg; }
   }
   return log;
 }
@@ -682,8 +712,32 @@ function startWorkout() {
 }
 
 function proceedToCurrentStep() {
-  forceGoToScreen('workout');
-  renderWorkoutStep();
+  const step = currentStep();
+  if (step.phase === 'main' && step.setIndex === 1) {
+    showChecklistFor(step);
+  } else {
+    forceGoToScreen('workout');
+    renderWorkoutStep();
+  }
+}
+
+// Pre-exercise checklist gating (spec 4.2) - shown once per exercise, before its
+// first set, so the "시작" button only unlocks once every setup checkbox is checked.
+let pendingChecklistStep = null;
+function showChecklistFor(step) {
+  pendingChecklistStep = step;
+  const info = EXERCISE_INFO[step.exercise.id] || {};
+  $('#checklist-exercise-name').textContent = step.exercise.name;
+  const items = (info.checkpoints && info.checkpoints.length) ? info.checkpoints : ['준비 자세를 확인하세요'];
+  $('#checklist-items').innerHTML = items.map((c, i) => `
+    <li class="checklist-item">
+      <label>
+        <input type="checkbox" class="checklist-checkbox" data-idx="${i}">
+        <span>${c}</span>
+      </label>
+    </li>`).join('');
+  $('#btn-checklist-start').disabled = true;
+  forceGoToScreen('checklist');
 }
 
 function currentStep() { return currentQueue[currentStepIndex]; }
@@ -698,6 +752,10 @@ function targetLineText(step) {
       return `목표: ${reps}` + (ex.category === 'pushup' ? (st.kneeAssist ? ' (무릎 대고)' : ' (무릎 떼고)') : '');
     }
     if (ex.category === 'time') return `목표: ${st.seconds}초 유지`;
+    if (ex.category === 'weighted') {
+      const reps = st.repsLow === st.repsHigh ? `${st.repsLow}회` : `${st.repsLow}~${st.repsHigh}회`;
+      return `목표: ${reps} · ${st.weightKg}kg`;
+    }
   }
   if (step.phase === 'tabata') return `운동 ${ROUTINE.tabata.workSec}초 · ${step.setIndex}/${step.setTotal}라운드`;
   if (ex.type === 'time') return `목표 시간: ${formatDuration(ex.durationSec)}`;
@@ -729,32 +787,49 @@ function effectiveTempoSec(exId) {
   return base * mult;
 }
 
-// Paces reps on a steady beat (beep + vibrate + on-screen counter) so the app
-// still "works out with you" (spec 3.9/4.2), but speech is reserved for what
-// actually matters for form - the slow first-rep announcement and the one
-// mid-set accuracy reminder - instead of narrating every single rep. Speech
-// timing has real per-call startup latency that a fixed beat schedule doesn't,
-// so keeping voice off the beat avoids the two drifting apart over a long set.
+// Counts reps out loud on a steady "하나(내려가고) 둘(올라오고)" cadence repeated
+// every rep (spec 3.9/4.2) - the same two beats each time, not a running tally.
+// Per spec's "음성-타이머 동기화" note: speechSynthesis.speak() is async with
+// variable real-world latency, so an independent setTimeout schedule running
+// alongside it drifts out of sync over a long set. Instead each beat is
+// scheduled off the ACTUAL completion (onend) of the previous beat's speech,
+// topped up to the target half-beat duration - there is only one timeline
+// (the speech callback chain), so there's nothing left for it to drift against.
 function runRepCounter(exId, target, tempoSec, { onTick, onDone }) {
   const midReminder = (EXERCISE_INFO[exId] || {}).midReminder;
   const halfPoint = Math.ceil(target / 2);
   onTick(0);
 
-  function step(i) {
-    const thisTempo = i === 1 ? tempoSec * 1.5 : tempoSec;
+  function afterRemainder(sinceMs, halfMs, cb) {
+    const elapsed = performance.now() - sinceMs;
+    cueTimeouts.push(setTimeout(cb, Math.max(0, halfMs - elapsed)));
+  }
+
+  function downBeat(i) {
     onTick(i);
     beep(700, 90);
     vibrate(30);
-    if (i === halfPoint && midReminder) speakQueue(midReminder);
-
-    if (i >= target) {
-      cueTimeouts.push(setTimeout(() => { feedbackSetDone(); onDone(); }, thisTempo * 1000));
-      return;
-    }
-    cueTimeouts.push(setTimeout(() => step(i + 1), thisTempo * 1000));
+    const thisTempo = i === 1 ? tempoSec * 1.5 : tempoSec;
+    const halfMs = (thisTempo * 1000) / 2;
+    const remainingIncl = target - i + 1;
+    let text;
+    if (remainingIncl === 1) text = '마지막 하나!';
+    else if (remainingIncl === 2) text = '2개 남았어요';
+    else if (remainingIncl === 3) text = '3개 남았어요';
+    else if (i === halfPoint && midReminder) text = midReminder;
+    else text = '하나';
+    const startedAt = performance.now();
+    speakThen(text, () => afterRemainder(startedAt, halfMs, () => upBeat(i, thisTempo)), halfMs);
   }
 
-  speakThen('천천히 첫 동작 해볼게요', () => step(1), 2600);
+  function upBeat(i, thisTempo) {
+    if (i >= target) { feedbackSetDone(); onDone(); return; }
+    const halfMs = (thisTempo * 1000) / 2;
+    const startedAt = performance.now();
+    speakThen('둘', () => afterRemainder(startedAt, halfMs, () => downBeat(i + 1)), halfMs);
+  }
+
+  speakThen('천천히 첫 동작 해볼게요', () => downBeat(1), 2600);
 }
 
 function renderPoseRow(exId) {
@@ -913,12 +988,44 @@ function skipCurrentExercise() {
 function advanceAfter(finishedStep) {
   currentStepIndex++;
   const needsRest = (finishedStep.phase === 'main' || finishedStep.phase === 'tabata') && currentStepIndex < currentQueue.length;
-  if (needsRest) {
-    const restSec = finishedStep.phase === 'tabata' ? ROUTINE.tabata.restSec : getSettings().restSeconds;
-    startRest(restSec);
-  } else {
-    proceedToNextStepOrFinish();
+  function proceed() {
+    if (needsRest) {
+      const restSec = finishedStep.phase === 'tabata' ? ROUTINE.tabata.restSec : getSettings().restSeconds;
+      startRest(restSec);
+    } else {
+      proceedToNextStepOrFinish();
+    }
   }
+  const isLastSetOfExercise = finishedStep.phase === 'main' && finishedStep.setIndex === finishedStep.setTotal;
+  if (isLastSetOfExercise) showSelfCheck(finishedStep.exercise.id, proceed);
+  else proceed();
+}
+
+// Quick 1-tap self-check after an exercise's last set (spec 4.2) - not camera
+// verification, just a self-report the user can answer in a couple seconds.
+function showSelfCheck(exerciseId, onDone) {
+  const question = (EXERCISE_INFO[exerciseId] || {}).selfCheckQuestion;
+  if (!question) { onDone(); return; }
+  const modal = $('#selfcheck-modal');
+  $('#selfcheck-question').textContent = question;
+  modal.hidden = false;
+  const yesBtn = $('#selfcheck-yes');
+  const noBtn = $('#selfcheck-no');
+  function cleanup() {
+    modal.hidden = true;
+    yesBtn.removeEventListener('click', onYes);
+    noBtn.removeEventListener('click', onNo);
+  }
+  function answer(val) {
+    const log = sessionExerciseLog[exerciseId];
+    if (log) log.mistakeReported = val;
+    cleanup();
+    onDone();
+  }
+  function onYes() { answer(true); }
+  function onNo() { answer(false); }
+  yesBtn.addEventListener('click', onYes);
+  noBtn.addEventListener('click', onNo);
 }
 
 function proceedToNextStepOrFinish() {
@@ -1248,7 +1355,7 @@ function forceGoToScreen(name) {
   $all('.screen').forEach(s => s.classList.remove('active'));
   $('#screen-' + name).classList.add('active');
 
-  const titles = { home: '홈트레이닝 코치', preview: '오늘의 루틴', workout: '운동 진행', complete: '운동 완료', history: '기록 / 통계', settings: '설정' };
+  const titles = { home: '홈트레이닝 코치', preview: '오늘의 루틴', checklist: '준비 체크', workout: '운동 진행', complete: '운동 완료', history: '기록 / 통계', settings: '설정' };
   $('#header-title').textContent = titles[name] || '홈트레이닝 코치';
   $('#btn-back').hidden = (name === 'home' || name === 'complete');
   $('#btn-settings').hidden = (name !== 'home');
@@ -1271,6 +1378,17 @@ function init() {
   $('#btn-view-history').addEventListener('click', () => goToScreen('history'));
   $('#btn-settings').addEventListener('click', () => goToScreen('settings'));
   $('#btn-back').addEventListener('click', () => goToScreen('home'));
+
+  $('#checklist-items').addEventListener('change', (e) => {
+    if (!e.target.classList.contains('checklist-checkbox')) return;
+    const boxes = $all('.checklist-checkbox');
+    $('#btn-checklist-start').disabled = !boxes.every(cb => cb.checked);
+  });
+  $('#btn-checklist-start').addEventListener('click', () => {
+    if ($('#btn-checklist-start').disabled) return;
+    forceGoToScreen('workout');
+    renderWorkoutStep();
+  });
 
   $('#btn-complete-set').addEventListener('click', () => {
     if (uiMode === 'rest') finishRest();

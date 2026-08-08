@@ -75,6 +75,15 @@
       <button id="btn-preview-go" class="primary-btn big-cta">시작하기</button>
     </section>
 
+    <!-- PRE-EXERCISE CHECKLIST (gating) -->
+    <section id="screen-checklist" class="screen">
+      <div class="card">
+        <p class="eyebrow">시작 전 확인</p>
+        <h2 id="checklist-exercise-name">스쿼트</h2>
+        <ul id="checklist-items" class="checklist"></ul>
+      </div>
+      <button id="btn-checklist-start" class="primary-btn big-cta" disabled>시작</button>
+    </section>
 
     <!-- WORKOUT -->
     <section id="screen-workout" class="screen">
@@ -269,6 +278,17 @@
       <button class="onboarding-btn" data-level="beginner">완전 초보</button>
       <button class="onboarding-btn" data-level="some">조금 해봤어요</button>
       <button class="onboarding-btn" data-level="familiar">익숙합니다</button>
+    </div>
+  </div>
+</div>
+
+<div id="selfcheck-modal" class="modal" hidden>
+  <div class="modal-card">
+    <p class="modal-title">방금 세트, 어땠나요?</p>
+    <p id="selfcheck-question" class="selfcheck-question"></p>
+    <div class="modal-actions">
+      <button id="selfcheck-yes" class="secondary-btn">예</button>
+      <button id="selfcheck-no" class="primary-btn">아니오</button>
     </div>
   </div>
 </div>
