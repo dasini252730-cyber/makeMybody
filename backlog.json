@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:33:45+09:00",
+  "updated_at": "2026-10-08T19:34:33+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -4655,6 +4655,47 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-103",
+      "title": "done 게이트(hook)에 npm run test 추가",
+      "description": "backlog-sync.mjs 와 stop-check.mjs 의 lint→build 게이트에 test 를 넣어 계산 유틸 테스트가 깨진 채 done 되지 않게 한다.",
+      "doc": "docs/T-103.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E17",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 103,
+      "depends_on": [
+        "T-004"
+      ],
+      "requirements": [
+        "NFR-002"
+      ],
+      "tags": [
+        "qa"
+      ],
+      "acceptance_criteria": [
+        "done 전환 시 테스트 실패하면 review 로 되돌아감",
+        "Stop hook 이 테스트 실패 시 종료를 막음"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T19:34:33+09:00",
+      "updated_at": "2026-10-08T19:34:33+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T19:34:33+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
         }
       ],
       "notes": []
