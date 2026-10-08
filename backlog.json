@@ -1,0 +1,4479 @@
+{
+  "project": "MY BODY OS",
+  "source_document": "요구사항.md",
+  "schema_version": 1,
+  "unit_minutes": 30,
+  "generated_at": "2026-10-08",
+  "updated_at": "2026-10-08T00:00:00+09:00",
+  "statuses": {
+    "todo": {
+      "label": "할 일",
+      "description": "착수 전"
+    },
+    "in_progress": {
+      "label": "작업중",
+      "description": "현재 진행 중 (동시에 1~2개만)"
+    },
+    "review": {
+      "label": "리뷰 필요",
+      "description": "구현 완료, adversarial-reviewer 검토 대기"
+    },
+    "needs_decision": {
+      "label": "판단 필요",
+      "description": "사람의 결정이 있어야 진행 가능. decision_needed 필드에 질문 기재"
+    },
+    "done": {
+      "label": "완료",
+      "description": "완료 조건 충족, 커밋+푸시됨"
+    },
+    "cancelled": {
+      "label": "취소",
+      "description": "진행하지 않음. notes에 사유"
+    },
+    "on_hold": {
+      "label": "대기",
+      "description": "범위 밖이거나 선행 조건 대기"
+    }
+  },
+  "priorities": {
+    "P0": "데이터 기반",
+    "P1": "성장 시스템",
+    "P2": "목표 시스템",
+    "P3": "AI",
+    "P4": "품질/운영"
+  },
+  "phases": [
+    "V1",
+    "V1.1",
+    "V2"
+  ],
+  "epics": [
+    {
+      "id": "E01",
+      "name": "프로젝트 셋업",
+      "priority": "P0",
+      "description": "Vue 3 + Vite + TS, Router/Pinia, Supabase 클라이언트/Auth, 모바일 레이아웃 셸, 공통 UI, Vitest, Supabase CLI 마이그레이션, Vercel 배포"
+    },
+    {
+      "id": "E02",
+      "name": "DB 구조",
+      "priority": "P0",
+      "description": "요구사항 7장 테이블 전부 + 테이블별 RLS, RLS 검증 테스트, supabase gen types"
+    },
+    {
+      "id": "E03",
+      "name": "운동 라이브러리",
+      "priority": "P0",
+      "description": "운동 시드, 조회/검색, 선택 UI, 사용자 정의 운동"
+    },
+    {
+      "id": "E04",
+      "name": "운동 기록",
+      "priority": "P0",
+      "description": "FR-002/003/004/019: 세션·운동·세트 입력, 한 손 입력, 시간/거리 운동, 메모, 템플릿, 수정/삭제, 저장 실패 알림"
+    },
+    {
+      "id": "E05",
+      "name": "운동 이력",
+      "priority": "P0",
+      "description": "화면02/03 목록·상세, 필터/월별 그룹, PC 2열"
+    },
+    {
+      "id": "E06",
+      "name": "바디 기록",
+      "priority": "P0",
+      "description": "FR-009/010/011/012: 체중·음주·수면 기록, 7일/30일 평균, 그래프, 원인 분석, 음주 비교"
+    },
+    {
+      "id": "E07",
+      "name": "PR 관리",
+      "priority": "P1",
+      "description": "FR-005: 1RM 공식, PR 자동 갱신, PR 목록, NEW PR 이벤트"
+    },
+    {
+      "id": "E08",
+      "name": "Fitness Score",
+      "priority": "P1",
+      "description": "FR-007/008/014: 산식 설계, 영역 매핑, 계산+테스트, Overall, 실행 지점, 오늘의 성장, 화면, 백필"
+    },
+    {
+      "id": "E09",
+      "name": "성장 그래프",
+      "priority": "P1",
+      "description": "FR-006, 화면04: 차트 라이브러리, 점수 이력 그래프, 운동별 성장 분석/화면"
+    },
+    {
+      "id": "E10",
+      "name": "Dashboard",
+      "priority": "P1",
+      "description": "FR-013, 화면01, NFR-001: 오늘의 운동, 조립, 목표 카드, 성능"
+    },
+    {
+      "id": "E11",
+      "name": "Goal",
+      "priority": "P2",
+      "description": "FR-015, 화면05: Goal 타입, 등록 UI, 목록, 프리셋 시드"
+    },
+    {
+      "id": "E12",
+      "name": "Goal Readiness",
+      "priority": "P2",
+      "description": "FR-016: 평가 항목 매핑, 계산+테스트, 상세 화면, 이력"
+    },
+    {
+      "id": "E13",
+      "name": "Quest",
+      "priority": "P2",
+      "description": "FR-017: 조건 모델, 자동 진행도, 화면, 편집"
+    },
+    {
+      "id": "E14",
+      "name": "Achievement",
+      "priority": "P2",
+      "description": "FR-018: 정의 시드, 판정 로직, 화면/알림"
+    },
+    {
+      "id": "E15",
+      "name": "설정",
+      "priority": "P2",
+      "description": "FR-001 프로필 화면, 운동/점수 설정"
+    },
+    {
+      "id": "E16",
+      "name": "AI 기능",
+      "priority": "P3",
+      "description": "V1.1: AI-001~004, 자동 추천, 월간 리포트 (대기)"
+    },
+    {
+      "id": "E17",
+      "name": "품질/운영",
+      "priority": "P4",
+      "description": "Playwright 스모크, 모바일 실기기 점검, 공통 오류 처리, 4주 실사용/성공 기준"
+    }
+  ],
+  "out_of_scope": [
+    {
+      "phase": "V2",
+      "item": "Apple Health / Google Fit 연동"
+    },
+    {
+      "phase": "V2",
+      "item": "심박수 데이터"
+    },
+    {
+      "phase": "V2",
+      "item": "GPS 트레킹"
+    },
+    {
+      "phase": "V2",
+      "item": "운동 영상 분석"
+    },
+    {
+      "phase": "V2",
+      "item": "다중 사용자"
+    },
+    {
+      "phase": "V2",
+      "item": "트레이너 공유"
+    },
+    {
+      "phase": "V2",
+      "item": "운동 프로그램 자동 생성"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "Vue 3 + Vite + TypeScript 프로젝트 생성",
+      "description": "Vite 템플릿으로 프로젝트를 만들고 src 폴더 구조와 backlog 스크립트를 잡는다.",
+      "doc": "docs/T-001.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 1,
+      "depends_on": [],
+      "requirements": [
+        "TECH"
+      ],
+      "tags": [
+        "deploy",
+        "types"
+      ],
+      "acceptance_criteria": [
+        "npm run dev / build 성공",
+        "src 하위 6개 폴더 존재",
+        "npm run backlog stats 가 동작"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-002",
+      "title": "Vue Router + Pinia 설치 및 6개 섹션 라우트 골격",
+      "description": "HOME/WORKOUT/BODY/GROWTH/GOALS/SETTINGS 라우트와 빈 뷰를 만든다.",
+      "doc": "docs/T-002.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 2,
+      "depends_on": [
+        "T-001"
+      ],
+      "requirements": [
+        "TECH"
+      ],
+      "tags": [
+        "ui",
+        "store"
+      ],
+      "acceptance_criteria": [
+        "6개 경로가 각각 렌더링됨",
+        "Pinia 스토어가 devtools에서 보임"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-003",
+      "title": "ESLint + Prettier + vue-tsc 설정, lint/typecheck 스크립트",
+      "description": "코드 품질 hook이 쓸 lint/typecheck/build 스크립트를 확정한다.",
+      "doc": "docs/T-003.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 3,
+      "depends_on": [
+        "T-001"
+      ],
+      "requirements": [
+        "TECH"
+      ],
+      "tags": [
+        "qa"
+      ],
+      "acceptance_criteria": [
+        "npm run lint 가 에러 0",
+        "npm run typecheck 통과",
+        "hook 에서 lint/build 호출 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-004",
+      "title": "Vitest 셋업 + 예제 테스트",
+      "description": "계산 유틸 테스트를 위한 Vitest 환경을 만든다.",
+      "doc": "docs/T-004.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 4,
+      "depends_on": [
+        "T-001"
+      ],
+      "requirements": [
+        "TECH"
+      ],
+      "tags": [
+        "test"
+      ],
+      "acceptance_criteria": [
+        "npm run test 통과",
+        "src/lib 하위 테스트 파일이 자동 수집됨"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-005",
+      "title": "Supabase 프로젝트 생성 및 클라이언트 모듈",
+      "description": "Supabase 프로젝트를 만들고 env와 supabase-js 클라이언트를 연결한다.",
+      "doc": "docs/T-005.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 5,
+      "depends_on": [
+        "T-001"
+      ],
+      "requirements": [
+        "TECH",
+        "NFR-003"
+      ],
+      "tags": [
+        "deploy",
+        "auth"
+      ],
+      "acceptance_criteria": [
+        "env 누락 시 명확한 에러 메시지",
+        "클라이언트 import 후 세션 조회 성공"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-006",
+      "title": "Supabase CLI 초기화 및 마이그레이션 워크플로우",
+      "description": "supabase/migrations 기반으로 스키마를 관리하는 절차를 만든다.",
+      "doc": "docs/T-006.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 6,
+      "depends_on": [
+        "T-005"
+      ],
+      "requirements": [
+        "TECH"
+      ],
+      "tags": [
+        "migration",
+        "docs"
+      ],
+      "acceptance_criteria": [
+        "supabase/ 폴더와 config.toml 존재",
+        "빈 마이그레이션이 원격에 push 됨"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-007",
+      "title": "이메일 로그인/로그아웃 화면과 라우터 가드",
+      "description": "단일 사용자용 이메일 로그인을 붙이고 비로그인 접근을 막는다.",
+      "doc": "docs/T-007.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 7,
+      "depends_on": [
+        "T-005",
+        "T-002"
+      ],
+      "requirements": [
+        "NFR-003"
+      ],
+      "tags": [
+        "auth",
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "로그인 후 새로고침해도 세션 유지",
+        "비로그인 시 모든 섹션이 /login 으로 이동"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-008",
+      "title": "모바일 우선 레이아웃 셸과 하단 탭 네비게이션",
+      "description": "한 손 조작을 전제로 한 앱 셸을 만든다.",
+      "doc": "docs/T-008.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 8,
+      "depends_on": [
+        "T-002"
+      ],
+      "requirements": [
+        "NFR-004"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "하단 탭으로 6개 섹션 이동",
+        "375px / 1280px 모두 레이아웃 깨짐 없음"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-009",
+      "title": "공통 UI 컴포넌트 세트",
+      "description": "Button, Card, TextField, NumberStepper, Toast 를 만든다.",
+      "doc": "docs/T-009.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 9,
+      "depends_on": [
+        "T-008"
+      ],
+      "requirements": [
+        "NFR-004"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "NumberStepper 가 한 손 엄지로 조작 가능",
+        "Toast 가 성공/오류 두 가지 스타일 지원"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-010",
+      "title": "Vercel 배포 연결 및 환경변수 설정",
+      "description": "main/dev 브랜치가 자동 배포되도록 Vercel 을 연결한다.",
+      "doc": "docs/T-010.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 10,
+      "depends_on": [
+        "T-001",
+        "T-005"
+      ],
+      "requirements": [
+        "TECH"
+      ],
+      "tags": [
+        "deploy"
+      ],
+      "acceptance_criteria": [
+        "dev 푸시 시 프리뷰 배포 생성",
+        "배포본에서 새로고침해도 404 없음"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-011",
+      "title": "profiles 테이블 + RLS",
+      "description": "사용자 기본 신체 정보 테이블을 만든다.",
+      "doc": "docs/T-011.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 11,
+      "depends_on": [
+        "T-006"
+      ],
+      "requirements": [
+        "FR-001",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "본인 행만 조회/수정 가능",
+        "회원 생성 시 profiles 행 자동 생성"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-012",
+      "title": "exercise_library 테이블 + RLS",
+      "description": "운동 종류 마스터 테이블(공용 + 사용자 정의)을 만든다.",
+      "doc": "docs/T-012.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 12,
+      "depends_on": [
+        "T-006"
+      ],
+      "requirements": [
+        "FR-002",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "공용 운동은 로그인 사용자 누구나 읽기",
+        "사용자 정의 운동은 본인만"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-013",
+      "title": "workout_sessions + workout_exercises 테이블 + RLS",
+      "description": "세션과 세션 내 운동 테이블을 만든다.",
+      "doc": "docs/T-013.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 13,
+      "depends_on": [
+        "T-011",
+        "T-012"
+      ],
+      "requirements": [
+        "FR-002",
+        "FR-003",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "타 사용자 세션의 exercises 조회 불가",
+        "세션 삭제 시 exercises cascade"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-014",
+      "title": "exercise_sets 테이블 + RLS + 인덱스",
+      "description": "세트 단위 기록 테이블을 만든다.",
+      "doc": "docs/T-014.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 14,
+      "depends_on": [
+        "T-013"
+      ],
+      "requirements": [
+        "FR-002",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "세트 insert/select 가 본인 세션에만 허용",
+        "중량/반복/시간/거리 nullable 로 모든 운동 유형 수용"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-015",
+      "title": "workout_templates 테이블 + RLS",
+      "description": "운동 템플릿과 템플릿 구성 운동 테이블을 만든다.",
+      "doc": "docs/T-015.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 15,
+      "depends_on": [
+        "T-012"
+      ],
+      "requirements": [
+        "FR-004",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "템플릿과 구성 운동이 본인에게만 보임"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-016",
+      "title": "weight_logs / sleep_logs / alcohol_logs / body_metrics 테이블 + RLS",
+      "description": "바디 관련 기록 테이블 4개를 만든다.",
+      "doc": "docs/T-016.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 16,
+      "depends_on": [
+        "T-011"
+      ],
+      "requirements": [
+        "FR-009",
+        "FR-011",
+        "FR-012",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "4개 테이블 모두 본인 데이터만 접근",
+        "같은 날짜 체중 중복 insert 시 에러"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-017",
+      "title": "fitness_scores / fitness_score_history 테이블 + RLS",
+      "description": "영역별 현재 점수와 이력 테이블을 만든다.",
+      "doc": "docs/T-017.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 17,
+      "depends_on": [
+        "T-011"
+      ],
+      "requirements": [
+        "FR-007",
+        "FR-008",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "이력이 날짜별로 1행만 존재",
+        "본인만 조회"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-018",
+      "title": "goals / goal_requirements / goal_readiness 테이블 + RLS",
+      "description": "목표, 요구조건, 준비도 테이블을 만든다.",
+      "doc": "docs/T-018.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 18,
+      "depends_on": [
+        "T-011"
+      ],
+      "requirements": [
+        "FR-015",
+        "FR-016",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "목표 삭제 시 requirements/readiness cascade",
+        "본인 목표만 접근"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-019",
+      "title": "quests / achievements / user_achievements 테이블 + RLS",
+      "description": "퀘스트와 업적 테이블을 만든다.",
+      "doc": "docs/T-019.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 19,
+      "depends_on": [
+        "T-011"
+      ],
+      "requirements": [
+        "FR-017",
+        "FR-018",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "achievements 는 전체 읽기, user_achievements 는 본인만"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-020",
+      "title": "exercise_notes / ai_analysis_logs 테이블 + RLS",
+      "description": "운동 메모와 AI 분석 로그 테이블을 만든다.",
+      "doc": "docs/T-020.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 20,
+      "depends_on": [
+        "T-013"
+      ],
+      "requirements": [
+        "FR-019",
+        "AI-001",
+        "NFR-003"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "메모가 세션 없이도 저장 가능",
+        "AI 로그는 본인만"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-021",
+      "title": "RLS 검증 테스트 (2번째 사용자 접근 차단)",
+      "description": "모든 테이블에 대해 타 사용자 접근이 막히는지 자동 검증한다.",
+      "doc": "docs/T-021.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 21,
+      "depends_on": [
+        "T-014",
+        "T-015",
+        "T-016",
+        "T-017",
+        "T-018",
+        "T-019",
+        "T-020"
+      ],
+      "requirements": [
+        "NFR-003"
+      ],
+      "tags": [
+        "rls",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "15개 테이블 전부 B 접근 0건",
+        "스크립트 재실행 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-022",
+      "title": "supabase gen types → src/types/database.ts",
+      "description": "DB 타입을 생성하고 타입 헬퍼를 만든다.",
+      "doc": "docs/T-022.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 22,
+      "depends_on": [
+        "T-021"
+      ],
+      "requirements": [
+        "TECH"
+      ],
+      "tags": [
+        "types"
+      ],
+      "acceptance_criteria": [
+        "supabase.from('x') 가 타입 추론됨",
+        "typecheck 에러 0"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-023",
+      "title": "운동 라이브러리 시드 데이터",
+      "description": "요구사항 예시의 운동을 공용 시드로 넣는다.",
+      "doc": "docs/T-023.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E03",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 23,
+      "depends_on": [
+        "T-012"
+      ],
+      "requirements": [
+        "FR-002",
+        "FR-003"
+      ],
+      "tags": [
+        "seed",
+        "db"
+      ],
+      "acceptance_criteria": [
+        "14개 이상 공용 운동 존재",
+        "모든 운동에 area_weights 존재"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-024",
+      "title": "useExerciseLibrary: 목록/검색/최근 사용",
+      "description": "운동 라이브러리 조회 composable 을 만든다.",
+      "doc": "docs/T-024.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E03",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 24,
+      "depends_on": [
+        "T-023",
+        "T-022"
+      ],
+      "requirements": [
+        "FR-002"
+      ],
+      "tags": [
+        "composable"
+      ],
+      "acceptance_criteria": [
+        "검색 'dead' → Deadlift",
+        "최근 사용 상위 5개 반환"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-025",
+      "title": "운동 선택 UI (검색 + 최근 사용 + 카테고리)",
+      "description": "기록 화면에서 쓰는 운동 선택 바텀시트를 만든다.",
+      "doc": "docs/T-025.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E03",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 25,
+      "depends_on": [
+        "T-024",
+        "T-009"
+      ],
+      "requirements": [
+        "NFR-004"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "3탭 이내에 자주 쓰는 운동 선택 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-026",
+      "title": "사용자 정의 운동 추가/수정",
+      "description": "라이브러리에 없는 운동을 사용자가 추가한다.",
+      "doc": "docs/T-026.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E03",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 26,
+      "depends_on": [
+        "T-025"
+      ],
+      "requirements": [
+        "FR-002"
+      ],
+      "tags": [
+        "ui",
+        "db"
+      ],
+      "acceptance_criteria": [
+        "추가한 운동이 검색에 바로 나타남",
+        "비활성화된 운동은 picker 에서 숨김"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-027",
+      "title": "useWorkoutSession: 세션 생성/조회/수정/삭제",
+      "description": "세션→운동→세트를 한 번에 저장하는 데이터 계층을 만든다.",
+      "doc": "docs/T-027.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 27,
+      "depends_on": [
+        "T-014",
+        "T-022"
+      ],
+      "requirements": [
+        "FR-002",
+        "FR-003",
+        "NFR-002"
+      ],
+      "tags": [
+        "composable",
+        "store"
+      ],
+      "acceptance_criteria": [
+        "세트까지 한 번의 호출로 저장",
+        "중간 실패 시 부분 저장 없음"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-028",
+      "title": "운동 기록 화면 골격",
+      "description": "날짜, 세션 종류, 총 시간, 난이도를 입력하는 폼 골격을 만든다.",
+      "doc": "docs/T-028.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 28,
+      "depends_on": [
+        "T-027",
+        "T-009"
+      ],
+      "requirements": [
+        "FR-002"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "폼 상태가 Pinia draft 에 유지됨",
+        "탭 이동 후 복귀해도 입력 유지"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-029",
+      "title": "세션에 운동 추가/삭제/순서 변경 (복합운동)",
+      "description": "한 세션에 여러 운동을 넣는 UI 를 만든다.",
+      "doc": "docs/T-029.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 29,
+      "depends_on": [
+        "T-028",
+        "T-025"
+      ],
+      "requirements": [
+        "FR-003"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "PT 세션에 Jump/Step/Side Jump/OHP 등 6개 추가 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-030",
+      "title": "세트 입력 UI: 중량×반복, 이전 세트 복사",
+      "description": "한 손으로 세트를 빠르게 입력하는 UI 를 만든다.",
+      "doc": "docs/T-030.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 30,
+      "depends_on": [
+        "T-029"
+      ],
+      "requirements": [
+        "FR-002",
+        "NFR-004"
+      ],
+      "tags": [
+        "ui",
+        "mobile",
+        "ux"
+      ],
+      "acceptance_criteria": [
+        "Deadlift 40×10, 40×10, 50×5 를 10탭 이내 입력",
+        "숫자 키패드가 뜨지 않아도 입력 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-031",
+      "title": "시간/거리 기반 운동 입력 (걷기/등산)",
+      "description": "걷기·등산 운동의 분/km/고도 입력을 지원한다.",
+      "doc": "docs/T-031.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 31,
+      "depends_on": [
+        "T-029"
+      ],
+      "requirements": [
+        "FR-002"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "Walking 60분 5.2km 저장",
+        "Hiking 에 고도 입력 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-032",
+      "title": "운동 메모 입력 + 저장",
+      "description": "세션 하단 자유 메모를 exercise_notes 에 저장한다.",
+      "doc": "docs/T-032.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 32,
+      "depends_on": [
+        "T-028",
+        "T-020"
+      ],
+      "requirements": [
+        "FR-019"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "메모가 세션과 함께 저장/표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-033",
+      "title": "저장 처리 + 실패 시 명확한 오류 알림/재시도",
+      "description": "저장 실패를 사용자에게 확실히 알리고 입력을 잃지 않게 한다.",
+      "doc": "docs/T-033.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 33,
+      "depends_on": [
+        "T-030",
+        "T-032",
+        "T-031"
+      ],
+      "requirements": [
+        "NFR-002"
+      ],
+      "tags": [
+        "ux",
+        "store"
+      ],
+      "acceptance_criteria": [
+        "네트워크 차단 상태에서 저장 → 오류 메시지 + 입력 유지",
+        "재시도로 저장 성공"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-034",
+      "title": "운동 템플릿 관리 화면",
+      "description": "템플릿을 만들고 수정/삭제한다.",
+      "doc": "docs/T-034.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 34,
+      "depends_on": [
+        "T-015",
+        "T-025"
+      ],
+      "requirements": [
+        "FR-004"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "템플릿 CRUD 동작",
+        "PT A(Squat/Deadlift/OHP/Jump/Core) 저장 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-035",
+      "title": "템플릿으로 세션 시작 → 수행량만 수정",
+      "description": "템플릿을 선택하면 운동/세트가 미리 채워진 기록 화면이 열린다.",
+      "doc": "docs/T-035.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 35,
+      "depends_on": [
+        "T-034",
+        "T-030"
+      ],
+      "requirements": [
+        "FR-004"
+      ],
+      "tags": [
+        "ux",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "템플릿 선택 후 3탭 내 저장 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-036",
+      "title": "운동 기록 수정/삭제 플로우",
+      "description": "저장된 세션을 다시 열어 수정하거나 삭제한다.",
+      "doc": "docs/T-036.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 36,
+      "depends_on": [
+        "T-033"
+      ],
+      "requirements": [
+        "FR-002",
+        "NFR-002"
+      ],
+      "tags": [
+        "ui",
+        "store"
+      ],
+      "acceptance_criteria": [
+        "수정 후 세트가 중복되지 않음",
+        "삭제 후 목록에서 사라짐"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-037",
+      "title": "WORKOUT 목록 화면 (최근 운동)",
+      "description": "화면02: 최근 세션 목록과 기록 버튼을 만든다.",
+      "doc": "docs/T-037.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E05",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 37,
+      "depends_on": [
+        "T-027",
+        "T-008"
+      ],
+      "requirements": [
+        "SCREEN-02"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "화면02 레이아웃과 동일한 정보 표시",
+        "항목 탭 → 상세 이동"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-038",
+      "title": "Workout Detail 화면",
+      "description": "화면03: 세션의 운동별 세트와 시간을 보여준다.",
+      "doc": "docs/T-038.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E05",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 38,
+      "depends_on": [
+        "T-037"
+      ],
+      "requirements": [
+        "SCREEN-03"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "화면03 과 동일한 표기"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-039",
+      "title": "이력 월별 그룹핑 + 종류 필터 + 페이지네이션",
+      "description": "긴 이력을 월별로 묶고 필터링한다.",
+      "doc": "docs/T-039.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E05",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 39,
+      "depends_on": [
+        "T-037"
+      ],
+      "requirements": [
+        "SCREEN-02"
+      ],
+      "tags": [
+        "ui",
+        "composable"
+      ],
+      "acceptance_criteria": [
+        "3개월치 이력이 월별로 구분",
+        "필터 적용 시 카운트 갱신"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-040",
+      "title": "PC 레이아웃: 목록/상세 2열",
+      "description": "넓은 화면에서 목록과 상세를 나란히 보여준다.",
+      "doc": "docs/T-040.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E05",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 40,
+      "depends_on": [
+        "T-038"
+      ],
+      "requirements": [
+        "NFR-005"
+      ],
+      "tags": [
+        "pc",
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "1280px 에서 목록 클릭 시 우측에 상세 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-041",
+      "title": "체중 기록 입력 UI + 저장",
+      "description": "날짜·체중·측정시간·메모를 입력해 저장한다.",
+      "doc": "docs/T-041.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 41,
+      "depends_on": [
+        "T-016",
+        "T-009"
+      ],
+      "requirements": [
+        "FR-009"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "같은 날 재입력 시 덮어쓰기",
+        "0.1kg 단위 입력"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-042",
+      "title": "체중 7일/30일 이동평균 + 추세 계산 유틸",
+      "description": "일일 체중 대신 평균·추세를 계산한다.",
+      "doc": "docs/T-042.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 42,
+      "depends_on": [
+        "T-016"
+      ],
+      "requirements": [
+        "FR-009"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "테스트 5개 이상 통과",
+        "데이터 3일뿐이어도 에러 없음"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-043",
+      "title": "음주 기록 입력 UI + 저장",
+      "description": "음주 여부/횟수/종류/양/메모를 기록한다.",
+      "doc": "docs/T-043.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 43,
+      "depends_on": [
+        "T-016",
+        "T-009"
+      ],
+      "requirements": [
+        "FR-011"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "'오늘 안 마셨음' 1탭 저장"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-044",
+      "title": "수면 기록 입력 UI (총 수면 자동 계산) + 저장",
+      "description": "취침/기상 시각으로 총 수면시간을 계산해 저장한다.",
+      "doc": "docs/T-044.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 44,
+      "depends_on": [
+        "T-016",
+        "T-009"
+      ],
+      "requirements": [
+        "FR-012"
+      ],
+      "tags": [
+        "ui",
+        "calc"
+      ],
+      "acceptance_criteria": [
+        "23:30 취침 06:10 기상 → 400분",
+        "만족도 저장"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-045",
+      "title": "BODY 화면 요약 카드",
+      "description": "화면06: 체중 평균/추세, 음주 빈도, 수면 평균을 보여준다.",
+      "doc": "docs/T-045.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 45,
+      "depends_on": [
+        "T-042",
+        "T-043",
+        "T-044",
+        "T-041"
+      ],
+      "requirements": [
+        "SCREEN-06"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "화면06 과 동일한 항목 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-046",
+      "title": "체중 변동 원인 분석 규칙 + 테스트",
+      "description": "최근 7일 운동/음주/수면/체중을 비교해 규칙 기반 메시지를 만든다.",
+      "doc": "docs/T-046.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 46,
+      "depends_on": [
+        "T-042",
+        "T-043",
+        "T-044",
+        "T-027"
+      ],
+      "requirements": [
+        "FR-010"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "요구사항 예시 입력 → 동일 메시지",
+        "테스트 통과"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-047",
+      "title": "원인 분석 카드 UI",
+      "description": "BODY 화면에 최근 7일 요약과 원인 메시지를 표시한다.",
+      "doc": "docs/T-047.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 47,
+      "depends_on": [
+        "T-046",
+        "T-045"
+      ],
+      "requirements": [
+        "FR-010"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "데이터 부족 시 '기록이 더 필요합니다' 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-048",
+      "title": "음주 유/무 기간 운동·체중 추세 비교 뷰",
+      "description": "음주한 주와 안 한 주의 운동 횟수·체중 추세를 비교한다.",
+      "doc": "docs/T-048.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 48,
+      "depends_on": [
+        "T-046"
+      ],
+      "requirements": [
+        "FR-011"
+      ],
+      "tags": [
+        "ui",
+        "calc"
+      ],
+      "acceptance_criteria": [
+        "음주 주/무음주 주 평균 체중 변화와 운동 횟수 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-049",
+      "title": "1RM 추정 공식 선정 + PR 계산 유틸 + 테스트",
+      "description": "Best Weight / Best Reps / 예상 1RM 을 계산한다.",
+      "doc": "docs/T-049.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E07",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 49,
+      "depends_on": [
+        "T-027"
+      ],
+      "requirements": [
+        "FR-005"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "테스트 통과",
+        "reps=1 이면 1RM=weight"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-050",
+      "title": "PR 자동 갱신 구현 위치 결정 (DB 트리거 vs 클라이언트)",
+      "description": "PR 계산을 DB 트리거로 할지 클라이언트 저장 후 계산할지 결정한다.",
+      "doc": "docs/T-050.md",
+      "status": "needs_decision",
+      "priority": "P1",
+      "epic": "E07",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 50,
+      "depends_on": [
+        "T-049"
+      ],
+      "requirements": [
+        "FR-005"
+      ],
+      "tags": [
+        "db",
+        "docs"
+      ],
+      "acceptance_criteria": [
+        "결정 사항이 docs/T-xxx.md 결정 섹션과 backlog decision_needed 해소로 기록"
+      ],
+      "assignee": null,
+      "decision_needed": "PR 자동 갱신을 (A) Postgres 트리거 + exercise_prs 테이블 로 할지, (B) 클라이언트가 저장 직후 계산해 upsert 할지 결정 필요. A: 일관성↑/디버깅↓, B: 단순/오프라인 불일치 가능. 추천: B(V1 단일 사용자).",
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "needs_decision",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-051",
+      "title": "PR 자동 갱신 구현",
+      "description": "결정된 방식으로 세션 저장 시 PR 을 갱신한다.",
+      "doc": "docs/T-051.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E07",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 51,
+      "depends_on": [
+        "T-050"
+      ],
+      "requirements": [
+        "FR-005"
+      ],
+      "tags": [
+        "db",
+        "store"
+      ],
+      "acceptance_criteria": [
+        "세션 저장 후 PR 테이블 갱신",
+        "갱신 여부가 반환됨"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-052",
+      "title": "PR 목록 화면",
+      "description": "운동별 Best Weight / Best Reps / Est 1RM 을 보여준다.",
+      "doc": "docs/T-052.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E07",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 52,
+      "depends_on": [
+        "T-051"
+      ],
+      "requirements": [
+        "FR-005"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "Squat Best 40kg / 15 reps / 1RM 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-053",
+      "title": "NEW PR 이벤트 UI",
+      "description": "저장 직후 PR 갱신을 축하 모달로 보여준다.",
+      "doc": "docs/T-053.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E07",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 53,
+      "depends_on": [
+        "T-051",
+        "T-033"
+      ],
+      "requirements": [
+        "FR-005"
+      ],
+      "tags": [
+        "ui",
+        "ux"
+      ],
+      "acceptance_criteria": [
+        "요구사항 예시와 동일한 문구"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-054",
+      "title": "Fitness Score 산식/가중치 설계 확정",
+      "description": "영역별 입력 지표, 최근 가중치, 스무딩 규칙을 문서로 확정한다.",
+      "doc": "docs/T-054.md",
+      "status": "needs_decision",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 54,
+      "depends_on": [
+        "T-049"
+      ],
+      "requirements": [
+        "FR-007"
+      ],
+      "tags": [
+        "calc",
+        "docs"
+      ],
+      "acceptance_criteria": [
+        "산식 문서가 승인됨",
+        "각 영역의 입력/출력이 수식으로 정의"
+      ],
+      "assignee": null,
+      "decision_needed": "7개 영역의 입력 지표와 가중치, 최근성 반감기(예: 28일), 스무딩(EMA α=0.3 제안), 점수 스케일 기준(개인 최고 대비 vs 절대 기준)을 사용자가 확정해야 함. 제안 초안을 docs 에 작성했으니 승인/수정 필요.",
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "needs_decision",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-055",
+      "title": "운동→영역 기여도 매핑 확정 + 시드 갱신",
+      "description": "exercise_library.area_weights 를 산식에 맞게 확정한다.",
+      "doc": "docs/T-055.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 55,
+      "depends_on": [
+        "T-054",
+        "T-023"
+      ],
+      "requirements": [
+        "FR-007"
+      ],
+      "tags": [
+        "seed",
+        "db"
+      ],
+      "acceptance_criteria": [
+        "모든 공용 운동 가중치 합 = 1.0"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-056",
+      "title": "영역별 점수 계산 함수 + 테스트",
+      "description": "세션/세트 데이터로 7개 영역 점수를 계산한다.",
+      "doc": "docs/T-056.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 56,
+      "depends_on": [
+        "T-055"
+      ],
+      "requirements": [
+        "FR-007"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "테스트 통과",
+        "점수 0~100 클램프"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-057",
+      "title": "Overall Fitness Level 계산 + 테스트",
+      "description": "영역 점수를 종합해 전체 수준을 산출한다.",
+      "doc": "docs/T-057.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 57,
+      "depends_on": [
+        "T-056"
+      ],
+      "requirements": [
+        "FR-007"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "예시 영역값 → 69 근처 재현"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-058",
+      "title": "점수 계산 실행 지점 + fitness_scores/history 저장",
+      "description": "세션 저장 후 점수를 재계산해 저장한다.",
+      "doc": "docs/T-058.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 58,
+      "depends_on": [
+        "T-057",
+        "T-017"
+      ],
+      "requirements": [
+        "FR-007",
+        "FR-008"
+      ],
+      "tags": [
+        "store",
+        "db"
+      ],
+      "acceptance_criteria": [
+        "세션 저장 후 history 에 오늘 행 생성/갱신"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-059",
+      "title": "오늘의 성장 계산 (기여도 vs 실제 변화)",
+      "description": "오늘 세션의 영역별 기여도와 실제 점수 변화를 구분해 계산한다.",
+      "doc": "docs/T-059.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 59,
+      "depends_on": [
+        "T-058"
+      ],
+      "requirements": [
+        "FR-014"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "Power +1.2 형태 출력",
+        "기여도와 실제 변화가 별도 필드"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-060",
+      "title": "Fitness Score 화면",
+      "description": "영역별 점수와 설명을 보여준다.",
+      "doc": "docs/T-060.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 60,
+      "depends_on": [
+        "T-058"
+      ],
+      "requirements": [
+        "FR-007"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "7개 영역 + Overall 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-061",
+      "title": "과거 데이터로 월별 점수 백필 스크립트",
+      "description": "기존 기록으로 월별 history 를 재계산한다.",
+      "doc": "docs/T-061.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E08",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 61,
+      "depends_on": [
+        "T-058"
+      ],
+      "requirements": [
+        "FR-008"
+      ],
+      "tags": [
+        "calc",
+        "db"
+      ],
+      "acceptance_criteria": [
+        "2026-07~10 예시처럼 월별 점수 행 존재"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-062",
+      "title": "차트 라이브러리 선정 + 공통 LineChart 컴포넌트",
+      "description": "체중/점수/성장 그래프에 공통으로 쓸 차트 컴포넌트를 만든다.",
+      "doc": "docs/T-062.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E09",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 62,
+      "depends_on": [
+        "T-009"
+      ],
+      "requirements": [
+        "FR-008",
+        "SCREEN-04"
+      ],
+      "tags": [
+        "chart",
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "임의 시계열 렌더링",
+        "375px 에서 가독"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-063",
+      "title": "체중 그래프 (일별 + 이동평균)",
+      "description": "체중 원시값과 7일 평균을 한 차트에 그린다.",
+      "doc": "docs/T-063.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 63,
+      "depends_on": [
+        "T-042",
+        "T-062"
+      ],
+      "requirements": [
+        "FR-009"
+      ],
+      "tags": [
+        "chart",
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "평균선이 원시값보다 완만"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-064",
+      "title": "Fitness Score 이력 그래프 + 기간 토글",
+      "description": "점수 이력을 1M|3M|6M|1Y|ALL 로 본다.",
+      "doc": "docs/T-064.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E09",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 64,
+      "depends_on": [
+        "T-062",
+        "T-058"
+      ],
+      "requirements": [
+        "FR-008",
+        "SCREEN-04"
+      ],
+      "tags": [
+        "chart",
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "기간 변경 시 데이터 재조회",
+        "월별 61→64→67→69 형태 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-065",
+      "title": "운동별 성장 분석 계산 + 테스트",
+      "description": "운동별 최고중량/반복/볼륨/빈도/1RM/추세를 월별로 계산한다.",
+      "doc": "docs/T-065.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E09",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 65,
+      "depends_on": [
+        "T-049"
+      ],
+      "requirements": [
+        "FR-006"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "예시 Deadlift 40→45→50 → up"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-066",
+      "title": "운동별 성장 화면",
+      "description": "운동을 고르면 월별 추이와 추세를 보여준다.",
+      "doc": "docs/T-066.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E09",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 66,
+      "depends_on": [
+        "T-065",
+        "T-062"
+      ],
+      "requirements": [
+        "FR-006"
+      ],
+      "tags": [
+        "ui",
+        "chart"
+      ],
+      "acceptance_criteria": [
+        "월별 최고 중량과 1RM 차트 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-067",
+      "title": "GROWTH 화면 (영역별 before → after)",
+      "description": "화면04: 기간 내 영역 점수 변화를 보여준다.",
+      "doc": "docs/T-067.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E09",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 67,
+      "depends_on": [
+        "T-064"
+      ],
+      "requirements": [
+        "SCREEN-04"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "화면04 와 동일한 표기"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-068",
+      "title": "오늘의 운동 계획 모델 (요일별 템플릿/타입)",
+      "description": "요일별로 어떤 세션을 할지 설정에 저장한다.",
+      "doc": "docs/T-068.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E10",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 68,
+      "depends_on": [
+        "T-015"
+      ],
+      "requirements": [
+        "FR-013"
+      ],
+      "tags": [
+        "db",
+        "store"
+      ],
+      "acceptance_criteria": [
+        "오늘 요일의 계획 조회 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-069",
+      "title": "오늘의 운동 카드",
+      "description": "TODAY / PT DAY / 목표 3개 / 예상 시간을 표시한다.",
+      "doc": "docs/T-069.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E10",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 69,
+      "depends_on": [
+        "T-068"
+      ],
+      "requirements": [
+        "FR-013"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "요구사항 예시와 동일한 구성"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-070",
+      "title": "Dashboard 화면 조립",
+      "description": "화면01: Fitness Level, 영역 점수, 오늘의 운동, 오늘의 성장을 모은다.",
+      "doc": "docs/T-070.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E10",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 70,
+      "depends_on": [
+        "T-069",
+        "T-059",
+        "T-060"
+      ],
+      "requirements": [
+        "SCREEN-01"
+      ],
+      "tags": [
+        "ui",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "화면01 과 동일한 정보"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-071",
+      "title": "현재 목표 카드",
+      "description": "홈에 활성 목표의 준비도를 요약한다.",
+      "doc": "docs/T-071.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E10",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 71,
+      "depends_on": [
+        "T-070",
+        "T-078"
+      ],
+      "requirements": [
+        "FR-016"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "활성 목표 1개 표시, 없으면 '목표 추가'"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-072",
+      "title": "Dashboard 로딩 성능 (병렬 조회, 스켈레톤)",
+      "description": "홈 화면이 빠르게 뜨도록 쿼리를 병렬화하고 스켈레톤을 둔다.",
+      "doc": "docs/T-072.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E10",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 72,
+      "depends_on": [
+        "T-070"
+      ],
+      "requirements": [
+        "NFR-001"
+      ],
+      "tags": [
+        "ux",
+        "qa"
+      ],
+      "acceptance_criteria": [
+        "캐시 없는 상태 첫 표시 < 1.5s (일반 4G)"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-073",
+      "title": "Goal 타입 정의 + 요구조건 스키마",
+      "description": "6종 목표 타입과 각 타입의 요구조건 구조를 정의한다.",
+      "doc": "docs/T-073.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E11",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 73,
+      "depends_on": [
+        "T-018"
+      ],
+      "requirements": [
+        "FR-015"
+      ],
+      "tags": [
+        "types",
+        "db"
+      ],
+      "acceptance_criteria": [
+        "6종 타입 각각 샘플 생성 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-074",
+      "title": "Goal 등록/수정 UI",
+      "description": "목표를 등록하고 수정한다.",
+      "doc": "docs/T-074.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E11",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 74,
+      "depends_on": [
+        "T-073"
+      ],
+      "requirements": [
+        "FR-015"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "대청봉, Deadlift 60kg 두 목표 등록"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-075",
+      "title": "Goal 목록 화면",
+      "description": "화면05: 목표별 준비도 % 를 나열한다.",
+      "doc": "docs/T-075.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E11",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 75,
+      "depends_on": [
+        "T-074"
+      ],
+      "requirements": [
+        "SCREEN-05"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "화면05 와 동일한 표기"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-076",
+      "title": "Goal 프리셋 시드 (대청봉/공룡능선/10km 트레킹/Deadlift 60kg)",
+      "description": "대표 목표의 요구조건 값을 시드로 넣는다.",
+      "doc": "docs/T-076.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E11",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 76,
+      "depends_on": [
+        "T-073"
+      ],
+      "requirements": [
+        "FR-015",
+        "FR-016"
+      ],
+      "tags": [
+        "seed"
+      ],
+      "acceptance_criteria": [
+        "프리셋 선택 시 요구조건 자동 채움"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-077",
+      "title": "Readiness 평가 항목 → Fitness 영역/지표 매핑 설계",
+      "description": "7개 평가 항목을 어떤 점수/지표로 계산할지 정한다.",
+      "doc": "docs/T-077.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E12",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 77,
+      "depends_on": [
+        "T-073",
+        "T-054"
+      ],
+      "requirements": [
+        "FR-016"
+      ],
+      "tags": [
+        "calc",
+        "docs"
+      ],
+      "acceptance_criteria": [
+        "7개 항목 모두 계산 가능한 지표에 매핑"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-078",
+      "title": "Readiness 계산 함수 + 테스트",
+      "description": "목표별 READY 점수와 항목별 점수, 부족 영역을 계산한다.",
+      "doc": "docs/T-078.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E12",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 78,
+      "depends_on": [
+        "T-077",
+        "T-057"
+      ],
+      "requirements": [
+        "FR-016"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "테스트 통과",
+        "weak_areas 가 요구사항 예시처럼 나열"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-079",
+      "title": "Goal Readiness 상세 화면",
+      "description": "READY 점수, 항목별 점수, 개선 필요 영역을 보여준다.",
+      "doc": "docs/T-079.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E12",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 79,
+      "depends_on": [
+        "T-078",
+        "T-075"
+      ],
+      "requirements": [
+        "FR-016"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "요구사항 예시와 동일한 구성"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-080",
+      "title": "Readiness 이력 저장 + 변화 표시",
+      "description": "준비도를 날짜별로 저장하고 변화량을 보여준다.",
+      "doc": "docs/T-080.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E12",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 80,
+      "depends_on": [
+        "T-078",
+        "T-018"
+      ],
+      "requirements": [
+        "FR-016"
+      ],
+      "tags": [
+        "db",
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "주 단위 이력 그래프 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-081",
+      "title": "Quest 조건 타입 + 데이터 모델",
+      "description": "횟수/거리/중량 안정 수행/무음주 연속 조건을 정의한다.",
+      "doc": "docs/T-081.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E13",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 81,
+      "depends_on": [
+        "T-019"
+      ],
+      "requirements": [
+        "FR-017"
+      ],
+      "tags": [
+        "types",
+        "db"
+      ],
+      "acceptance_criteria": [
+        "4종 조건 샘플 생성"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-082",
+      "title": "Quest 자동 진행도 판정 + 테스트",
+      "description": "기록 데이터로 퀘스트 진행도를 계산한다.",
+      "doc": "docs/T-082.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E13",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 82,
+      "depends_on": [
+        "T-081",
+        "T-027",
+        "T-043"
+      ],
+      "requirements": [
+        "FR-017"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "'연속 7일 무음주' 가 음주 기록으로 정확히 리셋"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-083",
+      "title": "Quest 화면 (월간 체크리스트)",
+      "description": "이번 달 퀘스트를 체크리스트로 보여준다.",
+      "doc": "docs/T-083.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E13",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 83,
+      "depends_on": [
+        "T-082"
+      ],
+      "requirements": [
+        "FR-017"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "요구사항 예시 5개 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-084",
+      "title": "Quest 생성/편집 UI",
+      "description": "퀘스트를 직접 만들고 수정한다.",
+      "doc": "docs/T-084.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E13",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 84,
+      "depends_on": [
+        "T-083"
+      ],
+      "requirements": [
+        "FR-017"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "4종 조건 각각 생성 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-085",
+      "title": "Achievement 정의 시드",
+      "description": "FIRST PR / CONSISTENCY / MOUNTAIN WALKER / STRONGER 를 시드로 넣는다.",
+      "doc": "docs/T-085.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E14",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 85,
+      "depends_on": [
+        "T-019"
+      ],
+      "requirements": [
+        "FR-018"
+      ],
+      "tags": [
+        "seed"
+      ],
+      "acceptance_criteria": [
+        "4개 행 존재"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-086",
+      "title": "Achievement 판정 로직 + 테스트",
+      "description": "조건 충족 시 user_achievements 를 생성한다.",
+      "doc": "docs/T-086.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E14",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 86,
+      "depends_on": [
+        "T-085",
+        "T-051",
+        "T-082"
+      ],
+      "requirements": [
+        "FR-018"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "첫 PR 저장 시 FIRST PR 획득"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-087",
+      "title": "Achievement 화면 + 획득 알림",
+      "description": "획득/미획득 업적을 보여주고 획득 시 알림한다.",
+      "doc": "docs/T-087.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E14",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 87,
+      "depends_on": [
+        "T-086"
+      ],
+      "requirements": [
+        "FR-018"
+      ],
+      "tags": [
+        "ui",
+        "ux"
+      ],
+      "acceptance_criteria": [
+        "요구사항 예시 4개 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-088",
+      "title": "프로필 화면",
+      "description": "FR-001 항목을 입력/수정한다.",
+      "doc": "docs/T-088.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E15",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 88,
+      "depends_on": [
+        "T-011",
+        "T-009"
+      ],
+      "requirements": [
+        "FR-001"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "새로고침 후 값 유지"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-089",
+      "title": "운동/점수 설정 화면",
+      "description": "단위, 주당 목표, Overall 가중치를 조정한다.",
+      "doc": "docs/T-089.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E15",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 89,
+      "depends_on": [
+        "T-054",
+        "T-088"
+      ],
+      "requirements": [
+        "FR-007"
+      ],
+      "tags": [
+        "ui"
+      ],
+      "acceptance_criteria": [
+        "가중치 변경 후 Overall 변경"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-090",
+      "title": "AI 연동 방식 결정 (OpenAI vs 사내/개인 LLM)",
+      "description": "어떤 LLM 을 어떤 경로로 쓸지 결정한다.",
+      "doc": "docs/T-090.md",
+      "status": "needs_decision",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 90,
+      "depends_on": [],
+      "requirements": [
+        "TECH",
+        "AI-001"
+      ],
+      "tags": [
+        "ai",
+        "docs"
+      ],
+      "acceptance_criteria": [
+        "공급자·경로·예산이 docs 에 기록"
+      ],
+      "assignee": null,
+      "decision_needed": "LLM 공급자(OpenAI API / Anthropic / 개인 로컬 LLM)와 호출 경로(Supabase Edge Function 프록시 권장), 월 예산 상한, 개인 데이터 전송 범위를 사용자가 결정해야 함.",
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "needs_decision",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-091",
+      "title": "Edge Function LLM 프록시 + ai_analysis_logs 저장",
+      "description": "클라이언트가 키 없이 LLM 을 호출하도록 프록시를 만든다.",
+      "doc": "docs/T-091.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 91,
+      "depends_on": [
+        "T-090",
+        "T-020"
+      ],
+      "requirements": [
+        "AI-001"
+      ],
+      "tags": [
+        "edge-function",
+        "ai"
+      ],
+      "acceptance_criteria": [
+        "인증 없는 호출 401",
+        "응답이 ai_analysis_logs 에 저장"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-092",
+      "title": "자연어 운동 입력 → 구조화 프롬프트/스키마 설계",
+      "description": "문장을 운동 데이터 JSON 으로 바꾸는 프롬프트와 출력 스키마를 만든다.",
+      "doc": "docs/T-092.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 92,
+      "depends_on": [
+        "T-091"
+      ],
+      "requirements": [
+        "FR-020",
+        "AI-001"
+      ],
+      "tags": [
+        "ai"
+      ],
+      "acceptance_criteria": [
+        "예시 문장 → 예시 표와 동일 구조"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-093",
+      "title": "자연어 입력 UI + 변환 결과 확인/수정 후 저장",
+      "description": "문장을 입력하면 draft 로 변환해 확인 후 저장한다.",
+      "doc": "docs/T-093.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 93,
+      "depends_on": [
+        "T-092",
+        "T-033"
+      ],
+      "requirements": [
+        "FR-020"
+      ],
+      "tags": [
+        "ui",
+        "ai"
+      ],
+      "acceptance_criteria": [
+        "변환 실패 시 수동 입력으로 폴백"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-094",
+      "title": "AI 운동 분석 (질문 프리셋 + 컨텍스트 조립)",
+      "description": "이력 요약을 LLM 에 넘겨 성장 질문에 답한다.",
+      "doc": "docs/T-094.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 94,
+      "depends_on": [
+        "T-091",
+        "T-065"
+      ],
+      "requirements": [
+        "AI-002"
+      ],
+      "tags": [
+        "ai"
+      ],
+      "acceptance_criteria": [
+        "'요즘 하체가 강해지고 있어?' 에 데이터 근거 답변"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-095",
+      "title": "AI 목표 분석",
+      "description": "목표 준비도 데이터를 바탕으로 부족한 점을 설명한다.",
+      "doc": "docs/T-095.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 95,
+      "depends_on": [
+        "T-094",
+        "T-078"
+      ],
+      "requirements": [
+        "AI-003"
+      ],
+      "tags": [
+        "ai"
+      ],
+      "acceptance_criteria": [
+        "'대청봉 가도 될까?' 에 항목별 근거 답변"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-096",
+      "title": "자연어 데이터 질의 (조회 도구 설계)",
+      "description": "자연어로 앱 데이터를 조회한다.",
+      "doc": "docs/T-096.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 96,
+      "depends_on": [
+        "T-091"
+      ],
+      "requirements": [
+        "AI-004"
+      ],
+      "tags": [
+        "ai"
+      ],
+      "acceptance_criteria": [
+        "'최근 3개월 가장 성장한 운동 5개' 표 출력"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-097",
+      "title": "자동 운동 추천",
+      "description": "약한 영역과 목표를 바탕으로 다음 세션을 추천한다.",
+      "doc": "docs/T-097.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 97,
+      "depends_on": [
+        "T-094"
+      ],
+      "requirements": [
+        "AI-002"
+      ],
+      "tags": [
+        "ai"
+      ],
+      "acceptance_criteria": [
+        "추천 결과가 템플릿 생성으로 이어짐"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-098",
+      "title": "월간 리포트",
+      "description": "한 달 운동/점수/체중/목표 변화를 요약한다.",
+      "doc": "docs/T-098.md",
+      "status": "on_hold",
+      "priority": "P3",
+      "epic": "E16",
+      "phase": "V1.1",
+      "estimate_minutes": 30,
+      "order": 98,
+      "depends_on": [
+        "T-061",
+        "T-065"
+      ],
+      "requirements": [
+        "FR-008",
+        "SUCCESS"
+      ],
+      "tags": [
+        "ui",
+        "chart"
+      ],
+      "acceptance_criteria": [
+        "지난달 리포트 표시"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "on_hold",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-099",
+      "title": "Playwright 스모크 테스트 (로그인 → 기록 → 이력)",
+      "description": "핵심 흐름을 E2E 로 보호한다.",
+      "doc": "docs/T-099.md",
+      "status": "todo",
+      "priority": "P4",
+      "epic": "E17",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 99,
+      "depends_on": [
+        "T-033",
+        "T-038"
+      ],
+      "requirements": [
+        "NFR-002"
+      ],
+      "tags": [
+        "qa",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "로컬에서 e2e 통과"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-100",
+      "title": "모바일 실기기 점검 (한 손 입력) 및 보정",
+      "description": "실제 폰에서 기록 흐름을 점검하고 터치 문제를 고친다.",
+      "doc": "docs/T-100.md",
+      "status": "todo",
+      "priority": "P4",
+      "epic": "E17",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 100,
+      "depends_on": [
+        "T-030"
+      ],
+      "requirements": [
+        "NFR-004"
+      ],
+      "tags": [
+        "qa",
+        "mobile"
+      ],
+      "acceptance_criteria": [
+        "한 손으로 PT 세션 기록 완료 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-101",
+      "title": "공통 오류 처리 / 오프라인 안내",
+      "description": "모든 저장 경로에서 일관된 오류 UX 를 제공한다.",
+      "doc": "docs/T-101.md",
+      "status": "todo",
+      "priority": "P4",
+      "epic": "E17",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 101,
+      "depends_on": [
+        "T-009"
+      ],
+      "requirements": [
+        "NFR-002"
+      ],
+      "tags": [
+        "ux",
+        "qa"
+      ],
+      "acceptance_criteria": [
+        "오류 발생 시 사용자 문구와 콘솔 로그 모두 존재"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-102",
+      "title": "4주 실사용 체크리스트 + 성공 기준 지표 정리",
+      "description": "14장 성공 기준을 측정 가능한 체크리스트로 만든다.",
+      "doc": "docs/T-102.md",
+      "status": "todo",
+      "priority": "P4",
+      "epic": "E17",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 102,
+      "depends_on": [
+        "T-070"
+      ],
+      "requirements": [
+        "SUCCESS"
+      ],
+      "tags": [
+        "docs",
+        "qa"
+      ],
+      "acceptance_criteria": [
+        "6개 기준 모두 측정 방법 정의"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T00:00:00+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-08T00:00:00+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "backlog 생성"
+        }
+      ],
+      "notes": []
+    }
+  ]
+}
