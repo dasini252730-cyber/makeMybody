@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:17:09+09:00",
+  "updated_at": "2026-10-08T19:17:21+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -267,7 +267,7 @@
       "title": "Vue Router + Pinia 설치 및 6개 섹션 라우트 골격",
       "description": "HOME/WORKOUT/BODY/GROWTH/GOALS/SETTINGS 라우트와 빈 뷰를 만든다.",
       "doc": "docs/T-002.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -291,8 +291,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T18:58:20+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-08T19:17:21+09:00",
+      "started_at": "2026-10-08T19:17:21+09:00",
       "completed_at": null,
       "history": [
         {
@@ -300,12 +300,22 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-08T19:17:21+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작"
         }
       ],
       "notes": [
         {
           "at": "2026-10-08T18:58:20+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-08T19:17:21+09:00",
+          "text": "시작"
         }
       ]
     },
