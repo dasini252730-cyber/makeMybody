@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:21:11+09:00",
+  "updated_at": "2026-10-08T19:27:44+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -291,7 +291,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:17:21+09:00",
+      "updated_at": "2026-10-08T19:27:44+09:00",
       "started_at": "2026-10-08T19:17:21+09:00",
       "completed_at": null,
       "history": [
@@ -316,6 +316,10 @@
         {
           "at": "2026-10-08T19:17:21+09:00",
           "text": "시작"
+        },
+        {
+          "at": "2026-10-08T19:27:44+09:00",
+          "text": "reviewer: REWORK 치명1/중요1/사소2"
         }
       ]
     },
