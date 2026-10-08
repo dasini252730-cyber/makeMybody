@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:03:47+09:00",
+  "updated_at": "2026-10-08T19:06:20+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -631,7 +631,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-08T19:06:20+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -642,7 +642,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-08T19:06:20+09:00",
+          "text": "briefer: 쉬운 설명/관련 파일 작성"
+        }
+      ]
     },
     {
       "id": "T-010",
