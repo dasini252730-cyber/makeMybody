@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:35:00+09:00",
+  "updated_at": "2026-10-08T19:35:30+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -537,7 +537,7 @@
       "title": "Supabase 프로젝트 생성 및 클라이언트 모듈",
       "description": "Supabase 프로젝트를 만들고 env와 supabase-js 클라이언트를 연결한다.",
       "doc": "docs/T-005.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -562,8 +562,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:00:14+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-08T19:35:30+09:00",
+      "started_at": "2026-10-08T19:35:30+09:00",
       "completed_at": null,
       "history": [
         {
@@ -571,12 +571,22 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-08T19:35:30+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "코드 부분(클라이언트 모듈) 먼저. 프로젝트 생성/키는 사용자 결정 필요"
         }
       ],
       "notes": [
         {
           "at": "2026-10-08T19:00:14+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-08T19:35:30+09:00",
+          "text": "코드 부분(클라이언트 모듈) 먼저. 프로젝트 생성/키는 사용자 결정 필요"
         }
       ]
     },
@@ -4704,7 +4714,7 @@
       "title": "done 게이트(hook)에 npm run test 추가",
       "description": "backlog-sync.mjs 와 stop-check.mjs 의 lint→build 게이트에 test 를 넣어 계산 유틸 테스트가 깨진 채 done 되지 않게 한다.",
       "doc": "docs/T-103.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0",
       "epic": "E17",
       "phase": "V1",
@@ -4727,8 +4737,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T19:34:33+09:00",
-      "updated_at": "2026-10-08T19:34:33+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-08T19:35:30+09:00",
+      "started_at": "2026-10-08T19:35:30+09:00",
       "completed_at": null,
       "history": [
         {
@@ -4736,9 +4746,20 @@
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-08T19:35:30+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작 (T-005 와 병렬)"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-08T19:35:30+09:00",
+          "text": "시작 (T-005 와 병렬)"
+        }
+      ]
     }
   ]
 }
