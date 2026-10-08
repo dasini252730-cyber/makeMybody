@@ -1,6 +1,8 @@
 // PostToolUse(Bash|PowerShell): backlog.json/docs 변경을 자동 commit 한다.
 // 상태가 done 으로 바뀐 이벤트가 있으면 lint/build 검증 후 작업 내역 전체를 정리해 commit + push 한다.
-import { readInput, emit, git, isGitRepo, currentBranch, runScript, backlogCli } from './lib.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import { readInput, emit, git, isGitRepo, currentBranch, runScript, backlogCli, ROOT } from './lib.mjs';
 import { readEvents } from '../../tools/lib/backlog-store.mjs';
 
 const TRAILER = '\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>';
@@ -30,6 +32,15 @@ function commitBacklogOnly(events) {
 
 function revertToReview(doneEvents, why) {
   for (const e of doneEvents) backlogCli(['set', e.id, '--status', 'review', '--force', '--note', `자동 되돌림: ${why}`]);
+}
+
+// docs/<id>.md 의 "## 완료 조건" 섹션에 체크되지 않은 항목이 남아 있으면 그 목록을 돌려준다.
+function uncheckedCriteria(id) {
+  try {
+    const md = fs.readFileSync(path.join(ROOT, 'docs', `${id}.md`), 'utf8');
+    const section = md.split(/^## 완료 조건\s*$/m)[1]?.split(/^## /m)[0] ?? '';
+    return section.split('\n').filter((l) => /^\s*- \[ \]/.test(l)).map((l) => l.trim());
+  } catch { return []; }
 }
 
 function commitAndPush(doneEvents, allEvents) {
@@ -62,6 +73,17 @@ function main() {
   const messages = [];
 
   if (doneEvents.length) {
+    const unchecked = doneEvents.flatMap((e) => uncheckedCriteria(e.id).map((c) => `${e.id}: ${c}`));
+    if (unchecked.length) {
+      revertToReview(doneEvents, '완료 조건 미체크');
+      commitBacklogOnly(events);
+      emit({
+        decision: 'block',
+        reason: `done 처리 거부 — docs/<id>.md 의 완료 조건에 체크되지 않은 항목이 있습니다. 실제로 충족했으면 [x] 로 바꾸고, 아니면 작업을 마친 뒤 다시 done 으로 바꾸세요.\n${unchecked.join('\n')}`,
+        systemMessage: `⛔ 완료 조건 미체크로 done 취소 (${doneEvents.map((e) => e.id).join(', ')})`,
+      });
+      return;
+    }
     const lint = runScript('lint');
     const build = lint.ok ? runScript('build') : { skipped: true, ok: true, out: '' };
     if (!lint.ok || !build.ok) {
