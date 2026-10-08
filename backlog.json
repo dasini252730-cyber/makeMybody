@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:45:42+09:00",
+  "updated_at": "2026-10-08T19:46:11+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -4742,7 +4742,7 @@
       "title": "done 게이트(hook)에 npm run test 추가",
       "description": "backlog-sync.mjs 와 stop-check.mjs 의 lint→build 게이트에 test 를 넣어 계산 유틸 테스트가 깨진 채 done 되지 않게 한다.",
       "doc": "docs/T-103.md",
-      "status": "in_progress",
+      "status": "done",
       "priority": "P0",
       "epic": "E17",
       "phase": "V1",
@@ -4765,9 +4765,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T19:34:33+09:00",
-      "updated_at": "2026-10-08T19:44:18+09:00",
+      "updated_at": "2026-10-08T19:46:11+09:00",
       "started_at": "2026-10-08T19:35:30+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-08T19:46:11+09:00",
       "history": [
         {
           "at": "2026-10-08T19:34:33+09:00",
@@ -4780,6 +4780,18 @@
           "from": "todo",
           "to": "in_progress",
           "note": "시작 (T-005 와 병렬)"
+        },
+        {
+          "at": "2026-10-08T19:46:11+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "reviewer REVIEW_OK, 중요 3건 반영: fingerprint에 vitest.config.ts, hook timeout 900s + 단계 240s, 단계별 streak. 사소: 문구/early-return/스크립트 화이트리스트"
+        },
+        {
+          "at": "2026-10-08T19:46:11+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "실패 테스트로 두 게이트 차단 실측, 정상 경로 lint+test+build 통과"
         }
       ],
       "notes": [
@@ -4790,6 +4802,14 @@
         {
           "at": "2026-10-08T19:44:18+09:00",
           "text": "reviewer: REVIEW_OK 치명0/중요3/사소3"
+        },
+        {
+          "at": "2026-10-08T19:46:11+09:00",
+          "text": "reviewer REVIEW_OK, 중요 3건 반영: fingerprint에 vitest.config.ts, hook timeout 900s + 단계 240s, 단계별 streak. 사소: 문구/early-return/스크립트 화이트리스트"
+        },
+        {
+          "at": "2026-10-08T19:46:11+09:00",
+          "text": "실패 테스트로 두 게이트 차단 실측, 정상 경로 lint+test+build 통과"
         }
       ]
     }

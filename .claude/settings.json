@@ -62,8 +62,8 @@
           {
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/backlog-sync.mjs\"",
-            "timeout": 600,
-            "statusMessage": "backlog 변경 커밋 / done 처리"
+            "timeout": 900,
+            "statusMessage": "backlog 변경 커밋 / done 게이트(lint·test·build)"
           }
         ]
       }
@@ -74,8 +74,8 @@
           {
             "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop-check.mjs\"",
-            "timeout": 600,
-            "statusMessage": "lint + build 검증"
+            "timeout": 900,
+            "statusMessage": "lint + test + build 검증"
           }
         ]
       }

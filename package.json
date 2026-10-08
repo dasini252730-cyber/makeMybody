@@ -18,6 +18,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.117.3",
     "pinia": "^4.0.3",
     "vue": "^3.5.42",
     "vue-router": "^5.4.0"

@@ -12,7 +12,7 @@
 
 ## 작업 사이클 (상세: .claude/rules/backlog-workflow.md)
 
-`next` → **backlog-briefer**(haiku) 브리핑 → `set <id> --status in_progress` → 구현(Write/Edit 도구로만) → **adversarial-reviewer**(opus) 검토 → REVIEW_OK 면 `set --status review` → 완료 조건 전부 체크 → `set --status done` → hook 이 lint/build → commit → push.
+`next` → **backlog-briefer**(haiku) 브리핑 → `set <id> --status in_progress` → 구현(Write/Edit 도구로만) → **adversarial-reviewer**(opus) 검토 → REVIEW_OK 면 `set --status review` → 완료 조건 전부 체크 → `set --status done` → hook 이 lint/test/build → commit → push.
 
 ## 절대 규칙
 

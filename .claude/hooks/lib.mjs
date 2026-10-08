@@ -50,16 +50,20 @@ export function pkgScripts() {
   }
 }
 
+// hook 이 실행할 수 있는 npm 스크립트 화이트리스트. 셸 문자열에 보간되므로 여기 없는 이름은 거부한다.
+const ALLOWED_SCRIPTS = new Set(['lint', 'test', 'build'])
+
 // npm 스크립트 실행. 스크립트가 없으면 {skipped:true}.
 export function runScript(name, timeoutMs = 180_000) {
+  if (!ALLOWED_SCRIPTS.has(name)) throw new Error(`허용되지 않은 스크립트: ${name}`)
   const scripts = pkgScripts()
   if (!scripts[name]) return { skipped: true, ok: true, out: '' }
-  const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-  const r = spawnSync(npm, ['run', name, '--silent'], {
+  // 셸에 단일 문자열로 넘긴다 (Windows 의 npm.cmd 실행 + DEP0190 회피).
+  const r = spawnSync(`npm run ${name} --silent`, {
     cwd: ROOT,
     encoding: 'utf8',
     timeout: timeoutMs,
-    shell: process.platform === 'win32',
+    shell: true,
   })
   const out = `${r.stdout ?? ''}\n${r.stderr ?? ''}`.trim()
   return { skipped: false, ok: r.status === 0, out: out.slice(-4000) }
@@ -88,6 +92,7 @@ export function sourceFingerprint() {
     'supabase',
     'package.json',
     'vite.config.ts',
+    'vitest.config.ts',
     'tsconfig.json',
     'tsconfig.app.json',
     'tsconfig.node.json',
@@ -106,6 +111,8 @@ export function sourceFingerprint() {
     'tools',
     '.claude/hooks',
     'eslint.config.js',
+    'vite.config.ts',
+    'vitest.config.ts',
   ]).out
   let h = 0
   for (const ch of status + head + diff) h = (h * 31 + ch.charCodeAt(0)) | 0

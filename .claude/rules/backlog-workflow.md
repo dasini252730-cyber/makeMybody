@@ -22,7 +22,7 @@ backlog.json 이 유일한 작업 원장이다. 모든 작업은 여기 등록�
 | todo           | 착수 전        | 선행 작업이 done/cancelled 여야 착수 가능 (`next` 가 걸러줌)                     |
 | in_progress    | 작업 중        | **동시에 최대 2개**. 올리기 전에 backlog-briefer 호출                            |
 | review         | 구현 완료      | adversarial-reviewer 판정 REVIEW_OK 일 때만. 치명 항목이 있으면 in_progress 유지 |
-| done           | 완료           | 완료 조건 전부 체크, lint/build 통과. hook 이 commit + push                      |
+| done           | 완료           | 완료 조건 전부 체크, lint/test/build 통과. hook 이 commit + push                 |
 | needs_decision | 사람 판단 대기 | `--decision "질문"` 필수. 질문은 선택지 + 추천안 형태                            |
 | on_hold        | 보류           | 범위 밖(V1.1)/외부 대기. `--note` 로 사유                                        |
 | cancelled      | 취소           | `--note` 로 사유 필수                                                            |
@@ -35,8 +35,8 @@ backlog.json 이 유일한 작업 원장이다. 모든 작업은 여기 등록�
 4. 문서의 작업 단계대로 구현. 소스 파일은 Write/Edit 도구로만 만든다 (hook 이 예산·lint 검사).
 5. 파일을 만들거나 바꾼 뒤 `adversarial-reviewer` 호출. REWORK 면 치명·중요 항목을 고치고 다시 호출.
 6. REVIEW_OK → `set <id> --status review --note "reviewer OK"`.
-7. 완료 조건을 docs/<id>.md 에서 모두 `[x]` 로 바꾸고 `set <id> --status done`. hook 이 lint/build → commit → push.
-8. hook 이 done 을 거부하면(lint/build 실패) 상태가 review 로 자동 복귀한다. 고친 뒤 7 을 반복.
+7. 완료 조건을 docs/<id>.md 에서 모두 `[x]` 로 바꾸고 `set <id> --status done`. hook 이 lint/test/build → commit → push.
+8. hook 이 done 을 거부하면(lint/test/build 실패) 상태가 review 로 자동 복귀한다. 고친 뒤 7 을 반복.
 
 ## 작업 분할
 

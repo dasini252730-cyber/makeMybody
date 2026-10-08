@@ -1,5 +1,5 @@
 // PostToolUse(Bash|PowerShell): backlog.json/docs 변경을 자동 commit 한다.
-// 상태가 done 으로 바뀐 이벤트가 있으면 lint/build 검증 후 작업 내역 전체를 정리해 commit + push 한다.
+// 상태가 done 으로 바뀐 이벤트가 있으면 lint → test → build 검증 후 작업 내역 전체를 정리해 commit + push 한다.
 import fs from 'node:fs'
 import path from 'node:path'
 import {
@@ -113,17 +113,24 @@ function main() {
       })
       return
     }
-    const lint = runScript('lint')
-    const build = lint.ok ? runScript('build') : { skipped: true, ok: true, out: '' }
-    if (!lint.ok || !build.ok) {
-      const which = !lint.ok ? 'lint' : 'build'
+    // lint → test → build 를 순서대로 돌리고, 하나라도 실패하면 done 을 거부한다.
+    let failed = null
+    for (const name of ['lint', 'test', 'build']) {
+      const r = runScript(name, 240_000) // 3단계 합이 hook timeout(900s) 안에 들어오도록
+      if (!r.ok) {
+        failed = { name, out: r.out }
+        break
+      }
+    }
+    if (failed) {
+      const which = failed.name
       revertToReview(doneEvents, `${which} 실패`)
       commitBacklogOnly(events)
       emit({
         decision: 'block',
         reason:
           `done 처리 거부 — ${which} 실패. ${doneEvents.map((e) => e.id).join(', ')} 를 review 로 되돌렸습니다. ` +
-          `문제를 고친 뒤 다시 done 으로 바꾸세요.\n${!lint.ok ? lint.out : build.out}`,
+          `문제를 고친 뒤 다시 done 으로 바꾸세요.\n${failed.out}`,
         systemMessage: `⛔ ${which} 실패로 done 취소 (${doneEvents.map((e) => e.id).join(', ')})`,
       })
       return
