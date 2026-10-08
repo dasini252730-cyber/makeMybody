@@ -1,0 +1,9 @@
+dist
+node_modules
+coverage
+package-lock.json
+backlog.json
+docs
+src/types/supabase.ts
+요구사항.md
+.claude/state

@@ -1,26 +1,82 @@
 {
-  "$comment": "파일 종류별 최대 줄 수. 85% 이상이면 경고, 100% 초과면 다시 작업. 먼저 매칭되는 규칙이 적용된다.",
+  "$comment": "파일 종류별 최대 줄 수. 85% 이상이면 경고, 100% 초과면 다시 작업. 먼저 매칭되는 규칙이 적용된다. (printWidth 100 prettier 기준으로 tools 500 / hooks 250 으로 조정, 2026-10-08)",
   "warn_ratio": 0.85,
   "default_max_lines": 300,
   "rules": [
-    { "glob": "src/components/**/*.vue", "max_lines": 180, "why": "컴포넌트는 한 화면 단위 책임만" },
-    { "glob": "src/views/**/*.vue", "max_lines": 250, "why": "화면은 컴포넌트 조립 위주" },
-    { "glob": "src/**/*.vue", "max_lines": 250 },
-    { "glob": "src/composables/**/*.ts", "max_lines": 150, "why": "composable은 단일 관심사" },
-    { "glob": "src/stores/**/*.ts", "max_lines": 200 },
-    { "glob": "src/lib/**/*.ts", "max_lines": 200, "why": "계산 유틸은 작게 쪼개고 테스트" },
-    { "glob": "src/**/*.test.ts", "max_lines": 300 },
-    { "glob": "src/**/*.ts", "max_lines": 250 },
-    { "glob": "supabase/functions/**/*.ts", "max_lines": 200 },
-    { "glob": "supabase/migrations/*.sql", "max_lines": 400 },
-    { "glob": "supabase/seed*.sql", "max_lines": 600 },
-    { "glob": "e2e/**/*.ts", "max_lines": 200 },
-    { "glob": "tools/**/*.mjs", "max_lines": 400 },
-    { "glob": ".claude/hooks/*.mjs", "max_lines": 200 },
-    { "glob": "**/*.css", "max_lines": 400 }
+    {
+      "glob": "src/components/**/*.vue",
+      "max_lines": 180,
+      "why": "컴포넌트는 한 화면 단위 책임만"
+    },
+    {
+      "glob": "src/views/**/*.vue",
+      "max_lines": 250,
+      "why": "화면은 컴포넌트 조립 위주"
+    },
+    {
+      "glob": "src/**/*.vue",
+      "max_lines": 250
+    },
+    {
+      "glob": "src/composables/**/*.ts",
+      "max_lines": 150,
+      "why": "composable은 단일 관심사"
+    },
+    {
+      "glob": "src/stores/**/*.ts",
+      "max_lines": 200
+    },
+    {
+      "glob": "src/lib/**/*.ts",
+      "max_lines": 200,
+      "why": "계산 유틸은 작게 쪼개고 테스트"
+    },
+    {
+      "glob": "src/**/*.test.ts",
+      "max_lines": 300
+    },
+    {
+      "glob": "src/**/*.ts",
+      "max_lines": 250
+    },
+    {
+      "glob": "supabase/functions/**/*.ts",
+      "max_lines": 200
+    },
+    {
+      "glob": "supabase/migrations/*.sql",
+      "max_lines": 400
+    },
+    {
+      "glob": "supabase/seed*.sql",
+      "max_lines": 600
+    },
+    {
+      "glob": "e2e/**/*.ts",
+      "max_lines": 200
+    },
+    {
+      "glob": "tools/**/*.mjs",
+      "max_lines": 500
+    },
+    {
+      "glob": ".claude/hooks/*.mjs",
+      "max_lines": 250
+    },
+    {
+      "glob": "**/*.css",
+      "max_lines": 400
+    }
   ],
   "exclude": [
-    "**/*.json", "**/*.md", "**/*.lock", "**/package-lock.json", "**/dist/**", "**/node_modules/**",
-    "**/*.d.ts", "src/types/supabase.ts", "**/*.svg"
+    "**/*.json",
+    "**/*.md",
+    "**/*.lock",
+    "**/package-lock.json",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/*.d.ts",
+    "src/types/supabase.ts",
+    "**/*.svg"
   ]
 }
