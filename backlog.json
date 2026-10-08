@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:00:52+09:00",
+  "updated_at": "2026-10-08T19:02:39+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -210,7 +210,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T18:57:29+09:00",
+      "updated_at": "2026-10-08T19:02:39+09:00",
       "started_at": "2026-10-08T18:57:29+09:00",
       "completed_at": null,
       "history": [
@@ -235,6 +235,10 @@
         {
           "at": "2026-10-08T18:57:29+09:00",
           "text": "Vite 8 vue-ts 템플릿을 스크래치패드에서 생성해 복사"
+        },
+        {
+          "at": "2026-10-08T19:02:39+09:00",
+          "text": "reviewer: REVIEW_OK 치명0/중요2/사소3"
         }
       ]
     },
