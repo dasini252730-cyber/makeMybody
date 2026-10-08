@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T19:46:11+09:00",
+  "updated_at": "2026-10-08T19:46:58+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -537,7 +537,7 @@
       "title": "Supabase 프로젝트 생성 및 클라이언트 모듈",
       "description": "Supabase 프로젝트를 만들고 env와 supabase-js 클라이언트를 연결한다.",
       "doc": "docs/T-005.md",
-      "status": "in_progress",
+      "status": "needs_decision",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -559,10 +559,10 @@
         "클라이언트 import 후 세션 조회 성공"
       ],
       "assignee": null,
-      "decision_needed": null,
+      "decision_needed": "Supabase 프로젝트가 필요합니다. (a) 사용자가 대시보드에서 프로젝트 생성(리전 ap-northeast-2 권장) 후 Project Settings → API 의 URL 과 publishable key 를 .env 에 넣어 주거나, (b) Supabase access token 을 주면 CLI 로 제가 생성합니다. 키가 들어오면 getSession() 1회 확인 후 done 처리.",
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:45:42+09:00",
+      "updated_at": "2026-10-08T19:46:58+09:00",
       "started_at": "2026-10-08T19:35:30+09:00",
       "completed_at": null,
       "history": [
@@ -577,6 +577,12 @@
           "from": "todo",
           "to": "in_progress",
           "note": "코드 부분(클라이언트 모듈) 먼저. 프로젝트 생성/키는 사용자 결정 필요"
+        },
+        {
+          "at": "2026-10-08T19:46:58+09:00",
+          "from": "in_progress",
+          "to": "needs_decision",
+          "note": "코드/테스트 완료(재리뷰 REVIEW_OK). 완료 조건 2(세션 조회)는 실제 프로젝트 필요"
         }
       ],
       "notes": [
@@ -595,6 +601,10 @@
         {
           "at": "2026-10-08T19:45:42+09:00",
           "text": "reviewer(재): REVIEW_OK 치명0/중요1/사소3"
+        },
+        {
+          "at": "2026-10-08T19:46:58+09:00",
+          "text": "코드/테스트 완료(재리뷰 REVIEW_OK). 완료 조건 2(세션 조회)는 실제 프로젝트 필요"
         }
       ]
     },
