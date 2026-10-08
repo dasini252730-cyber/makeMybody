@@ -4,7 +4,7 @@
 
 <template>
   <section>
-    <h1>BODY</h1>
+    <h2>BODY</h2>
     <p>체중 · 체성분 · 수면 · 음주</p>
   </section>
 </template>

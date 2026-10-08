@@ -4,7 +4,7 @@
 
 <template>
   <section>
-    <h1>HOME</h1>
+    <h2>HOME</h2>
     <p>오늘의 운동 · Fitness Level · 오늘의 성장 · 현재 목표</p>
   </section>
 </template>

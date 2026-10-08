@@ -18,7 +18,8 @@ const ANON_KEY = 'VITE_SUPABASE_ANON_KEY'
 /** 환경변수를 읽고 누락/오류를 사람이 읽을 수 있는 메시지로 알린다. 순수 함수라 테스트가 쉽다. */
 export function readSupabaseEnv(env: EnvLike = import.meta.env): SupabaseEnv {
   const rawUrl = asString(env[URL_KEY])
-  const key = asString(env[PUBLISHABLE_KEY]) || asString(env[ANON_KEY])
+  const keyVar = asString(env[PUBLISHABLE_KEY]) ? PUBLISHABLE_KEY : ANON_KEY
+  const key = asString(env[keyVar])
   const missing = [!rawUrl && URL_KEY, !key && `${PUBLISHABLE_KEY} (또는 ${ANON_KEY})`].filter(
     Boolean,
   )
@@ -32,7 +33,7 @@ export function readSupabaseEnv(env: EnvLike = import.meta.env): SupabaseEnv {
   const role = secretRole(key)
   if (role) {
     throw new Error(
-      `${PUBLISHABLE_KEY} 에 ${role} 키가 들어 있습니다. 클라이언트에는 publishable/anon 키만 쓰세요.`,
+      `${keyVar} 에 ${role} 키가 들어 있습니다. 클라이언트에는 publishable/anon 키만 쓰세요.`,
     )
   }
   return { url, key }
@@ -53,8 +54,9 @@ function normalizeUrl(raw: string): string {
 }
 
 /** secret/service_role 키면 그 종류를 돌려주고, 안전한 키면 null. */
-export function secretRole(key: string): string | null {
-  if (key.startsWith('sb_secret_')) return 'secret'
+export function secretRole(rawKey: string): string | null {
+  const key = rawKey.trim()
+  if (key.toLowerCase().startsWith('sb_secret_')) return 'secret'
   const role = jwtRole(key)
   return role && role !== 'anon' ? role : null
 }

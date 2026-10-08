@@ -4,7 +4,7 @@
 
 <template>
   <section>
-    <h1>GROWTH</h1>
+    <h2>GROWTH</h2>
     <p>Fitness Score · 성장 그래프 · 운동별 성장 · 월간 리포트</p>
   </section>
 </template>

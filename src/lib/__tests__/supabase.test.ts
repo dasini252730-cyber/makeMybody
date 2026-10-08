@@ -75,6 +75,18 @@ describe('secretRole', () => {
     expect(secretRole('sb_secret_abc')).toBe('secret')
   })
 
+  it('앞뒤 공백과 대소문자를 무시하고 secret 접두사를 잡는다', () => {
+    expect(secretRole('  SB_SECRET_abc ')).toBe('secret')
+  })
+
+  it('anon 변수로 넣은 service_role 키는 그 변수명으로 안내한다', () => {
+    const env = {
+      VITE_SUPABASE_URL: good.VITE_SUPABASE_URL,
+      VITE_SUPABASE_ANON_KEY: fakeJwt('service_role'),
+    }
+    expect(() => readSupabaseEnv(env)).toThrow(/VITE_SUPABASE_ANON_KEY 에 service_role/)
+  })
+
   it('JWT 가 아니거나 payload 가 깨져도 예외 없이 null', () => {
     expect(secretRole('not.a.jwt!!')).toBeNull()
     expect(secretRole('a.b')).toBeNull()

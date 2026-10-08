@@ -4,7 +4,7 @@
 
 <template>
   <section>
-    <h1>GOALS</h1>
+    <h2>GOALS</h2>
     <p>목표 목록 · Goal Readiness · Quest · Achievement</p>
   </section>
 </template>
