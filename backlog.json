@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-11T22:32:49+09:00",
+  "updated_at": "2026-10-11T22:33:32+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -3691,7 +3691,8 @@
       "estimate_minutes": 30,
       "order": 70,
       "depends_on": [
-        "T-037"
+        "T-037",
+        "T-105"
       ],
       "requirements": [
         "FR-011",
@@ -3708,7 +3709,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:47+09:00",
+      "updated_at": "2026-10-11T22:33:32+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -5220,6 +5221,313 @@
           "text": "실패 테스트로 두 게이트 차단 실측, 정상 경로 lint+test+build 통과"
         }
       ]
+    },
+    {
+      "id": "T-104",
+      "title": "activity_records 테이블 + RLS",
+      "description": "걷기·등산: id, session_id, activity_type, distance_meters, duration_minutes, elevation_gain_meters, route_name, pack_weight_kg, conditions_note, pain_recovery_note(모두 nullable). RLS(session 조인) + anon/타 사용자 차단 테스트.",
+      "doc": "docs/T-104.md",
+      "status": "todo",
+      "priority": "P0.5",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 104,
+      "depends_on": [
+        "T-013"
+      ],
+      "requirements": [
+        "FR-012",
+        "NFR-004"
+      ],
+      "tags": [
+        "db",
+        "rls",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "타 사용자·anon 조회 불가",
+        "세션 soft delete 시 활동도 목록에서 제외"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-11T22:33:30+09:00",
+      "updated_at": "2026-10-11T22:33:30+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-11T22:33:30+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-105",
+      "title": "빠른 메모 저장: 홈 입력 → raw_note 세션 즉시 생성",
+      "description": "홈 최상단 입력: 날짜(기본 오늘), 세션 유형, 자유 텍스트. 저장 즉시 workout_sessions 생성(structured_status=none, source_type=manual, 클라이언트 UUID upsert). 홈 진입 후 두 번 탭 안에 저장 완료. 실패 시 원문을 localStorage 에 보관하고 재시도.",
+      "doc": "docs/T-105.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 105,
+      "depends_on": [
+        "T-027",
+        "T-009"
+      ],
+      "requirements": [
+        "FR-001",
+        "FR-004",
+        "NFR-001",
+        "NFR-003"
+      ],
+      "tags": [
+        "ui",
+        "mobile",
+        "home"
+      ],
+      "acceptance_criteria": [
+        "홈에서 두 번 탭으로 원문 메모만 있는 세션 저장",
+        "같은 id 로 두 번 저장해도 세션 하나",
+        "네트워크 차단 시 원문이 사라지지 않고 재시도 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-11T22:33:30+09:00",
+      "updated_at": "2026-10-11T22:33:30+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-11T22:33:30+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-106",
+      "title": "운동별 이력 조회 화면 (날짜순, 세트 종류 구분, weight_basis 표시)",
+      "description": "운동을 골라 날짜순 기록: 날짜, 세트별 중량·반복, set_kind, 보조·변형 메모, RPE, 메모, 통증, 기록 출처(source_type). 중량은 항상 weight_basis 라벨과 함께. PC 2열.",
+      "doc": "docs/T-106.md",
+      "status": "todo",
+      "priority": "P0",
+      "epic": "E05",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 106,
+      "depends_on": [
+        "T-027",
+        "T-024"
+      ],
+      "requirements": [
+        "FR-007",
+        "FR-019"
+      ],
+      "tags": [
+        "ui",
+        "history"
+      ],
+      "acceptance_criteria": [
+        "운동 선택 후 날짜순 원시 기록 표시",
+        "warmup/failed_attempt 세트가 시각적으로 구분됨"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-11T22:33:31+09:00",
+      "updated_at": "2026-10-11T22:33:31+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-11T22:33:31+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-107",
+      "title": "걷기·등산 활동 기록 입력 + 활동 상세",
+      "description": "activity_records 입력: 거리, 시간, 누적 상승고도, 코스, 배낭 무게, 지형·날씨, 통증·피로·하산 후 상태. 활동 상세: 이전 활동 비교. GPS 없음.",
+      "doc": "docs/T-107.md",
+      "status": "todo",
+      "priority": "P0.5",
+      "epic": "E04",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 107,
+      "depends_on": [
+        "T-104",
+        "T-028"
+      ],
+      "requirements": [
+        "FR-012"
+      ],
+      "tags": [
+        "ui",
+        "activity"
+      ],
+      "acceptance_criteria": [
+        "하이킹 세션에 활동 기록 저장·조회",
+        "미입력 값은 NULL 로 저장"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-11T22:33:31+09:00",
+      "updated_at": "2026-10-11T22:33:31+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-11T22:33:31+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-108",
+      "title": "기록 지표 + 세트 볼륨 계산 유틸 + 테스트",
+      "description": "7.1: 중량·반복 모두 있는 working 웨이트 세트만 중량×반복, dumbbell_each 는 편측 값 그대로, 누락 세트 있으면 일부 세트 제외 플래그. FR-008: 세션 수·빈도, 총 운동 시간, 운동별 최고 중량, 같은 중량 최고 반복, 이전 대비 변화, 비교 제한 표시.",
+      "doc": "docs/T-108.md",
+      "status": "todo",
+      "priority": "P0.5",
+      "epic": "E09",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 108,
+      "depends_on": [
+        "T-027"
+      ],
+      "requirements": [
+        "FR-008"
+      ],
+      "tags": [
+        "calc",
+        "test"
+      ],
+      "acceptance_criteria": [
+        "warmup/failed 세트가 볼륨에 포함되지 않음",
+        "세트 일부 누락 시 partial 플래그 반환"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-11T22:33:31+09:00",
+      "updated_at": "2026-10-11T22:33:31+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-11T22:33:31+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-109",
+      "title": "산행 준비 체크리스트",
+      "description": "목표(하이킹 유형)에 거리·고도·예상 시간, 난이도, 최근 유사 활동, 장시간 걷기 경험, 하산 시 무릎 반응, 장비·날씨·비상 계획 항목을 goal_check_items 로 생성·체크. 판정 문구 없음(준비 정보 정리 도구).",
+      "doc": "docs/T-109.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E11",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 109,
+      "depends_on": [
+        "T-074",
+        "T-107"
+      ],
+      "requirements": [
+        "FR-016"
+      ],
+      "tags": [
+        "ui",
+        "goal"
+      ],
+      "acceptance_criteria": [
+        "하이킹 목표 생성 시 기본 체크 항목이 만들어짐",
+        "안전하게 갈 수 있다 류의 판정 문구 없음"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-11T22:33:31+09:00",
+      "updated_at": "2026-10-11T22:33:31+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-11T22:33:31+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-110",
+      "title": "CSV/JSON 데이터 내보내기",
+      "description": "세션·세트·활동·신체 기록을 CSV 또는 JSON 으로 내보내기(설정 메뉴). 삭제분(deleted_at) 포함 여부 선택.",
+      "doc": "docs/T-110.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E15",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 110,
+      "depends_on": [
+        "T-022",
+        "T-088"
+      ],
+      "requirements": [
+        "FR-018",
+        "NFR-005"
+      ],
+      "tags": [
+        "export",
+        "settings"
+      ],
+      "acceptance_criteria": [
+        "4개 묶음이 각각 파일로 내려받아짐"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-11T22:33:31+09:00",
+      "updated_at": "2026-10-11T22:33:31+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-11T22:33:31+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
     }
   ]
 }
