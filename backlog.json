@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-08T20:55:04+09:00",
+  "updated_at": "2026-10-11T22:32:49+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -678,7 +678,7 @@
     {
       "id": "T-007",
       "title": "이메일 로그인/로그아웃 화면과 라우터 가드",
-      "description": "단일 사용자용 이메일 로그인을 붙이고 비로그인 접근을 막는다.",
+      "description": "Supabase Auth 이메일(매직링크 또는 비밀번호) 로그인 1개 계정. 회원가입 UI 없음(대시보드에서 계정 생성). 로그인/로그아웃 화면 + 라우터 가드. 1단계(스키마)와 동시 적용.",
       "doc": "docs/T-007.md",
       "status": "todo",
       "priority": "P0",
@@ -691,7 +691,7 @@
         "T-002"
       ],
       "requirements": [
-        "NFR-003"
+        "NFR-004"
       ],
       "tags": [
         "auth",
@@ -705,7 +705,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:00:15+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -720,6 +720,10 @@
         {
           "at": "2026-10-08T19:00:15+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 NFR-004 강화 반영"
         }
       ]
     },
@@ -921,7 +925,7 @@
       "title": "profiles 테이블 + RLS",
       "description": "사용자 기본 신체 정보 테이블을 만든다.",
       "doc": "docs/T-011.md",
-      "status": "todo",
+      "status": "cancelled",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -947,7 +951,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:20:32+09:00",
+      "updated_at": "2026-10-11T22:32:40+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -956,19 +960,29 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:40+09:00",
+          "from": "todo",
+          "to": "cancelled",
+          "note": "v1.2 데이터 모델(6장)에 profiles 테이블 없음. 설정은 P1 설정 화면(T-088)에서 처리"
         }
       ],
       "notes": [
         {
           "at": "2026-10-08T19:20:32+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-11T22:32:40+09:00",
+          "text": "v1.2 데이터 모델(6장)에 profiles 테이블 없음. 설정은 P1 설정 화면(T-088)에서 처리"
         }
       ]
     },
     {
       "id": "T-012",
-      "title": "exercise_library 테이블 + RLS",
-      "description": "운동 종류 마스터 테이블(공용 + 사용자 정의)을 만든다.",
+      "title": "exercise_library 테이블 + RLS (weight_basis, parent_exercise_id)",
+      "description": "운동 사전: id, user_id(기본 운동은 NULL), name, aliases text[], category, measurement_type(weight/bodyweight/time/distance/complex), weight_basis(barbell_total/dumbbell_each/added/machine_pin/assisted_minus, weight 타입이면 필수 CHECK), parent_exercise_id(변형의 상위 운동), description, is_archived. RLS.",
       "doc": "docs/T-012.md",
       "status": "todo",
       "priority": "P0",
@@ -980,8 +994,8 @@
         "T-006"
       ],
       "requirements": [
-        "FR-002",
-        "NFR-003"
+        "FR-003",
+        "NFR-004"
       ],
       "tags": [
         "db",
@@ -996,7 +1010,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:21:11+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1011,13 +1025,17 @@
         {
           "at": "2026-10-08T19:21:11+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 6.2 반영"
         }
       ]
     },
     {
       "id": "T-013",
-      "title": "workout_sessions + workout_exercises 테이블 + RLS",
-      "description": "세션과 세션 내 운동 테이블을 만든다.",
+      "title": "workout_sessions + session_items 테이블 + RLS",
+      "description": "workout_sessions: id(클라이언트 UUID PK), user_id, session_date, session_type(PT/strength/mixed/walk/hike/other), started_at, ended_at, duration_minutes, raw_note(원문 메모, 구조화 후에도 유지), structured_status(none/partial/done), condition_note, general_note, source_type(manual/ai_draft/ai_confirmed/import), created_at, updated_at, deleted_at(soft delete). session_items: id, session_id, exercise_id(nullable), display_name_snapshot, sequence_no, variation_note, assistance_note, difficulty_rpe, pain_note, item_note. RLS + user_id/session_date 인덱스.",
       "doc": "docs/T-013.md",
       "status": "todo",
       "priority": "P0",
@@ -1026,13 +1044,15 @@
       "estimate_minutes": 30,
       "order": 13,
       "depends_on": [
-        "T-011",
         "T-012"
       ],
       "requirements": [
+        "FR-001",
         "FR-002",
-        "FR-003",
-        "NFR-003"
+        "FR-005",
+        "FR-020",
+        "NFR-003",
+        "NFR-004"
       ],
       "tags": [
         "db",
@@ -1047,7 +1067,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:39:52+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1062,13 +1082,17 @@
         {
           "at": "2026-10-08T19:39:52+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 6.2 반영: workout_exercises→session_items, raw_note/structured_status/deleted_at 추가, profiles 의존 제거"
         }
       ]
     },
     {
       "id": "T-014",
       "title": "exercise_sets 테이블 + RLS + 인덱스",
-      "description": "세트 단위 기록 테이블을 만든다.",
+      "description": "exercise_sets: id(클라이언트 UUID), session_item_id, set_no, set_kind(working/warmup/drop/failed_attempt), success(bool nullable=unknown), weight_kg numeric, reps, duration_seconds, distance_meters, rounds, side(both/left/right/alternating/unknown), is_assisted, raw_value_note. 미기록은 NULL. RLS(session 조인) + 인덱스.",
       "doc": "docs/T-014.md",
       "status": "todo",
       "priority": "P0",
@@ -1081,7 +1105,8 @@
       ],
       "requirements": [
         "FR-002",
-        "NFR-003"
+        "FR-009",
+        "NFR-004"
       ],
       "tags": [
         "db",
@@ -1096,7 +1121,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:40:21+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1111,16 +1136,20 @@
         {
           "at": "2026-10-08T19:40:21+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 6.2 반영: set_kind/success/side/is_assisted/raw_value_note"
         }
       ]
     },
     {
       "id": "T-015",
-      "title": "workout_templates 테이블 + RLS",
+      "title": "session_templates + template_items 테이블 + RLS",
       "description": "운동 템플릿과 템플릿 구성 운동 테이블을 만든다.",
       "doc": "docs/T-015.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P1",
       "epic": "E02",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -1129,8 +1158,8 @@
         "T-012"
       ],
       "requirements": [
-        "FR-004",
-        "NFR-003"
+        "FR-006",
+        "NFR-004"
       ],
       "tags": [
         "db",
@@ -1144,7 +1173,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:40:48+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1159,28 +1188,31 @@
         {
           "at": "2026-10-08T19:40:48+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2: 템플릿은 P1"
         }
       ]
     },
     {
       "id": "T-016",
-      "title": "weight_logs / sleep_logs / alcohol_logs / body_metrics 테이블 + RLS",
-      "description": "바디 관련 기록 테이블 4개를 만든다.",
+      "title": "body_metrics + recovery_logs 테이블 + RLS",
+      "description": "body_metrics(P0.5): id, user_id, measured_at, weight_kg, body_fat_percent, skeletal_muscle_kg, measurement_method, note. recovery_logs(P1): id, user_id, log_date, sleep_hours, sleep_quality, alcohol_type, alcohol_amount_note, condition_note, pain_note. RLS.",
       "doc": "docs/T-016.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P0.5",
       "epic": "E02",
       "phase": "V1",
       "estimate_minutes": 30,
       "order": 16,
       "depends_on": [
-        "T-011"
+        "T-006"
       ],
       "requirements": [
-        "FR-009",
-        "FR-011",
-        "FR-012",
-        "NFR-003"
+        "FR-013",
+        "FR-014",
+        "NFR-004"
       ],
       "tags": [
         "db",
@@ -1195,7 +1227,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T19:41:18+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1210,6 +1242,10 @@
         {
           "at": "2026-10-08T19:41:18+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 6.2 반영: weight/sleep/alcohol 개별 테이블 → body_metrics + recovery_logs"
         }
       ]
     },
@@ -1218,7 +1254,7 @@
       "title": "fitness_scores / fitness_score_history 테이블 + RLS",
       "description": "영역별 현재 점수와 이력 테이블을 만든다.",
       "doc": "docs/T-017.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1243,9 +1279,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: 7.5 점수 정책 — MVP 에서 종합 점수 미제공",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:40+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1254,28 +1290,34 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:40+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
     },
     {
       "id": "T-018",
-      "title": "goals / goal_requirements / goal_readiness 테이블 + RLS",
-      "description": "목표, 요구조건, 준비도 테이블을 만든다.",
+      "title": "goals + goal_check_items 테이블 + RLS",
+      "description": "goals: id, user_id, title, goal_type, target_date, success_criteria, status, note. goal_check_items: id, goal_id, label, is_completed, evidence_note, checked_at. RLS. goal_readiness 테이블 없음.",
       "doc": "docs/T-018.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P1",
       "epic": "E02",
       "phase": "V1",
       "estimate_minutes": 30,
       "order": 18,
       "depends_on": [
-        "T-011"
+        "T-006"
       ],
       "requirements": [
         "FR-015",
         "FR-016",
-        "NFR-003"
+        "NFR-004"
       ],
       "tags": [
         "db",
@@ -1290,7 +1332,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1301,14 +1343,19 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 반영: readiness 제거"
+        }
+      ]
     },
     {
       "id": "T-019",
       "title": "quests / achievements / user_achievements 테이블 + RLS",
       "description": "퀘스트와 업적 테이블을 만든다.",
       "doc": "docs/T-019.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1332,9 +1379,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Quest/Achievement 는 v1.2 에 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:40+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1343,6 +1390,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:40+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -1352,7 +1405,7 @@
       "title": "exercise_notes / ai_analysis_logs 테이블 + RLS",
       "description": "운동 메모와 AI 분석 로그 테이블을 만든다.",
       "doc": "docs/T-020.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1377,9 +1430,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: 메모·통증은 세션/동작 컬럼으로 이동. AI 로그 테이블은 AI 도입(T-090) 때 재검토",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:40+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1388,6 +1441,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:40+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -1395,7 +1454,7 @@
     {
       "id": "T-021",
       "title": "RLS 검증 테스트 (2번째 사용자 접근 차단)",
-      "description": "모든 테이블에 대해 타 사용자 접근이 막히는지 자동 검증한다.",
+      "description": "P0 테이블(exercise_library, workout_sessions, session_items, exercise_sets)에 대해 (1) 로그인 없이(anon) 어떤 테이블도 읽기/쓰기 불가, (2) 2번째 사용자 접근 차단을 검증하는 테스트. P0.5/P1 테이블은 각 마이그레이션 작업에서 같은 테스트를 확장.",
       "doc": "docs/T-021.md",
       "status": "todo",
       "priority": "P0",
@@ -1404,16 +1463,12 @@
       "estimate_minutes": 30,
       "order": 21,
       "depends_on": [
-        "T-014",
-        "T-015",
-        "T-016",
-        "T-017",
-        "T-018",
-        "T-019",
-        "T-020"
+        "T-012",
+        "T-013",
+        "T-014"
       ],
       "requirements": [
-        "NFR-003"
+        "NFR-004"
       ],
       "tags": [
         "rls",
@@ -1427,7 +1482,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1438,7 +1493,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 수용 기준 1 반영"
+        }
+      ]
     },
     {
       "id": "T-022",
@@ -1484,7 +1544,7 @@
     {
       "id": "T-023",
       "title": "운동 라이브러리 시드 데이터",
-      "description": "요구사항 예시의 운동을 공용 시드로 넣는다.",
+      "description": "기본 운동 시드: name, aliases, category, measurement_type, weight_basis(weight 타입 필수). 변형은 별도 행 + parent_exercise_id.",
       "doc": "docs/T-023.md",
       "status": "todo",
       "priority": "P0",
@@ -1496,7 +1556,6 @@
         "T-012"
       ],
       "requirements": [
-        "FR-002",
         "FR-003"
       ],
       "tags": [
@@ -1511,7 +1570,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1522,7 +1581,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 weight_basis/parent 반영"
+        }
+      ]
     },
     {
       "id": "T-024",
@@ -1610,8 +1674,8 @@
     },
     {
       "id": "T-026",
-      "title": "사용자 정의 운동 추가/수정",
-      "description": "라이브러리에 없는 운동을 사용자가 추가한다.",
+      "title": "사용자 정의 운동 추가/수정 (weight_basis 필수, 변형은 별도 운동)",
+      "description": "표시명, 별칭, 분류(선택), 측정 방식, weight_basis(weight 타입이면 필수 선택), parent_exercise_id(선택), 설명. 비슷한 이름 자동 병합 금지.",
       "doc": "docs/T-026.md",
       "status": "todo",
       "priority": "P0",
@@ -1623,7 +1687,7 @@
         "T-025"
       ],
       "requirements": [
-        "FR-002"
+        "FR-003"
       ],
       "tags": [
         "ui",
@@ -1637,7 +1701,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1648,12 +1712,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 반영"
+        }
+      ]
     },
     {
       "id": "T-027",
-      "title": "useWorkoutSession: 세션 생성/조회/수정/삭제",
-      "description": "세션→운동→세트를 한 번에 저장하는 데이터 계층을 만든다.",
+      "title": "useWorkoutSession: 세션 CRUD (클라이언트 UUID upsert, soft delete, raw_note)",
+      "description": "세션 생성(id 는 클라이언트 crypto.randomUUID, upsert 로 재전송 중복 방지)/조회(deleted_at IS NULL)/수정(updated_at)/삭제(deleted_at). raw_note·structured_status 포함. 저장 결과 성공/실패를 호출자에 명확히 반환.",
       "doc": "docs/T-027.md",
       "status": "todo",
       "priority": "P0",
@@ -1666,9 +1735,9 @@
         "T-022"
       ],
       "requirements": [
-        "FR-002",
-        "FR-003",
-        "NFR-002"
+        "FR-001",
+        "FR-005",
+        "NFR-003"
       ],
       "tags": [
         "composable",
@@ -1682,7 +1751,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1693,12 +1762,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 6.3/NFR-003 반영"
+        }
+      ]
     },
     {
       "id": "T-028",
-      "title": "운동 기록 화면 골격",
-      "description": "날짜, 세션 종류, 총 시간, 난이도를 입력하는 폼 골격을 만든다.",
+      "title": "세션 편집 화면 골격 (원문 메모 상단 고정)",
+      "description": "세션 메타(날짜, 유형, 시각, 소요시간) + 원문 메모 raw_note 를 상단에 고정 표시하고 그 아래에서 동작·세트를 구조화. 저장 전 요약. 모바일 우선, PC 에서는 원문/구조화 2열.",
       "doc": "docs/T-028.md",
       "status": "todo",
       "priority": "P0",
@@ -1711,7 +1785,7 @@
         "T-009"
       ],
       "requirements": [
-        "FR-002"
+        "FR-004"
       ],
       "tags": [
         "ui",
@@ -1725,7 +1799,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1736,12 +1810,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 화면 요구사항 세션 편집 반영"
+        }
+      ]
     },
     {
       "id": "T-029",
       "title": "세션에 운동 추가/삭제/순서 변경 (복합운동)",
-      "description": "한 세션에 여러 운동을 넣는 UI 를 만든다.",
+      "description": "session_items 추가/삭제/순서 변경(sequence_no). exercise_id 없는 미분류 동작도 display_name_snapshot 으로 허용. 동작이 하나라도 생기면 structured_status 를 partial/done 으로 갱신.",
       "doc": "docs/T-029.md",
       "status": "todo",
       "priority": "P0",
@@ -1754,7 +1833,7 @@
         "T-025"
       ],
       "requirements": [
-        "FR-003"
+        "FR-002"
       ],
       "tags": [
         "ui",
@@ -1767,7 +1846,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1778,12 +1857,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 반영"
+        }
+      ]
     },
     {
       "id": "T-030",
-      "title": "세트 입력 UI: 중량×반복, 이전 세트 복사",
-      "description": "한 손으로 세트를 빠르게 입력하는 UI 를 만든다.",
+      "title": "세트 입력 UI: 중량×반복 + set_kind/success 토글, 이전 세트 복사",
+      "description": "세트별 weight_kg(운동의 weight_basis 라벨 함께 표시)·reps·side·is_assisted, set_kind(working/warmup/drop/failed_attempt), success(true/false/unknown), RPE. 미입력은 NULL. 스텝퍼 + 이전 세트 복사, 터치 44px.",
       "doc": "docs/T-030.md",
       "status": "todo",
       "priority": "P0",
@@ -1796,7 +1880,7 @@
       ],
       "requirements": [
         "FR-002",
-        "NFR-004"
+        "NFR-001"
       ],
       "tags": [
         "ui",
@@ -1811,7 +1895,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1822,12 +1906,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 세트 단위 플래그 반영"
+        }
+      ]
     },
     {
       "id": "T-031",
-      "title": "시간/거리 기반 운동 입력 (걷기/등산)",
-      "description": "걷기·등산 운동의 분/km/고도 입력을 지원한다.",
+      "title": "시간/거리/점프·복합 세트 입력",
+      "description": "measurement_type 별 필드: time→duration_seconds, distance→distance_meters+duration(페이스 계산), complex→동작 설명·reps·rounds·중량(해당 시), bodyweight→reps+변형/보조 메모.",
       "doc": "docs/T-031.md",
       "status": "todo",
       "priority": "P0",
@@ -1853,7 +1942,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1864,12 +1953,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 FR-002 표 반영. 걷기·등산은 activity_records 별도 작업"
+        }
+      ]
     },
     {
       "id": "T-032",
-      "title": "운동 메모 입력 + 저장",
-      "description": "세션 하단 자유 메모를 exercise_notes 에 저장한다.",
+      "title": "통증·안전 기록 입력 (세션/동작별 pain_note, RPE, 중단 여부)",
+      "description": "세션 condition_note/general_note, 동작별 pain_note(위치·정도·시점·중단 여부)·difficulty_rpe·item_note 입력. 다음 운동에서 참고로 표시하되 진단 문구 없음.",
       "doc": "docs/T-032.md",
       "status": "todo",
       "priority": "P0",
@@ -1878,11 +1972,10 @@
       "estimate_minutes": 30,
       "order": 32,
       "depends_on": [
-        "T-028",
-        "T-020"
+        "T-028"
       ],
       "requirements": [
-        "FR-019"
+        "FR-020"
       ],
       "tags": [
         "ui"
@@ -1894,7 +1987,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1905,12 +1998,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 FR-020 반영, exercise_notes 테이블 의존 제거"
+        }
+      ]
     },
     {
       "id": "T-033",
       "title": "저장 처리 + 실패 시 명확한 오류 알림/재시도",
-      "description": "저장 실패를 사용자에게 확실히 알리고 입력을 잃지 않게 한다.",
+      "description": "저장 버튼 로딩/중복 방지, 실패 시 Toast + 재시도, 성공·실패를 명확히 표시. 저장 실패 시 입력 원문(raw_note 와 편집 중 draft)을 localStorage 에 보관하고 재진입 시 복구. 같은 id 재전송은 upsert.",
       "doc": "docs/T-033.md",
       "status": "todo",
       "priority": "P0",
@@ -1924,7 +2022,7 @@
         "T-031"
       ],
       "requirements": [
-        "NFR-002"
+        "NFR-003"
       ],
       "tags": [
         "ux",
@@ -1938,7 +2036,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:45+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1949,7 +2047,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:45+09:00",
+          "text": "v1.2 NFR-003 localStorage 보관 추가"
+        }
+      ]
     },
     {
       "id": "T-034",
@@ -1957,7 +2060,7 @@
       "description": "템플릿을 만들고 수정/삭제한다.",
       "doc": "docs/T-034.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P1",
       "epic": "E04",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -1967,7 +2070,7 @@
         "T-025"
       ],
       "requirements": [
-        "FR-004"
+        "FR-006"
       ],
       "tags": [
         "ui"
@@ -1980,7 +2083,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1999,7 +2102,7 @@
       "description": "템플릿을 선택하면 운동/세트가 미리 채워진 기록 화면이 열린다.",
       "doc": "docs/T-035.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P1",
       "epic": "E04",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2009,7 +2112,7 @@
         "T-030"
       ],
       "requirements": [
-        "FR-004"
+        "FR-006"
       ],
       "tags": [
         "ux",
@@ -2022,7 +2125,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2037,8 +2140,8 @@
     },
     {
       "id": "T-036",
-      "title": "운동 기록 수정/삭제 플로우",
-      "description": "저장된 세션을 다시 열어 수정하거나 삭제한다.",
+      "title": "기록 수정/삭제 플로우 (soft delete, deleted_at)",
+      "description": "세션·동작·세트 수정(updated_at 갱신), 삭제는 확인 후 deleted_at 설정. 목록·이력·계산에서 삭제분 제외.",
       "doc": "docs/T-036.md",
       "status": "todo",
       "priority": "P0",
@@ -2050,8 +2153,7 @@
         "T-033"
       ],
       "requirements": [
-        "FR-002",
-        "NFR-002"
+        "FR-005"
       ],
       "tags": [
         "ui",
@@ -2065,7 +2167,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2076,12 +2178,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:46+09:00",
+          "text": "v1.2 FR-005 반영"
+        }
+      ]
     },
     {
       "id": "T-037",
-      "title": "WORKOUT 목록 화면 (최근 운동)",
-      "description": "화면02: 최근 세션 목록과 기록 버튼을 만든다.",
+      "title": "세션 목록 화면 (최근 세션, 구조화 안 됨 배지)",
+      "description": "최근 세션 카드 목록. structured_status=none 세션은 정리 안 됨 배지로 구분. 기록 없을 때 시작 안내.",
       "doc": "docs/T-037.md",
       "status": "todo",
       "priority": "P0",
@@ -2094,7 +2201,8 @@
         "T-008"
       ],
       "requirements": [
-        "SCREEN-02"
+        "FR-011",
+        "FR-004"
       ],
       "tags": [
         "ui",
@@ -2108,7 +2216,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2119,12 +2227,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:46+09:00",
+          "text": "v1.2 반영"
+        }
+      ]
     },
     {
       "id": "T-038",
       "title": "Workout Detail 화면",
-      "description": "화면03: 세션의 운동별 세트와 시간을 보여준다.",
+      "description": "세션 상세: 메타데이터, 원문 메모, 동작별 세트(set_kind 구분), 메모·컨디션·통증, 수정·삭제, 같은 운동 이전 기록 바로가기.",
       "doc": "docs/T-038.md",
       "status": "todo",
       "priority": "P0",
@@ -2136,7 +2249,8 @@
         "T-037"
       ],
       "requirements": [
-        "SCREEN-03"
+        "FR-005",
+        "FR-020"
       ],
       "tags": [
         "ui"
@@ -2148,7 +2262,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2159,7 +2273,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:46+09:00",
+          "text": "v1.2 화면 세션 상세 반영"
+        }
+      ]
     },
     {
       "id": "T-039",
@@ -2250,7 +2369,7 @@
       "description": "날짜·체중·측정시간·메모를 입력해 저장한다.",
       "doc": "docs/T-041.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P0.5",
       "epic": "E06",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2260,7 +2379,7 @@
         "T-009"
       ],
       "requirements": [
-        "FR-009"
+        "FR-013"
       ],
       "tags": [
         "ui",
@@ -2274,7 +2393,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2290,10 +2409,10 @@
     {
       "id": "T-042",
       "title": "체중 7일/30일 이동평균 + 추세 계산 유틸",
-      "description": "일일 체중 대신 평균·추세를 계산한다.",
+      "description": "체중 7일 평균(해당 기간 측정 3개 이상일 때만, 결측일 0 금지), 30일 추세. 순수 함수 + 테스트.",
       "doc": "docs/T-042.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P0.5",
       "epic": "E06",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2302,7 +2421,7 @@
         "T-016"
       ],
       "requirements": [
-        "FR-009"
+        "FR-013"
       ],
       "tags": [
         "calc",
@@ -2316,7 +2435,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2327,15 +2446,20 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:46+09:00",
+          "text": "v1.2 7.4 반영"
+        }
+      ]
     },
     {
       "id": "T-043",
       "title": "음주 기록 입력 UI + 저장",
-      "description": "음주 여부/횟수/종류/양/메모를 기록한다.",
+      "description": "recovery_logs 음주 종류·양 입력. 운동과의 관계는 함께 나타난 패턴으로만 표현.",
       "doc": "docs/T-043.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P1",
       "epic": "E06",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2345,7 +2469,7 @@
         "T-009"
       ],
       "requirements": [
-        "FR-011"
+        "FR-014"
       ],
       "tags": [
         "ui",
@@ -2358,7 +2482,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2374,10 +2498,10 @@
     {
       "id": "T-044",
       "title": "수면 기록 입력 UI (총 수면 자동 계산) + 저장",
-      "description": "취침/기상 시각으로 총 수면시간을 계산해 저장한다.",
+      "description": "recovery_logs 수면 시간·만족도, 컨디션, 통증 입력.",
       "doc": "docs/T-044.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P1",
       "epic": "E06",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2387,7 +2511,7 @@
         "T-009"
       ],
       "requirements": [
-        "FR-012"
+        "FR-014"
       ],
       "tags": [
         "ui",
@@ -2401,7 +2525,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2417,22 +2541,20 @@
     {
       "id": "T-045",
       "title": "BODY 화면 요약 카드",
-      "description": "화면06: 체중 평균/추세, 음주 빈도, 수면 평균을 보여준다.",
+      "description": "신체·회복 화면 요약: 체중 최근값·7일 평균·30일 추세. 수면·음주 카드는 P1(T-043/T-044 후).",
       "doc": "docs/T-045.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P0.5",
       "epic": "E06",
       "phase": "V1",
       "estimate_minutes": 30,
       "order": 45,
       "depends_on": [
-        "T-042",
-        "T-043",
-        "T-044",
-        "T-041"
+        "T-041",
+        "T-042"
       ],
       "requirements": [
-        "SCREEN-06"
+        "FR-013"
       ],
       "tags": [
         "ui",
@@ -2445,7 +2567,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2463,7 +2585,7 @@
       "title": "체중 변동 원인 분석 규칙 + 테스트",
       "description": "최근 7일 운동/음주/수면/체중을 비교해 규칙 기반 메시지를 만든다.",
       "doc": "docs/T-046.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P0",
       "epic": "E06",
       "phase": "V1",
@@ -2488,9 +2610,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: FR-014 는 원인 분석 대신 함께 나타난 패턴 표현만 허용(원칙 6)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2499,6 +2621,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -2508,7 +2636,7 @@
       "title": "원인 분석 카드 UI",
       "description": "BODY 화면에 최근 7일 요약과 원인 메시지를 표시한다.",
       "doc": "docs/T-047.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P0",
       "epic": "E06",
       "phase": "V1",
@@ -2529,9 +2657,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: FR-014 는 원인 분석 대신 함께 나타난 패턴 표현만 허용(원칙 6)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2540,6 +2668,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -2549,7 +2683,7 @@
       "title": "음주 유/무 기간 운동·체중 추세 비교 뷰",
       "description": "음주한 주와 안 한 주의 운동 횟수·체중 추세를 비교한다.",
       "doc": "docs/T-048.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P0",
       "epic": "E06",
       "phase": "V1",
@@ -2570,9 +2704,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: FR-014 는 원인 분석 대신 함께 나타난 패턴 표현만 허용(원칙 6)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2581,17 +2715,23 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
     },
     {
       "id": "T-049",
-      "title": "1RM 추정 공식 선정 + PR 계산 유틸 + 테스트",
-      "description": "Best Weight / Best Reps / 예상 1RM 을 계산한다.",
+      "title": "PR 계산 유틸 + 테스트 (운동 ID+중량, working·success 세트만, 선택적 1RM)",
+      "description": "7.2 규칙: 최고 중량(운동 ID), 같은 중량 최고 반복(운동 ID+weight_kg), 최고 세트 볼륨, 최장 시간·거리. set_kind=working AND success=true 만 후보. is_assisted=true 는 별도 그룹. 1RM 은 선택·추정치 표시·reps>10 제외(공식은 needs_decision).",
       "doc": "docs/T-049.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E07",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2600,7 +2740,7 @@
         "T-027"
       ],
       "requirements": [
-        "FR-005"
+        "FR-009"
       ],
       "tags": [
         "calc",
@@ -2614,7 +2754,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2625,7 +2765,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:47+09:00",
+          "text": "v1.2 FR-009/7.2 반영"
+        }
+      ]
     },
     {
       "id": "T-050",
@@ -2633,7 +2778,7 @@
       "description": "PR 계산을 DB 트리거로 할지 클라이언트 저장 후 계산할지 결정한다.",
       "doc": "docs/T-050.md",
       "status": "needs_decision",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E07",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2642,7 +2787,7 @@
         "T-049"
       ],
       "requirements": [
-        "FR-005"
+        "FR-009"
       ],
       "tags": [
         "db",
@@ -2655,7 +2800,7 @@
       "decision_needed": "PR 자동 갱신을 (A) Postgres 트리거 + exercise_prs 테이블 로 할지, (B) 클라이언트가 저장 직후 계산해 upsert 할지 결정 필요. A: 일관성↑/디버깅↓, B: 단순/오프라인 불일치 가능. 추천: B(V1 단일 사용자).",
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2674,7 +2819,7 @@
       "description": "결정된 방식으로 세션 저장 시 PR 을 갱신한다.",
       "doc": "docs/T-051.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E07",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2683,7 +2828,7 @@
         "T-050"
       ],
       "requirements": [
-        "FR-005"
+        "FR-009"
       ],
       "tags": [
         "db",
@@ -2697,7 +2842,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2716,7 +2861,7 @@
       "description": "운동별 Best Weight / Best Reps / Est 1RM 을 보여준다.",
       "doc": "docs/T-052.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E07",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2725,7 +2870,7 @@
         "T-051"
       ],
       "requirements": [
-        "FR-005"
+        "FR-009"
       ],
       "tags": [
         "ui"
@@ -2737,7 +2882,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2753,10 +2898,10 @@
     {
       "id": "T-053",
       "title": "NEW PR 이벤트 UI",
-      "description": "저장 직후 PR 갱신을 축하 모달로 보여준다.",
+      "description": "저장 직후 PR 갱신 시 NEW PR 표시 + 홈 최근 기록 갱신(P0.5).",
       "doc": "docs/T-053.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E07",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -2766,7 +2911,7 @@
         "T-033"
       ],
       "requirements": [
-        "FR-005"
+        "FR-011"
       ],
       "tags": [
         "ui",
@@ -2779,7 +2924,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2797,7 +2942,7 @@
       "title": "Fitness Score 산식/가중치 설계 확정",
       "description": "영역별 입력 지표, 최근 가중치, 스무딩 규칙을 문서로 확정한다.",
       "doc": "docs/T-054.md",
-      "status": "needs_decision",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -2819,9 +2964,9 @@
       ],
       "assignee": null,
       "decision_needed": "7개 영역의 입력 지표와 가중치, 최근성 반감기(예: 28일), 스무딩(EMA α=0.3 제안), 점수 스케일 기준(개인 최고 대비 vs 절대 기준)을 사용자가 확정해야 함. 제안 초안을 docs 에 작성했으니 승인/수정 필요.",
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: 7.5 점수 정책 — 종합/영역 점수 미제공. 데이터 축적 후 재검토",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2830,6 +2975,12 @@
           "from": null,
           "to": "needs_decision",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "needs_decision",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -2839,7 +2990,7 @@
       "title": "운동→영역 기여도 매핑 확정 + 시드 갱신",
       "description": "exercise_library.area_weights 를 산식에 맞게 확정한다.",
       "doc": "docs/T-055.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -2861,9 +3012,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2872,6 +3023,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -2881,7 +3038,7 @@
       "title": "영역별 점수 계산 함수 + 테스트",
       "description": "세션/세트 데이터로 7개 영역 점수를 계산한다.",
       "doc": "docs/T-056.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -2903,9 +3060,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2914,6 +3071,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -2923,7 +3086,7 @@
       "title": "Overall Fitness Level 계산 + 테스트",
       "description": "영역 점수를 종합해 전체 수준을 산출한다.",
       "doc": "docs/T-057.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -2944,9 +3107,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2955,6 +3118,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -2964,7 +3133,7 @@
       "title": "점수 계산 실행 지점 + fitness_scores/history 저장",
       "description": "세션 저장 후 점수를 재계산해 저장한다.",
       "doc": "docs/T-058.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -2987,9 +3156,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2998,6 +3167,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3007,7 +3182,7 @@
       "title": "오늘의 성장 계산 (기여도 vs 실제 변화)",
       "description": "오늘 세션의 영역별 기여도와 실제 점수 변화를 구분해 계산한다.",
       "doc": "docs/T-059.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -3029,9 +3204,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3040,6 +3215,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3049,7 +3230,7 @@
       "title": "Fitness Score 화면",
       "description": "영역별 점수와 설명을 보여준다.",
       "doc": "docs/T-060.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -3069,9 +3250,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:41+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3080,6 +3261,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:41+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3089,7 +3276,7 @@
       "title": "과거 데이터로 월별 점수 백필 스크립트",
       "description": "기존 기록으로 월별 history 를 재계산한다.",
       "doc": "docs/T-061.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E08",
       "phase": "V1",
@@ -3110,9 +3297,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3121,6 +3308,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3128,10 +3321,10 @@
     {
       "id": "T-062",
       "title": "차트 라이브러리 선정 + 공통 LineChart 컴포넌트",
-      "description": "체중/점수/성장 그래프에 공통으로 쓸 차트 컴포넌트를 만든다.",
+      "description": "차트 라이브러리 선정(9장: 데이터 쌓인 뒤 P0.5 시점 결정) + 공통 LineChart. 데이터 부족 시 분석할 기록이 부족함 상태 지원.",
       "doc": "docs/T-062.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E09",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3140,8 +3333,7 @@
         "T-009"
       ],
       "requirements": [
-        "FR-008",
-        "SCREEN-04"
+        "FR-010"
       ],
       "tags": [
         "chart",
@@ -3155,7 +3347,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3174,7 +3366,7 @@
       "description": "체중 원시값과 7일 평균을 한 차트에 그린다.",
       "doc": "docs/T-063.md",
       "status": "todo",
-      "priority": "P0",
+      "priority": "P0.5",
       "epic": "E06",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3184,7 +3376,7 @@
         "T-062"
       ],
       "requirements": [
-        "FR-009"
+        "FR-013"
       ],
       "tags": [
         "chart",
@@ -3197,7 +3389,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3215,7 +3407,7 @@
       "title": "Fitness Score 이력 그래프 + 기간 토글",
       "description": "점수 이력을 1M|3M|6M|1Y|ALL 로 본다.",
       "doc": "docs/T-064.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E09",
       "phase": "V1",
@@ -3239,9 +3431,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3250,17 +3442,23 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
     },
     {
       "id": "T-065",
-      "title": "운동별 성장 분석 계산 + 테스트",
-      "description": "운동별 최고중량/반복/볼륨/빈도/1RM/추세를 월별로 계산한다.",
+      "title": "운동별 추세 계산 + 테스트 (1·3·6개월·전체, 부족 표시)",
+      "description": "기간별(1·3·6개월·전체) 중량·반복·볼륨 추세와 요약값. working 세트만. weight_basis/is_assisted 변경 시 비교 제한 플래그. 데이터 부족 판정.",
       "doc": "docs/T-065.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E09",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3269,7 +3467,7 @@
         "T-049"
       ],
       "requirements": [
-        "FR-006"
+        "FR-010"
       ],
       "tags": [
         "calc",
@@ -3282,7 +3480,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3293,15 +3491,20 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:47+09:00",
+          "text": "v1.2 FR-010/7.3 반영"
+        }
+      ]
     },
     {
       "id": "T-066",
-      "title": "운동별 성장 화면",
+      "title": "운동별 추세 화면 (기간 필터, 차트, 비교 조건 안내, 워밍업/실패 구분)",
       "description": "운동을 고르면 월별 추이와 추세를 보여준다.",
       "doc": "docs/T-066.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E09",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3311,7 +3514,7 @@
         "T-062"
       ],
       "requirements": [
-        "FR-006"
+        "FR-010"
       ],
       "tags": [
         "ui",
@@ -3324,7 +3527,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3342,7 +3545,7 @@
       "title": "GROWTH 화면 (영역별 before → after)",
       "description": "화면04: 기간 내 영역 점수 변화를 보여준다.",
       "doc": "docs/T-067.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E09",
       "phase": "V1",
@@ -3362,9 +3565,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3373,6 +3576,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3382,7 +3591,7 @@
       "title": "오늘의 운동 계획 모델 (요일별 템플릿/타입)",
       "description": "요일별로 어떤 세션을 할지 설정에 저장한다.",
       "doc": "docs/T-068.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E10",
       "phase": "V1",
@@ -3403,9 +3612,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: 홈(FR-011)에 오늘의 운동 계획 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3414,6 +3623,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3423,7 +3638,7 @@
       "title": "오늘의 운동 카드",
       "description": "TODAY / PT DAY / 목표 3개 / 예상 시간을 표시한다.",
       "doc": "docs/T-069.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P1",
       "epic": "E10",
       "phase": "V1",
@@ -3443,9 +3658,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: 홈(FR-011)에 오늘의 운동 계획 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3454,28 +3669,33 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
     },
     {
       "id": "T-070",
-      "title": "Dashboard 화면 조립",
-      "description": "화면01: Fitness Level, 영역 점수, 오늘의 운동, 오늘의 성장을 모은다.",
+      "title": "홈 화면 조립 (빠른 메모 최상단, 이번 주 세션 수, 최근 세션, 구조화 안 됨 배지)",
+      "description": "홈: 빠른 메모 입력 최상단, 이번 주 세션 수, 최근 세션 카드, 구조화 안 된 세션 수 배지, 기록 없을 때 시작 안내. 최근 기록 갱신·자주 하는 운동 최근 값은 P0.5(T-053).",
       "doc": "docs/T-070.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0",
       "epic": "E10",
       "phase": "V1",
       "estimate_minutes": 30,
       "order": 70,
       "depends_on": [
-        "T-069",
-        "T-059",
-        "T-060"
+        "T-037"
       ],
       "requirements": [
-        "SCREEN-01"
+        "FR-011",
+        "NFR-001"
       ],
       "tags": [
         "ui",
@@ -3488,7 +3708,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:47+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3499,12 +3719,17 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:47+09:00",
+          "text": "v1.2 FR-011 반영: 점수/오늘의 운동 의존 제거"
+        }
+      ]
     },
     {
       "id": "T-071",
       "title": "현재 목표 카드",
-      "description": "홈에 활성 목표의 준비도를 요약한다.",
+      "description": "홈 현재 목표 카드: 목표명, 성공 조건, 체크리스트 진행.",
       "doc": "docs/T-071.md",
       "status": "todo",
       "priority": "P1",
@@ -3514,10 +3739,10 @@
       "order": 71,
       "depends_on": [
         "T-070",
-        "T-078"
+        "T-075"
       ],
       "requirements": [
-        "FR-016"
+        "FR-015"
       ],
       "tags": [
         "ui"
@@ -3529,7 +3754,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3548,7 +3773,7 @@
       "description": "홈 화면이 빠르게 뜨도록 쿼리를 병렬화하고 스켈레톤을 둔다.",
       "doc": "docs/T-072.md",
       "status": "todo",
-      "priority": "P1",
+      "priority": "P0.5",
       "epic": "E10",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3557,7 +3782,7 @@
         "T-070"
       ],
       "requirements": [
-        "NFR-001"
+        "NFR-002"
       ],
       "tags": [
         "ux",
@@ -3570,7 +3795,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3585,11 +3810,11 @@
     },
     {
       "id": "T-073",
-      "title": "Goal 타입 정의 + 요구조건 스키마",
-      "description": "6종 목표 타입과 각 타입의 요구조건 구조를 정의한다.",
+      "title": "Goal 타입 + goal_check_items 모델",
+      "description": "목표명, 유형, 날짜(선택), 성공 조건, 메모. 측정 기준 없으면 체크리스트. 준비도 점수 없음.",
       "doc": "docs/T-073.md",
       "status": "todo",
-      "priority": "P2",
+      "priority": "P1",
       "epic": "E11",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3611,7 +3836,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3630,7 +3855,7 @@
       "description": "목표를 등록하고 수정한다.",
       "doc": "docs/T-074.md",
       "status": "todo",
-      "priority": "P2",
+      "priority": "P1",
       "epic": "E11",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3651,7 +3876,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3667,10 +3892,10 @@
     {
       "id": "T-075",
       "title": "Goal 목록 화면",
-      "description": "화면05: 목표별 준비도 % 를 나열한다.",
+      "description": "목표 목록, 성공 조건, 체크리스트, 관련 기록 바로가기, 미확인 항목 표시.",
       "doc": "docs/T-075.md",
       "status": "todo",
-      "priority": "P2",
+      "priority": "P1",
       "epic": "E11",
       "phase": "V1",
       "estimate_minutes": 30,
@@ -3679,7 +3904,7 @@
         "T-074"
       ],
       "requirements": [
-        "SCREEN-05"
+        "FR-015"
       ],
       "tags": [
         "ui"
@@ -3691,7 +3916,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3709,7 +3934,7 @@
       "title": "Goal 프리셋 시드 (대청봉/공룡능선/10km 트레킹/Deadlift 60kg)",
       "description": "대표 목표의 요구조건 값을 시드로 넣는다.",
       "doc": "docs/T-076.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E11",
       "phase": "V1",
@@ -3730,9 +3955,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: 목표 프리셋 미정의. FR-016 산행 체크리스트는 별도 작업",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3741,6 +3966,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3750,7 +3981,7 @@
       "title": "Readiness 평가 항목 → Fitness 영역/지표 매핑 설계",
       "description": "7개 평가 항목을 어떤 점수/지표로 계산할지 정한다.",
       "doc": "docs/T-077.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E12",
       "phase": "V1",
@@ -3772,9 +4003,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Goal Readiness 점수 미제공(1.3, 7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3783,6 +4014,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3792,7 +4029,7 @@
       "title": "Readiness 계산 함수 + 테스트",
       "description": "목표별 READY 점수와 항목별 점수, 부족 영역을 계산한다.",
       "doc": "docs/T-078.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E12",
       "phase": "V1",
@@ -3815,9 +4052,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Goal Readiness 점수 미제공(1.3, 7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3826,6 +4063,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3835,7 +4078,7 @@
       "title": "Goal Readiness 상세 화면",
       "description": "READY 점수, 항목별 점수, 개선 필요 영역을 보여준다.",
       "doc": "docs/T-079.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E12",
       "phase": "V1",
@@ -3856,9 +4099,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Goal Readiness 점수 미제공(1.3, 7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3867,6 +4110,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3876,7 +4125,7 @@
       "title": "Readiness 이력 저장 + 변화 표시",
       "description": "준비도를 날짜별로 저장하고 변화량을 보여준다.",
       "doc": "docs/T-080.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E12",
       "phase": "V1",
@@ -3898,9 +4147,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Goal Readiness 점수 미제공(1.3, 7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3909,6 +4158,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3918,7 +4173,7 @@
       "title": "Quest 조건 타입 + 데이터 모델",
       "description": "횟수/거리/중량 안정 수행/무음주 연속 조건을 정의한다.",
       "doc": "docs/T-081.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E13",
       "phase": "V1",
@@ -3939,9 +4194,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Quest 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3950,6 +4205,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -3959,7 +4220,7 @@
       "title": "Quest 자동 진행도 판정 + 테스트",
       "description": "기록 데이터로 퀘스트 진행도를 계산한다.",
       "doc": "docs/T-082.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E13",
       "phase": "V1",
@@ -3982,9 +4243,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Quest 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3993,6 +4254,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -4002,7 +4269,7 @@
       "title": "Quest 화면 (월간 체크리스트)",
       "description": "이번 달 퀘스트를 체크리스트로 보여준다.",
       "doc": "docs/T-083.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E13",
       "phase": "V1",
@@ -4022,9 +4289,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Quest 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4033,6 +4300,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -4042,7 +4315,7 @@
       "title": "Quest 생성/편집 UI",
       "description": "퀘스트를 직접 만들고 수정한다.",
       "doc": "docs/T-084.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E13",
       "phase": "V1",
@@ -4062,9 +4335,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Quest 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4073,6 +4346,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -4082,7 +4361,7 @@
       "title": "Achievement 정의 시드",
       "description": "FIRST PR / CONSISTENCY / MOUNTAIN WALKER / STRONGER 를 시드로 넣는다.",
       "doc": "docs/T-085.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E14",
       "phase": "V1",
@@ -4102,9 +4381,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Achievement 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4113,6 +4392,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -4122,7 +4407,7 @@
       "title": "Achievement 판정 로직 + 테스트",
       "description": "조건 충족 시 user_achievements 를 생성한다.",
       "doc": "docs/T-086.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E14",
       "phase": "V1",
@@ -4145,9 +4430,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Achievement 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4156,6 +4441,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -4165,7 +4456,7 @@
       "title": "Achievement 화면 + 획득 알림",
       "description": "획득/미획득 업적을 보여주고 획득 시 알림한다.",
       "doc": "docs/T-087.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E14",
       "phase": "V1",
@@ -4186,9 +4477,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Achievement 없음",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4197,27 +4488,32 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
     },
     {
       "id": "T-088",
-      "title": "프로필 화면",
-      "description": "FR-001 항목을 입력/수정한다.",
+      "title": "설정 화면: 표시 단위 + 데이터 관리 진입",
+      "description": "표시 단위 설정(내부 kg/m/초 고정), 운동 사전·내보내기·삭제 진입. 프로필 없음.",
       "doc": "docs/T-088.md",
       "status": "todo",
-      "priority": "P2",
+      "priority": "P1",
       "epic": "E15",
       "phase": "V1",
       "estimate_minutes": 30,
       "order": 88,
       "depends_on": [
-        "T-011",
         "T-009"
       ],
       "requirements": [
-        "FR-001"
+        "FR-019"
       ],
       "tags": [
         "ui"
@@ -4229,7 +4525,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4240,14 +4536,19 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:48+09:00",
+          "text": "v1.2: profiles 제거, 설정 메뉴 P1"
+        }
+      ]
     },
     {
       "id": "T-089",
       "title": "운동/점수 설정 화면",
       "description": "단위, 주당 목표, Overall 가중치를 조정한다.",
       "doc": "docs/T-089.md",
-      "status": "todo",
+      "status": "on_hold",
       "priority": "P2",
       "epic": "E15",
       "phase": "V1",
@@ -4268,9 +4569,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Fitness Score 미제공(7.5)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:42+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4279,6 +4580,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:42+09:00",
+          "from": "todo",
+          "to": "on_hold",
+          "note": null
         }
       ],
       "notes": []
@@ -4289,9 +4596,9 @@
       "description": "어떤 LLM 을 어떤 경로로 쓸지 결정한다.",
       "doc": "docs/T-090.md",
       "status": "needs_decision",
-      "priority": "P3",
+      "priority": "P1",
       "epic": "E16",
-      "phase": "V1.1",
+      "phase": "V1",
       "estimate_minutes": 30,
       "order": 90,
       "depends_on": [],
@@ -4310,7 +4617,7 @@
       "decision_needed": "LLM 공급자(OpenAI API / Anthropic / 개인 로컬 LLM)와 호출 경로(Supabase Edge Function 프록시 권장), 월 예산 상한, 개인 데이터 전송 범위를 사용자가 결정해야 함.",
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4321,25 +4628,31 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:48+09:00",
+          "text": "v1.2: FR-004 AI 구조화(P1)·FR-017 질의(P2) 용. 건강 메모 외부 전송은 설정에서 켜야만(NFR-004)"
+        }
+      ]
     },
     {
       "id": "T-091",
       "title": "Edge Function LLM 프록시 + ai_analysis_logs 저장",
-      "description": "클라이언트가 키 없이 LLM 을 호출하도록 프록시를 만든다.",
+      "description": "LLM 프록시(Edge Function 또는 Vercel API route), 키는 서버에만. 설정에서 켠 경우에만 건강 메모 전송.",
       "doc": "docs/T-091.md",
       "status": "on_hold",
-      "priority": "P3",
+      "priority": "P1",
       "epic": "E16",
-      "phase": "V1.1",
+      "phase": "V1",
       "estimate_minutes": 30,
       "order": 91,
       "depends_on": [
         "T-090",
-        "T-020"
+        "T-013"
       ],
       "requirements": [
-        "AI-001"
+        "FR-004",
+        "NFR-004"
       ],
       "tags": [
         "edge-function",
@@ -4353,7 +4666,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4369,20 +4682,19 @@
     {
       "id": "T-092",
       "title": "자연어 운동 입력 → 구조화 프롬프트/스키마 설계",
-      "description": "문장을 운동 데이터 JSON 으로 바꾸는 프롬프트와 출력 스키마를 만든다.",
+      "description": "raw_note → 동작·세트 구조화 초안 프롬프트/스키마. 운동명·중량·단위·횟수·세트·시간·성공 여부 추출, 모호한 값은 확인 필요(raw_value_note). 임의 보정 금지.",
       "doc": "docs/T-092.md",
       "status": "on_hold",
-      "priority": "P3",
+      "priority": "P1",
       "epic": "E16",
-      "phase": "V1.1",
+      "phase": "V1",
       "estimate_minutes": 30,
       "order": 92,
       "depends_on": [
         "T-091"
       ],
       "requirements": [
-        "FR-020",
-        "AI-001"
+        "FR-004"
       ],
       "tags": [
         "ai"
@@ -4394,7 +4706,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:49+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4410,12 +4722,12 @@
     {
       "id": "T-093",
       "title": "자연어 입력 UI + 변환 결과 확인/수정 후 저장",
-      "description": "문장을 입력하면 draft 로 변환해 확인 후 저장한다.",
+      "description": "AI 초안을 source_type=ai_draft 로 임시 보관, 사용자 확인·수정 후 ai_confirmed 저장. 실패 시 P0 직접 입력 흐름으로 복귀.",
       "doc": "docs/T-093.md",
       "status": "on_hold",
-      "priority": "P3",
+      "priority": "P1",
       "epic": "E16",
-      "phase": "V1.1",
+      "phase": "V1",
       "estimate_minutes": 30,
       "order": 93,
       "depends_on": [
@@ -4423,7 +4735,7 @@
         "T-033"
       ],
       "requirements": [
-        "FR-020"
+        "FR-004"
       ],
       "tags": [
         "ui",
@@ -4436,7 +4748,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:49+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4455,9 +4767,9 @@
       "description": "이력 요약을 LLM 에 넘겨 성장 질문에 답한다.",
       "doc": "docs/T-094.md",
       "status": "on_hold",
-      "priority": "P3",
+      "priority": "P2",
       "epic": "E16",
-      "phase": "V1.1",
+      "phase": "V1",
       "estimate_minutes": 30,
       "order": 94,
       "depends_on": [
@@ -4465,7 +4777,7 @@
         "T-065"
       ],
       "requirements": [
-        "AI-002"
+        "FR-017"
       ],
       "tags": [
         "ai"
@@ -4477,7 +4789,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:49+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4516,9 +4828,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "요구사항 v1.2 범위 밖: Readiness 없음. AI 목표 분석 범위 재정의 필요",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4529,24 +4841,29 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:43+09:00",
+          "text": "v1.2: FR-015/016 은 체크리스트만. AI 분석은 P2 FR-017 범위에서 재검토"
+        }
+      ]
     },
     {
       "id": "T-096",
       "title": "자연어 데이터 질의 (조회 도구 설계)",
-      "description": "자연어로 앱 데이터를 조회한다.",
+      "description": "저장된 데이터만 근거로 답하고 관련 날짜·기록 제시. 비교 불가 시 명시.",
       "doc": "docs/T-096.md",
       "status": "on_hold",
-      "priority": "P3",
+      "priority": "P2",
       "epic": "E16",
-      "phase": "V1.1",
+      "phase": "V1",
       "estimate_minutes": 30,
       "order": 96,
       "depends_on": [
         "T-091"
       ],
       "requirements": [
-        "AI-004"
+        "FR-017"
       ],
       "tags": [
         "ai"
@@ -4558,7 +4875,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:49+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4576,7 +4893,7 @@
       "title": "자동 운동 추천",
       "description": "약한 영역과 목표를 바탕으로 다음 세션을 추천한다.",
       "doc": "docs/T-097.md",
-      "status": "on_hold",
+      "status": "cancelled",
       "priority": "P3",
       "epic": "E16",
       "phase": "V1.1",
@@ -4598,7 +4915,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4607,9 +4924,20 @@
           "from": null,
           "to": "on_hold",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "from": "on_hold",
+          "to": "cancelled",
+          "note": "v1.2 1.3 MVP 에서 하지 않을 일: 자동 운동 프로그램 생성 제외"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-11T22:32:44+09:00",
+          "text": "v1.2 1.3 MVP 에서 하지 않을 일: 자동 운동 프로그램 생성 제외"
+        }
+      ]
     },
     {
       "id": "T-098",
@@ -4617,18 +4945,16 @@
       "description": "한 달 운동/점수/체중/목표 변화를 요약한다.",
       "doc": "docs/T-098.md",
       "status": "on_hold",
-      "priority": "P3",
+      "priority": "P2",
       "epic": "E16",
-      "phase": "V1.1",
+      "phase": "V1",
       "estimate_minutes": 30,
       "order": 98,
       "depends_on": [
-        "T-061",
         "T-065"
       ],
       "requirements": [
-        "FR-008",
-        "SUCCESS"
+        "FR-017"
       ],
       "tags": [
         "ui",
@@ -4639,9 +4965,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": null,
+      "blocked_reason": "T-090 결정 대기",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:49+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -4780,8 +5106,8 @@
     },
     {
       "id": "T-102",
-      "title": "4주 실사용 체크리스트 + 성공 기준 지표 정리",
-      "description": "14장 성공 기준을 측정 가능한 체크리스트로 만든다.",
+      "title": "2주 실사용 후 P0 수용 기준 점검",
+      "description": "모바일에서 2주간 실제 기록 후 11장 P0 수용 기준 10개 점검, 불편한 입력 흐름 수정 목록화(12장 6단계).",
       "doc": "docs/T-102.md",
       "status": "todo",
       "priority": "P4",
@@ -4793,7 +5119,7 @@
         "T-070"
       ],
       "requirements": [
-        "SUCCESS"
+        "11장 수용 기준"
       ],
       "tags": [
         "docs",
@@ -4806,7 +5132,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
+      "updated_at": "2026-10-11T22:32:48+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
