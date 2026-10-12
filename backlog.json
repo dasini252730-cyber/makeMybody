@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T20:51:15+09:00",
+  "updated_at": "2026-10-12T20:51:43+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -2859,7 +2859,7 @@
       "title": "체중 7일/30일 이동평균 + 추세 계산 유틸",
       "description": "체중 7일 평균(해당 기간 측정 3개 이상일 때만, 결측일 0 금지), 30일 추세. 순수 함수 + 테스트.",
       "doc": "docs/T-042.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0.5",
       "epic": "E06",
       "phase": "V1",
@@ -2883,8 +2883,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T20:51:15+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T20:51:43+09:00",
+      "started_at": "2026-10-12T20:51:43+09:00",
       "completed_at": null,
       "history": [
         {
@@ -2892,6 +2892,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-12T20:51:43+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. 브리핑의 src/lib/weight.ts 대신 src/lib/body/weightTrend.ts + 공용 src/lib/date.ts(KST 날짜 유틸, 다른 lib 도 쓸 예정)로 분리. toDailyLatest/rollingAverage/weightTrend + 테스트 13개"
         }
       ],
       "notes": [
@@ -2906,6 +2912,10 @@
         {
           "at": "2026-10-12T20:51:15+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-12T20:51:43+09:00",
+          "text": "시작. 브리핑의 src/lib/weight.ts 대신 src/lib/body/weightTrend.ts + 공용 src/lib/date.ts(KST 날짜 유틸, 다른 lib 도 쓸 예정)로 분리. toDailyLatest/rollingAverage/weightTrend + 테스트 13개"
         }
       ]
     },
