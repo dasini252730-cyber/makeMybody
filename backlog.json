@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:39:48+09:00",
+  "updated_at": "2026-10-12T11:41:12+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1296,7 +1296,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:38:29+09:00",
+      "updated_at": "2026-10-12T11:41:12+09:00",
       "started_at": "2026-10-12T11:08:21+09:00",
       "completed_at": null,
       "history": [
@@ -1345,6 +1345,10 @@
         {
           "at": "2026-10-12T11:38:29+09:00",
           "text": "reviewer: REVIEW_OK 치명0/중요3/사소5"
+        },
+        {
+          "at": "2026-10-12T11:41:12+09:00",
+          "text": "3차 REVIEW_OK. 잔여: 133000(삭제 가드 트리거, update of session_id 복원), 프로브 8번 보강, T-016 docs 정합"
         }
       ]
     },
@@ -1487,7 +1491,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:21:53+09:00",
+      "updated_at": "2026-10-12T11:41:11+09:00",
       "started_at": "2026-10-12T10:57:00+09:00",
       "completed_at": "2026-10-12T11:21:53+09:00",
       "history": [
@@ -1564,6 +1568,10 @@
         {
           "at": "2026-10-12T11:21:53+09:00",
           "text": "완료 조건 충족(docs 기준), 프로브 6b 통과"
+        },
+        {
+          "at": "2026-10-12T11:41:11+09:00",
+          "text": "measured_at 상한 5분→1시간으로 변경(T-013 보정 125000). docs 반영"
         }
       ]
     },
@@ -2050,7 +2058,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:31:20+09:00",
+      "updated_at": "2026-10-12T11:41:11+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2069,6 +2077,10 @@
         {
           "at": "2026-10-12T11:31:20+09:00",
           "text": "기록에 쓰인 운동 삭제는 FK(deferred restrict)로 commit 시 23503 → UI 에서 '과거 기록에 쓰인 운동은 보관(is_archived)만 가능' 으로 안내"
+        },
+        {
+          "at": "2026-10-12T11:41:11+09:00",
+          "text": "용어 정정: FK 는 no action deferrable initially deferred + 삭제 가드 트리거(133000)가 즉시 23503 을 보장 → '과거 기록에 쓰인 운동은 보관만 가능' 안내. API 노출 후 REST 경로로 23503 매핑 실측할 것"
         }
       ]
     },
