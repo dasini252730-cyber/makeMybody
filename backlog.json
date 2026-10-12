@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:41:22+09:00",
+  "updated_at": "2026-10-12T10:42:03+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -5837,7 +5837,7 @@
       "title": "Capacitor Android 셋업 + 갤럭시 APK 설치",
       "description": "@capacitor/core, @capacitor/cli, @capacitor/android 추가. npx cap init(appId 예: kr.mybody.os), cap add android, vite build → cap sync → gradlew assembleDebug 로 APK 생성 → adb 또는 파일 전송으로 갤럭시 설치. .env 는 빌드 시점에 번들에 포함. Supabase 매직링크 redirect 는 앱 딥링크(커스텀 스킴) 필요 → 비밀번호 로그인을 기본으로.",
       "doc": "docs/T-113.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -5863,8 +5863,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T10:34:48+09:00",
-      "updated_at": "2026-10-12T10:40:58+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T10:42:03+09:00",
+      "started_at": "2026-10-12T10:42:03+09:00",
       "completed_at": null,
       "history": [
         {
@@ -5872,12 +5872,22 @@
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T10:42:03+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. Capacitor 8.5.3, android/ 생성, 해시 history, eslint/prettier 에서 android/ 제외"
         }
       ],
       "notes": [
         {
           "at": "2026-10-12T10:40:58+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-12T10:42:03+09:00",
+          "text": "시작. Capacitor 8.5.3, android/ 생성, 해시 history, eslint/prettier 에서 android/ 제외"
         }
       ]
     },
