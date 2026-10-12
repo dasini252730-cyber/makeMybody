@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:03:00+09:00",
+  "updated_at": "2026-10-12T11:04:21+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1195,7 +1195,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:57:16+09:00",
+      "updated_at": "2026-10-12T11:04:21+09:00",
       "started_at": "2026-10-12T10:57:00+09:00",
       "completed_at": null,
       "history": [
@@ -1234,6 +1234,10 @@
         {
           "at": "2026-10-12T10:57:10+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성, v1.2 반영(area_weights 제외, Fitness Score 는 P1 또는 후속)"
+        },
+        {
+          "at": "2026-10-12T11:04:21+09:00",
+          "text": "reviewer: REVIEW_OK 치명0/중요3/사소3 (service_role 권한 없음→T-023 시드는 postgres 경로만, user_id default auth.uid() 누락, parent 타사용자 참조 허용)"
         }
       ]
     },
