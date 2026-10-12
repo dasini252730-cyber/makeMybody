@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:39:31+09:00",
+  "updated_at": "2026-10-12T21:43:45+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1887,7 +1887,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T21:39:31+09:00",
+      "updated_at": "2026-10-12T21:43:45+09:00",
       "started_at": "2026-10-12T21:23:22+09:00",
       "completed_at": null,
       "history": [
@@ -1936,6 +1936,10 @@
         {
           "at": "2026-10-12T21:39:31+09:00",
           "text": "2차 REWORK 조치: anon insert/update/delete 5테이블 루프, @mybody.local 가드 + uid null raise + 세션 값 복원 upsert, 위조 user_id insert 거부, 탈취 upsert 코드 단정 + B 재확인, user_id=aId 단정, 전제는 beforeAll. 원장 완료 조건 '15개 테이블' 은 v1.0 문구 — 현재 존재 테이블 7 + 뷰 1 이 범위(docs 정본). 정리 스크립트는 후속 add"
+        },
+        {
+          "at": "2026-10-12T21:43:45+09:00",
+          "text": "reviewer: REVIEW_OK 치명0/중요2/사소4 (중요: anon 쓰기 루프에 recovery_logs·activity_records 없음 — 두 테이블 anon insert/update/delete 는 SQL 프로브에도 없다 / B 소유 body_metrics 고정 행 미시드로 REST 에 체중 A→B 격리 없음. 사소: 키 변수 우선순위가 앱 readSupabaseEnv 와 반대·스키마 문자열 하드코딩, afterAll 가드 없음, db-probe-user 의 PROBE_B_* export 미사용·상수 이중 정의, env 없을 때 조용한 skip)"
         }
       ]
     },
