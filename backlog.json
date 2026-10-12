@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:27:09+09:00",
+  "updated_at": "2026-10-12T10:27:47+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -751,7 +751,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:24:42+09:00",
+      "updated_at": "2026-10-12T10:27:47+09:00",
       "started_at": "2026-10-12T10:19:24+09:00",
       "completed_at": null,
       "history": [
@@ -784,6 +784,10 @@
         {
           "at": "2026-10-12T10:24:42+09:00",
           "text": "reviewer: REWORK 치명1/중요4/사소3"
+        },
+        {
+          "at": "2026-10-12T10:27:47+09:00",
+          "text": "1차 REWORK 조치: 스토어 전면 예외 처리(initError, run 래퍼), initPromise 메모이즈, 세션 끊김 시 App.vue watch 로 로그인 이동, 쿨다운 60초, 테스트 51개"
         }
       ]
     },
@@ -5706,6 +5710,50 @@
           "text": "reviewer: REWORK 치명1/중요4/사소5"
         }
       ]
+    },
+    {
+      "id": "T-112",
+      "title": "BaseTextField autocomplete/name 속성 전달",
+      "description": "BaseTextField 가 autocomplete, name, enterkeyhint 등 입력 속성을 input 에 넘기지 않아(루트 div 로 감) 로그인 화면에서 브라우저·모바일 자동완성이 안 된다. inheritAttrs:false + v-bind=\"$attrs\" 를 input 에 적용하거나 명시 prop 추가. LoginView 에 username/current-password 적용. T-007 리뷰 사소 항목.",
+      "doc": "docs/T-112.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 112,
+      "depends_on": [
+        "T-007",
+        "T-111"
+      ],
+      "requirements": [
+        "NFR-001",
+        "NFR-006"
+      ],
+      "tags": [
+        "ui",
+        "a11y"
+      ],
+      "acceptance_criteria": [
+        "로그인 화면 이메일/비밀번호 입력에 autocomplete 가 DOM input 에 붙음",
+        "기존 BaseTextField 테스트/사용처 동작 불변"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-12T10:27:46+09:00",
+      "updated_at": "2026-10-12T10:27:46+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-12T10:27:46+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
     }
   ]
 }
