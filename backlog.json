@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:53:28+09:00",
+  "updated_at": "2026-10-12T10:54:43+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -651,7 +651,7 @@
       "title": "Supabase CLI 초기화 및 마이그레이션 워크플로우",
       "description": "supabase/migrations 기반으로 스키마를 관리하는 절차를 만든다.",
       "doc": "docs/T-006.md",
-      "status": "on_hold",
+      "status": "done",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -675,9 +675,9 @@
       "decision_needed": null,
       "blocked_reason": "대시보드 수동 단계 1개 남음: Settings → API → Exposed schemas 에 mybody 추가 (역할 설정 변경은 자동 승인 거부됨)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:14:13+09:00",
+      "updated_at": "2026-10-12T10:54:43+09:00",
       "started_at": "2026-10-08T20:47:14+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T10:54:43+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -696,6 +696,24 @@
           "from": "in_progress",
           "to": "on_hold",
           "note": "로컬 부분 완료: config.toml, 빈 init 마이그레이션, db:new/push/types/migrations 스크립트, supabase/README.md 워크플로우. 리뷰는 push 가능해진 뒤 한 번에"
+        },
+        {
+          "at": "2026-10-12T10:54:43+09:00",
+          "from": "on_hold",
+          "to": "in_progress",
+          "note": "범위 조정: Exposed schemas 수동 단계는 T-118 로 분리. link·applier·init 적용 완료"
+        },
+        {
+          "at": "2026-10-12T10:54:43+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "supabase/README.md 와 tools/db-apply.mjs 는 이전 done 커밋에 포함되어 검토됨"
+        },
+        {
+          "at": "2026-10-12T10:54:43+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 충족(링크, 마이그레이션 워크플로우, init 적용)"
         }
       ],
       "notes": [
@@ -718,6 +736,18 @@
         {
           "at": "2026-10-12T10:14:13+09:00",
           "text": "2026-10-12: supabase link 완료. 원격에 다른 앱 마이그레이션 13건 → db push 대신 tools/db-apply.mjs(db query + mybody_meta.schema_migrations 이력) 도입. init(mybody 스키마+grant) 적용 완료. anon 에서 'Invalid schema: mybody' 는 노출 전이라 정상"
+        },
+        {
+          "at": "2026-10-12T10:54:43+09:00",
+          "text": "범위 조정: Exposed schemas 수동 단계는 T-118 로 분리. link·applier·init 적용 완료"
+        },
+        {
+          "at": "2026-10-12T10:54:43+09:00",
+          "text": "supabase/README.md 와 tools/db-apply.mjs 는 이전 done 커밋에 포함되어 검토됨"
+        },
+        {
+          "at": "2026-10-12T10:54:43+09:00",
+          "text": "완료 조건 충족(링크, 마이그레이션 워크플로우, init 적용)"
         }
       ]
     },
@@ -1620,7 +1650,8 @@
       "depends_on": [
         "T-012",
         "T-013",
-        "T-014"
+        "T-014",
+        "T-118"
       ],
       "requirements": [
         "NFR-004"
@@ -1637,7 +1668,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:44+09:00",
+      "updated_at": "2026-10-12T10:54:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -6095,6 +6126,47 @@
           "at": "2026-10-12T10:34:49+09:00",
           "from": null,
           "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-118",
+      "title": "Supabase 대시보드: Exposed schemas 에 mybody 추가",
+      "description": "PostgREST 가 mybody 스키마를 노출하도록 대시보드 Settings → API → Exposed schemas 에 mybody 를 추가한다(수동). 대안인 SQL(authenticator 역할의 pgrst.db_schemas 변경)은 공유 프로젝트 설정 변경이라 자동 승인이 거부됐으므로 사용자 지시가 있을 때만 실행. 마이그레이션 적용(db-apply)에는 필요 없고, 앱/RLS 테스트의 API 접근에 필요.",
+      "doc": "docs/T-118.md",
+      "status": "needs_decision",
+      "priority": "P0",
+      "epic": "E02",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 118,
+      "depends_on": [
+        "T-006"
+      ],
+      "requirements": [
+        "NFR-004"
+      ],
+      "tags": [
+        "supabase",
+        "manual"
+      ],
+      "acceptance_criteria": [
+        "anon 클라이언트로 mybody 스키마 조회 시 Invalid schema 오류가 사라짐"
+      ],
+      "assignee": null,
+      "decision_needed": "대시보드에서 직접 mybody 를 Exposed schemas 에 추가해 주시거나, 역할 설정 SQL 실행해도 돼 라고 답해 주세요(그러면 제가 alter role authenticator set pgrst.db_schemas 로 추가합니다).",
+      "blocked_reason": null,
+      "created_at": "2026-10-12T10:54:42+09:00",
+      "updated_at": "2026-10-12T10:54:42+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-12T10:54:42+09:00",
+          "from": null,
+          "to": "needs_decision",
           "note": "CLI로 추가"
         }
       ],
