@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:34:49+09:00",
+  "updated_at": "2026-10-12T10:35:42+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -5693,7 +5693,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T09:40:58+09:00",
-      "updated_at": "2026-10-12T10:30:29+09:00",
+      "updated_at": "2026-10-12T10:35:42+09:00",
       "started_at": "2026-10-12T10:20:26+09:00",
       "completed_at": null,
       "history": [
@@ -5726,6 +5726,10 @@
         {
           "at": "2026-10-12T10:30:29+09:00",
           "text": "1차 REWORK 조치: .group:empty 삭제, toast aria-atomic=true, aria-disabled + blocked() 가드, watchEffect→if, .input:focus 삭제, 닫기 버튼 currentcolor 링, 테스트 52개"
+        },
+        {
+          "at": "2026-10-12T10:35:42+09:00",
+          "text": "reviewer: REVIEW_OK 치명0/중요2/사소5 (실측: 경계 long-press pause·aria-disabled click 차단·포커스 유지 확인)"
         }
       ]
     },
