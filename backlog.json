@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T09:35:43+09:00",
+  "updated_at": "2026-10-12T09:40:58+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -5543,6 +5543,48 @@
       "history": [
         {
           "at": "2026-10-11T22:33:31+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-111",
+      "title": "NumberStepper label/ariaLabel 택일 강제 + 공통 UI 접근성 점검",
+      "description": "NumberStepper 에 label 과 ariaLabel 이 둘 다 비면 이름 없는 spinbutton 이 된다. 타입으로 택일을 강제하거나 DEV 경고를 넣고, BaseButton/BaseCard/BaseTextField 에 라벨·포커스 링·대비(NFR-006)를 점검한다. T-009 3차 리뷰 사소 항목.",
+      "doc": "docs/T-111.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E01",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 111,
+      "depends_on": [
+        "T-009"
+      ],
+      "requirements": [
+        "NFR-006"
+      ],
+      "tags": [
+        "ui",
+        "a11y"
+      ],
+      "acceptance_criteria": [
+        "label·ariaLabel 모두 비면 타입 오류 또는 DEV 경고",
+        "공통 UI 4종이 키보드만으로 조작 가능"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-12T09:40:58+09:00",
+      "updated_at": "2026-10-12T09:40:58+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-12T09:40:58+09:00",
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
