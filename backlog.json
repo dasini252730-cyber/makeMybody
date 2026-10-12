@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:30:07+09:00",
+  "updated_at": "2026-10-12T21:33:03+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1887,7 +1887,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T21:30:07+09:00",
+      "updated_at": "2026-10-12T21:33:03+09:00",
       "started_at": "2026-10-12T21:23:22+09:00",
       "completed_at": null,
       "history": [
@@ -1924,6 +1924,10 @@
         {
           "at": "2026-10-12T21:30:07+09:00",
           "text": "reviewer: REWORK 치명1/중요2/사소5 (REST 타인-데이터 0건 단정이 공허: DB 전체 세션·세트·사용자운동 0건 + count ?? 0 로 에러도 통과 / anon 루프에 session_items 없음 / T-123 미완 파일 혼입 위험)"
+        },
+        {
+          "at": "2026-10-12T21:33:03+09:00",
+          "text": "1차 REWORK 조치: 프로브 B 계정 + 고정 데이터 시드, REST 테스트를 A→B 실데이터 격리(조회 0건·수정/삭제 0행·탈취 upsert 오류)로 재작성, session_items 추가, ?? 0 제거, afterAll 검증, env-file-if-exists, vitest node 환경. 7/7 통과"
         }
       ]
     },
