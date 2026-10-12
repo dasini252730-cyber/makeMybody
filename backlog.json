@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:19:39+09:00",
+  "updated_at": "2026-10-12T10:20:26+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -5647,7 +5647,7 @@
       "title": "NumberStepper label/ariaLabel 택일 강제 + 공통 UI 접근성 점검",
       "description": "NumberStepper 에 label 과 ariaLabel 이 둘 다 비면 이름 없는 spinbutton 이 된다. 타입으로 택일을 강제하거나 DEV 경고를 넣고, BaseButton/BaseCard/BaseTextField 에 라벨·포커스 링·대비(NFR-006)를 점검한다. ToastHost 의 error 는 aria-live assertive(별도 리전)로 알리는지 검토(NFR-003). T-009 3차 리뷰 사소 항목.",
       "doc": "docs/T-111.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P1",
       "epic": "E01",
       "phase": "V1",
@@ -5671,8 +5671,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T09:40:58+09:00",
-      "updated_at": "2026-10-12T10:19:39+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T10:20:26+09:00",
+      "started_at": "2026-10-12T10:20:26+09:00",
       "completed_at": null,
       "history": [
         {
@@ -5680,12 +5680,22 @@
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T10:20:26+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. T-007 과 병렬(파일 겹침 없음: ui 컴포넌트만)"
         }
       ],
       "notes": [
         {
           "at": "2026-10-12T10:19:39+09:00",
           "text": "briefer: 쉬운 설명/관련 파일/작업 단계 작성"
+        },
+        {
+          "at": "2026-10-12T10:20:26+09:00",
+          "text": "시작. T-007 과 병렬(파일 겹침 없음: ui 컴포넌트만)"
         }
       ]
     }
