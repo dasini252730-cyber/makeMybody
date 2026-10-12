@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:38:29+09:00",
+  "updated_at": "2026-10-12T11:39:48+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1889,7 +1889,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:38:22+09:00",
+      "updated_at": "2026-10-12T11:39:48+09:00",
       "started_at": "2026-10-12T11:22:24+09:00",
       "completed_at": null,
       "history": [
@@ -1930,6 +1930,10 @@
         {
           "at": "2026-10-12T11:38:22+09:00",
           "text": "reviewer: REWORK 치명1/중요4/사소5 (딥스 보조 경로 삭실, docs 41→43 미갱신, seed.sql 폐기 결정 미전파)"
+        },
+        {
+          "at": "2026-10-12T11:39:48+09:00",
+          "text": "2차 REWORK 조치: 132000(어시스트 딥스 추가 + 삽입 검증, 딥스/턱걸이 보조 안내 복원, dumbbell_each 설명 3건, where distinct 로 멱등). docs 수치 44/14, 맨몸 패턴 명시, tech-stack seed.sql 문구 제거, T-055/T-085 는 on_hold(점수·업적 제거)라 미수정"
         }
       ]
     },
@@ -6432,6 +6436,47 @@
           "at": "2026-10-12T11:34:13+09:00",
           "from": null,
           "to": "needs_decision",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-121",
+      "title": "exercise_library.category 값 집합 check 제약",
+      "description": "category 어휘(하체/가슴/등/어깨/팔/코어/복합/점프/유산소)를 DB check 로 고정해 클라이언트가 다른 문자열을 넣어 목록 섹션이 쪼개지는 것을 막는다. 새 마이그레이션 파일로.",
+      "doc": "docs/T-121.md",
+      "status": "todo",
+      "priority": "P1",
+      "epic": "E03",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 121,
+      "depends_on": [
+        "T-026"
+      ],
+      "requirements": [
+        "FR-003"
+      ],
+      "tags": [
+        "db",
+        "migration"
+      ],
+      "acceptance_criteria": [
+        "허용 목록 밖 category insert 가 23514 로 거부"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-12T11:39:48+09:00",
+      "updated_at": "2026-10-12T11:39:48+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-12T11:39:48+09:00",
+          "from": null,
+          "to": "todo",
           "note": "CLI로 추가"
         }
       ],
