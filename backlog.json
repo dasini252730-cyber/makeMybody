@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:06:48+09:00",
+  "updated_at": "2026-10-12T10:14:13+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -562,7 +562,7 @@
       "decision_needed": "결정됨(2026-10-12): 기존 Supabase 프로젝트 공유 + 전용 스키마 mybody. 남은 것: 사용자가 .env 에 VITE_SUPABASE_URL 과 publishable(anon) key 를 넣어 주면 getSession() 확인 후 done.",
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T09:26:40+09:00",
+      "updated_at": "2026-10-12T10:14:13+09:00",
       "started_at": "2026-10-08T19:35:30+09:00",
       "completed_at": null,
       "history": [
@@ -609,6 +609,10 @@
         {
           "at": "2026-10-12T09:26:40+09:00",
           "text": "사용자 결정: 기존 프로젝트, 스키마 분리(mybody). 클라이언트 db.schema=mybody 적용"
+        },
+        {
+          "at": "2026-10-12T10:14:13+09:00",
+          "text": "2026-10-12: 기존 프로젝트 learnEnglishWithStory(uqtkmwqqigbtzcoumrly, ap-northeast-1) 선택(활성 프로젝트가 이것뿐). .env 작성, anon 클라이언트 getSession() 성공 → 완료 조건 충족. done 은 T-009 커밋 뒤 처리"
         }
       ]
     },
@@ -639,9 +643,9 @@
       ],
       "assignee": null,
       "decision_needed": null,
-      "blocked_reason": "T-005 키 대기. 원격 link 후 (1) 기존 프로젝트의 마이그레이션 이력 충돌 여부 확인(supabase migration list), (2) init(mybody 스키마) push, (3) 대시보드 Exposed schemas 에 mybody 추가",
+      "blocked_reason": "대시보드 수동 단계 1개 남음: Settings → API → Exposed schemas 에 mybody 추가 (역할 설정 변경은 자동 승인 거부됨)",
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T09:26:40+09:00",
+      "updated_at": "2026-10-12T10:14:13+09:00",
       "started_at": "2026-10-08T20:47:14+09:00",
       "completed_at": null,
       "history": [
@@ -680,6 +684,10 @@
         {
           "at": "2026-10-12T09:26:40+09:00",
           "text": "init 마이그레이션을 mybody 스키마 생성 + grant 로 교체. db:types --schema mybody"
+        },
+        {
+          "at": "2026-10-12T10:14:13+09:00",
+          "text": "2026-10-12: supabase link 완료. 원격에 다른 앱 마이그레이션 13건 → db push 대신 tools/db-apply.mjs(db query + mybody_meta.schema_migrations 이력) 도입. init(mybody 스키마+grant) 적용 완료. anon 에서 'Invalid schema: mybody' 는 노출 전이라 정상"
         }
       ]
     },
