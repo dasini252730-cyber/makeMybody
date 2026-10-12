@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:04:12+09:00",
+  "updated_at": "2026-10-12T21:04:47+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -5839,7 +5839,7 @@
       "title": "activity_records 테이블 + RLS",
       "description": "걷기·등산: id, session_id, activity_type, distance_meters, duration_minutes, elevation_gain_meters, route_name, pack_weight_kg, conditions_note, pain_recovery_note(모두 nullable). RLS(session 조인) + anon/타 사용자 차단 테스트.",
       "doc": "docs/T-104.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0.5",
       "epic": "E02",
       "phase": "V1",
@@ -5865,8 +5865,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-11T22:33:30+09:00",
-      "updated_at": "2026-10-11T22:33:30+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T21:04:47+09:00",
+      "started_at": "2026-10-12T21:04:47+09:00",
       "completed_at": null,
       "history": [
         {
@@ -5874,9 +5874,20 @@
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T21:04:47+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. 마이그레이션 20261012150500_activity_records.sql (T-014 리뷰와 병렬)"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T21:04:47+09:00",
+          "text": "시작. 마이그레이션 20261012150500_activity_records.sql (T-014 리뷰와 병렬)"
+        }
+      ]
     },
     {
       "id": "T-105",
