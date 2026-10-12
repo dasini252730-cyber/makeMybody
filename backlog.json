@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:17:56+09:00",
+  "updated_at": "2026-10-12T11:20:44+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1475,7 +1475,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:17:56+09:00",
+      "updated_at": "2026-10-12T11:20:44+09:00",
       "started_at": "2026-10-12T10:57:00+09:00",
       "completed_at": null,
       "history": [
@@ -1528,6 +1528,10 @@
         {
           "at": "2026-10-12T11:17:56+09:00",
           "text": "reviewer: REVIEW_OK 치명0/중요2/사소3 (probe 실측 통과, service_role 권한·default privileges 0 확인. 중요: rls_probe delete 범위 미지정, body_metrics 하루N행 결정이 T-041/T-042 AC 와 불일치)"
+        },
+        {
+          "at": "2026-10-12T11:20:44+09:00",
+          "text": "3차 REVIEW_OK. 남은 항목 처리: 프로브 delete 에 user_id 조건, KST 날짜 통일, measured_at 상한 now()+5분(124000), 하루 N행·집계 규칙을 T-041/T-042/T-043 note 로 전달"
         }
       ]
     },
@@ -2680,7 +2684,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:46+09:00",
+      "updated_at": "2026-10-12T11:20:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2691,7 +2695,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T11:20:43+09:00",
+          "text": "T-016 결정: body_metrics 는 하루 N행(날짜 unique 없음). 같은 날 재입력은 upsert 가 아니라 새 insert. 측정 시각 ≤ now()+5분"
+        }
+      ]
     },
     {
       "id": "T-042",
@@ -2722,7 +2731,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:46+09:00",
+      "updated_at": "2026-10-12T11:20:43+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2737,6 +2746,10 @@
         {
           "at": "2026-10-11T22:32:46+09:00",
           "text": "v1.2 7.4 반영"
+        },
+        {
+          "at": "2026-10-12T11:20:43+09:00",
+          "text": "T-016 결정: 7일/30일 평균은 날짜별 최신 측정 1건만 사용(같은 날 2건이면 마지막). 결측일은 행 없음 — 0 으로 채우지 않음"
         }
       ]
     },
@@ -2769,7 +2782,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:46+09:00",
+      "updated_at": "2026-10-12T11:20:44+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2780,7 +2793,12 @@
           "note": "backlog 생성"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T11:20:44+09:00",
+          "text": "recovery_logs 는 하루 1행 upsert(on conflict user_id,log_date). 전부 비우는 update 는 not_empty 로 실패 → 삭제 버튼으로 비움. sleep_hours 0 = 철야 허용, 미입력 NULL(폼 기본값 비움)"
+        }
+      ]
     },
     {
       "id": "T-044",
