@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T20:48:06+09:00",
+  "updated_at": "2026-10-12T20:48:54+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1404,7 +1404,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T20:47:02+09:00",
+      "updated_at": "2026-10-12T20:48:54+09:00",
       "started_at": "2026-10-12T11:42:25+09:00",
       "completed_at": null,
       "history": [
@@ -1441,6 +1441,10 @@
         {
           "at": "2026-10-12T20:47:02+09:00",
           "text": "reviewer: REWORK 치명2/중요3/사소2"
+        },
+        {
+          "at": "2026-10-12T20:48:54+09:00",
+          "text": "1차 REWORK 조치: 141000(unique deferred, 미사용 인덱스 제거, is_assisted NULL 의미 comment), 프로브 anon 3테이블 추가·7b 격리/재번호/soft delete 보강"
         }
       ]
     },
