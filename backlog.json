@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:57:24+09:00",
+  "updated_at": "2026-10-12T11:03:00+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1432,7 +1432,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:57:24+09:00",
+      "updated_at": "2026-10-12T11:03:00+09:00",
       "started_at": "2026-10-12T10:57:00+09:00",
       "completed_at": null,
       "history": [
@@ -1465,6 +1465,10 @@
         {
           "at": "2026-10-12T10:57:24+09:00",
           "text": "briefer: v1.2 반영 - 4개 테이블 → body_metrics + recovery_logs 2개로 통합, 쉬운 설명/관련 파일 갱신"
+        },
+        {
+          "at": "2026-10-12T11:03:00+09:00",
+          "text": "reviewer: REWORK 치명2/중요5/사소3"
         }
       ]
     },
