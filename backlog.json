@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:40:58+09:00",
+  "updated_at": "2026-10-12T10:41:22+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -5778,7 +5778,7 @@
       "title": "BaseTextField autocomplete/name 속성 전달",
       "description": "BaseTextField 가 autocomplete, name, enterkeyhint 등 입력 속성을 input 에 넘기지 않아(루트 div 로 감) 로그인 화면에서 브라우저·모바일 자동완성이 안 된다. inheritAttrs:false + v-bind=\"$attrs\" 를 input 에 적용하거나 명시 prop 추가. LoginView 에 username/current-password 적용. T-007 리뷰 사소 항목.",
       "doc": "docs/T-112.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P1",
       "epic": "E01",
       "phase": "V1",
@@ -5804,8 +5804,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T10:27:46+09:00",
-      "updated_at": "2026-10-12T10:40:52+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T10:41:22+09:00",
+      "started_at": "2026-10-12T10:41:22+09:00",
       "completed_at": null,
       "history": [
         {
@@ -5813,12 +5813,22 @@
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T10:41:22+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. inheritAttrs:false + v-bind=$attrs on input, LoginView autocomplete"
         }
       ],
       "notes": [
         {
           "at": "2026-10-12T10:40:52+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-12T10:41:22+09:00",
+          "text": "시작. inheritAttrs:false + v-bind=$attrs on input, LoginView autocomplete"
         }
       ]
     },
