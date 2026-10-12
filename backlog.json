@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:33:14+09:00",
+  "updated_at": "2026-10-12T21:34:28+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -7009,7 +7009,7 @@
       "title": "working 세트 전용 뷰 (세션 soft delete 필터 강제)",
       "description": "mybody.v_working_sets (security_invoker): exercise_sets ⋈ session_items ⋈ workout_sessions(deleted_at is null) 로 set_kind=working 세트만 노출. PR(T-049)·추세(T-065)·볼륨(T-108) 계산은 이 뷰만 읽어 soft delete 누락을 구조적으로 막는다. 컬럼: set 전체 + exercise_id, session_date, user_id, weight_basis.",
       "doc": "docs/T-123.md",
-      "status": "in_progress",
+      "status": "review",
       "priority": "P0.5",
       "epic": "E02",
       "phase": "V1",
@@ -7034,7 +7034,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T20:55:10+09:00",
-      "updated_at": "2026-10-12T21:33:14+09:00",
+      "updated_at": "2026-10-12T21:34:28+09:00",
       "started_at": "2026-10-12T21:12:18+09:00",
       "completed_at": null,
       "history": [
@@ -7049,6 +7049,12 @@
           "from": "todo",
           "to": "in_progress",
           "note": "시작. 마이그레이션 20261012152000_v_working_sets.sql (security_invoker 뷰, volume_kg 계산 포함)"
+        },
+        {
+          "at": "2026-10-12T21:34:28+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "reviewer OK(3차). 잔여 반영: tech-stack 에 unclassified/volume NULL 처리 계약, 관련 파일 표 정정, bodyweight 볼륨 NULL 프로브. done 은 T-021 리뷰 뒤 순서 조정"
         }
       ],
       "notes": [
@@ -7075,6 +7081,10 @@
         {
           "at": "2026-10-12T21:33:14+09:00",
           "text": "reviewer: REVIEW_OK 치명0/중요2/사소3"
+        },
+        {
+          "at": "2026-10-12T21:34:28+09:00",
+          "text": "reviewer OK(3차). 잔여 반영: tech-stack 에 unclassified/volume NULL 처리 계약, 관련 파일 표 정정, bodyweight 볼륨 NULL 프로브. done 은 T-021 리뷰 뒤 순서 조정"
         }
       ]
     },
