@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:46:36+09:00",
+  "updated_at": "2026-10-12T21:47:53+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1968,7 +1968,7 @@
       "title": "supabase gen types → src/types/database.ts",
       "description": "DB 타입을 생성하고 타입 헬퍼를 만든다.",
       "doc": "docs/T-022.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1991,8 +1991,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-08T00:00:00+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T21:47:53+09:00",
+      "started_at": "2026-10-12T21:47:53+09:00",
       "completed_at": null,
       "history": [
         {
@@ -2000,9 +2000,20 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-12T21:47:53+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. npm run db:types → src/types/supabase.ts(mybody 스키마), createClient<Database>, 타입 테스트"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T21:47:53+09:00",
+          "text": "시작. npm run db:types → src/types/supabase.ts(mybody 스키마), createClient<Database>, 타입 테스트"
+        }
+      ]
     },
     {
       "id": "T-023",
