@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:42:25+09:00",
+  "updated_at": "2026-10-12T14:53:34+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1404,7 +1404,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:42:25+09:00",
+      "updated_at": "2026-10-12T14:53:34+09:00",
       "started_at": "2026-10-12T11:42:25+09:00",
       "completed_at": null,
       "history": [
@@ -1433,6 +1433,10 @@
         {
           "at": "2026-10-12T11:42:25+09:00",
           "text": "시작. 마이그레이션 20261012140000_exercise_sets.sql"
+        },
+        {
+          "at": "2026-10-12T14:53:34+09:00",
+          "text": "마이그레이션 적용·프로브 7b 통과. 리뷰어는 세션 한도(14:10 초기화)로 대기"
         }
       ]
     },
