@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T14:58:42+09:00",
+  "updated_at": "2026-10-12T19:52:46+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1843,7 +1843,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:54:43+09:00",
+      "updated_at": "2026-10-12T19:52:46+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1858,6 +1858,10 @@
         {
           "at": "2026-10-11T22:32:44+09:00",
           "text": "v1.2 수용 기준 1 반영"
+        },
+        {
+          "at": "2026-10-12T19:52:46+09:00",
+          "text": "실사용 계정: dasini@naver.com (uid b097b364-69ee-4476-903c-ba61e95d1ce4, 2026-10-12 생성·확인됨). SQL 시뮬레이션으로 기본 운동 44개 조회 확인. REST 경로 검증은 이 계정으로 로그인해 수행(비밀번호는 사용자만 보유)"
         }
       ]
     },
