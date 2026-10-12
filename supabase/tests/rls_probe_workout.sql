@@ -144,28 +144,68 @@ reset role;
 -- 7c) 활동 기록 (T-104): B 는 자기 세션에만 추가, A 세션엔 불가(42501), 빈 행 거부, 메모만 허용, 잘못된 유형 거부, upsert 1건
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
-do $$ declare act_id uuid := 'cccccccc-0000-0000-0000-000000000001'; n int; begin
-  insert into mybody.activity_records (id, session_id, activity_type, distance_meters, duration_minutes) values (act_id, 'aaaaaaaa-0000-0000-0000-000000000001', 'hike', 8000, 150)
+do $$ declare act_id uuid := 'cccccccc-0000-0000-0000-000000000001'; hike_sid uuid := 'bbbbbbbb-0000-0000-0000-000000000002'; n int; begin
+  insert into mybody.workout_sessions (id, session_type, raw_note) values (hike_sid, 'hike', '북한산 8km');
+  insert into mybody.activity_records (id, session_id, activity_type, distance_meters, duration_minutes) values (act_id, hike_sid, 'hike', 8000, 150)
     on conflict (id) do update set distance_meters = excluded.distance_meters;
-  insert into mybody.activity_records (id, session_id, activity_type, distance_meters, duration_minutes) values (act_id, 'aaaaaaaa-0000-0000-0000-000000000001', 'hike', 8200, 150)
+  insert into mybody.activity_records (id, session_id, activity_type, distance_meters, duration_minutes) values (act_id, hike_sid, 'hike', 8200, 150)
     on conflict (id) do update set distance_meters = excluded.distance_meters;
   select count(*) into n from mybody.activity_records; if n <> 1 then raise exception 'FAIL activity upsert (%)', n; end if;
   begin insert into mybody.activity_records (id, session_id, activity_type, distance_meters) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-00000000000a', 'walk', 1000); raise exception 'FAIL B added activity to A session';
   exception when insufficient_privilege then null; end;
-  begin insert into mybody.activity_records (id, session_id, activity_type) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-000000000001', 'walk'); raise exception 'FAIL empty activity accepted';
-  exception when check_violation then null; end;
-  begin insert into mybody.activity_records (id, session_id, activity_type, distance_meters) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-000000000001', 'swim', 1000); raise exception 'FAIL bad activity_type accepted';
-  exception when check_violation then null; end;
-  insert into mybody.activity_records (id, session_id, activity_type, pain_recovery_note) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-000000000001', 'walk', '하산 후 무릎 뻐근'); -- 메모만: 허용
+  begin insert into mybody.activity_records (id, session_id, activity_type) values (gen_random_uuid(), hike_sid, 'walk'); raise exception 'FAIL empty activity accepted';
+  exception when check_violation then if sqlerrm not like '%not_empty%' then raise exception 'FAIL wrong constraint: %', sqlerrm; end if; end;
+  begin insert into mybody.activity_records (id, session_id, activity_type, distance_meters) values (gen_random_uuid(), hike_sid, 'swim', 1000); raise exception 'FAIL bad activity_type accepted';
+  exception when check_violation then if sqlerrm not like '%type_check%' then raise exception 'FAIL wrong constraint: %', sqlerrm; end if; end;
+  insert into mybody.activity_records (id, session_id, activity_type, pain_recovery_note) values (gen_random_uuid(), hike_sid, 'walk', '하산 후 무릎 뻐근'); -- 메모만: 허용
+  insert into mybody.activity_records (id, session_id, distance_meters) values (gen_random_uuid(), hike_sid, 8000); -- 유형 생략 → other (151000)
+  insert into mybody.activity_records (id, session_id, activity_type, duration_minutes) values (gen_random_uuid(), hike_sid, null, 10080); -- 명시적 NULL → other (153000), 7일 상한 허용
+  select count(*) into n from mybody.activity_records where session_id = hike_sid and activity_type = 'other'; if n <> 2 then raise exception 'FAIL activity_type normalization (%)', n; end if;
+  begin insert into mybody.activity_records (id, session_id, activity_type, duration_minutes) values (gen_random_uuid(), hike_sid, 'hike', 10081); raise exception 'FAIL duration over 7 days accepted';
+  exception when check_violation then if sqlerrm not like '%duration_check%' then raise exception 'FAIL wrong constraint: %', sqlerrm; end if; end;
+  begin insert into mybody.activity_records (id, session_id, activity_type, distance_meters, duration_minutes) values (gen_random_uuid(), hike_sid, 'walk', 0, 0); raise exception 'FAIL zero-only activity accepted';
+  exception when check_violation then if sqlerrm not like '%not_empty%' then raise exception 'FAIL wrong constraint: %', sqlerrm; end if; end;
+  insert into mybody.activity_records (id, session_id, activity_type, pack_weight_kg) values (gen_random_uuid(), hike_sid, 'hike', 6.5); -- 배낭 무게만: 허용
+  -- B 가 자기 활동을 A 세션으로 옮기는 update 는 with check 로 거부
+  begin update mybody.activity_records set session_id = 'aaaaaaaa-0000-0000-0000-00000000000a' where id = act_id; raise exception 'FAIL moved activity into A session';
+  exception when insufficient_privilege then null; end;
+  -- 세션 soft delete 시 활동도 조인 필터로 제외된다 (완료 조건 2)
+  update mybody.workout_sessions set deleted_at = now() where id = hike_sid;
+  select count(*) into n from mybody.activity_records a join mybody.workout_sessions s on s.id = a.session_id and s.deleted_at is null where a.session_id = hike_sid;
+  if n <> 0 then raise exception 'FAIL activities of soft-deleted session not excluded'; end if;
+  update mybody.workout_sessions set deleted_at = null where id = hike_sid;
   -- A 의 활동을 서버 컨텍스트로 만든 뒤 B 는 보지도 고치지도 지우지도 못한다
   reset role; perform set_config('request.jwt.claims', '', true);
   insert into mybody.activity_records (id, session_id, activity_type, distance_meters) values ('cccccccc-0000-0000-0000-00000000000a', 'aaaaaaaa-0000-0000-0000-00000000000a', 'hike', 12000);
   set local role authenticated; perform set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
-  select count(*) into n from mybody.activity_records; if n <> 2 then raise exception 'FAIL B sees A activity (%)', n; end if;
+  select count(*) into n from mybody.activity_records; if n <> 5 then raise exception 'FAIL B sees A activity (%)', n; end if;
   update mybody.activity_records set distance_meters = 1 where id = 'cccccccc-0000-0000-0000-00000000000a';
   get diagnostics n = row_count; if n <> 0 then raise exception 'FAIL B updated A activity'; end if;
   delete from mybody.activity_records where id = 'cccccccc-0000-0000-0000-00000000000a';
   get diagnostics n = row_count; if n <> 0 then raise exception 'FAIL B deleted A activity'; end if;
+end $$;
+reset role;
+
+-- 7d) v_working_sets (T-123): working 만, 세션 soft delete 제외, 타 사용자 0건, 볼륨 계산, assisted_minus 볼륨 NULL
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
+do $$ declare b_item uuid; sid uuid := 'aaaaaaaa-0000-0000-0000-000000000001'; n int; v numeric; begin
+  select id into b_item from mybody.session_items where session_id = sid limit 1;
+  insert into mybody.exercise_sets (id, session_item_id, set_no, set_kind, weight_kg, reps) values (gen_random_uuid(), b_item, 20, 'warmup', 40, 10);
+  select count(*) into n from mybody.v_working_sets where session_id = sid and set_no = 20; if n <> 0 then raise exception 'FAIL warmup leaked into v_working_sets'; end if;
+  select count(*) into n from mybody.v_working_sets where user_id <> '22222222-2222-2222-2222-222222222222'; if n <> 0 then raise exception 'FAIL view shows other users (%)', n; end if;
+  select volume_kg into v from mybody.v_working_sets where id = 'bbbbbbbb-0000-0000-0000-000000000001'; if v <> 360 then raise exception 'FAIL volume (%)', v; end if; -- 60kg × 6
+  update mybody.workout_sessions set deleted_at = now() where id = sid;
+  select count(*) into n from mybody.v_working_sets where session_id = sid; if n <> 0 then raise exception 'FAIL soft-deleted session sets visible in view'; end if;
+  update mybody.workout_sessions set deleted_at = null where id = sid;
+  select count(*) into n from mybody.v_working_sets where session_id = sid; if n < 1 then raise exception 'FAIL view empty after restore'; end if;
+end $$;
+reset role;
+-- anon 은 뷰도 못 읽는다
+set local role anon;
+do $$ begin
+  begin perform count(*) from mybody.v_working_sets; raise exception 'FAIL anon select v_working_sets allowed';
+  exception when insufficient_privilege then null; end;
 end $$;
 reset role;
 

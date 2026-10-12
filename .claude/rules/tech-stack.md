@@ -51,7 +51,7 @@ docs/           T-xxx.md 작업 문서
 ## 계산 규칙 (요구사항 7장, FR-008/009/010/013)
 
 - **점수 없음.** 종합 체력 점수, 영역 점수, 준비도 점수를 만들지 않는다 (1.3, 7.5). 보여주는 것은 원시 기록과 요약값뿐.
-- 모든 계산은 `set_kind = working` 세트만 대상. warmup / drop / failed_attempt 는 이력에만 남긴다.
+- 모든 계산은 `set_kind = working` 세트만 대상. warmup / drop / failed_attempt 는 이력에만 남긴다. **계산 입력은 `mybody.v_working_sets` 뷰만 읽는다**(세션 soft delete 필터 내장, T-123). exercise_sets 를 직접 집계하지 않는다.
 - 세트 볼륨 = 중량 × 반복 (둘 다 있을 때만). `dumbbell_each` 는 편측 값 그대로(×2 금지). 누락 세트가 있으면 "일부 세트 제외" 플래그.
 - PR 비교 단위 = 운동 ID (+ 같은 중량 최고 반복은 weight_kg). `success = true` 만 후보. `is_assisted` 는 별도 그룹. 변형은 별도 운동 ID 라 자동 분리되고 `variation_note` 는 비교 조건에 쓰지 않는다.
 - weight_basis 나 보조 여부가 바뀌면 향상률을 내지 않고 주의 문구만 붙인다 (7.3).
