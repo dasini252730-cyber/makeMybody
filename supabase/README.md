@@ -56,3 +56,11 @@ npm run db:types             # 원격 스키마에서 src/types/supabase.ts 재�
 - `node tools/db-apply.mjs list | apply [--dry-run] | mark <version>`
 - 한 파일은 한 트랜잭션이 아니다(`db query` 특성). 파일 중간에 실패하면 앞부분은 적용된 채 이력에는 안 남으므로, 고친 뒤 재실행이 가능하게
   `if not exists` / 멱등하게 쓴다.
+
+## 마이그레이션 작성 규칙 추가 (2026-10-12 리뷰 반영)
+
+- 테이블을 만들면 **같은 파일에서 즉시** `enable/force row level security` + 정책 4개를 건다. 트리거·인덱스는 그 뒤에. 부분 적용되어도 노출이 없게.
+- 이미 적용된 파일은 수정하지 않는다. 제약 변경은 새 파일에서 `begin; … commit;` 으로 묶는다(drop→add 사이 실패 방지).
+- 공용 함수(`mybody.set_updated_at`)는 한 곳(20261012110000)에만 정의한다. 다른 파일에서 재정의하지 않는다.
+- `service_role` 에는 권한을 주지 않는다. 서버 측 접근이 필요한 작업에서 테이블 단위로 grant 한다. 시드는 postgres(db-apply)로 넣는다.
+- 새 테이블은 `supabase/tests/rls_probe.sql` 에 anon 거부·타 사용자 격리·핵심 제약 케이스를 추가하고 `npm run db:rls` 로 확인한다.
