@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T19:58:17+09:00",
+  "updated_at": "2026-10-12T20:36:31+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -6263,7 +6263,7 @@
       "title": "식이 기록 (FR-021, v1.3 신설)",
       "description": "운동 추천의 입력으로 쓸 식이 기록. 어떤 수준으로 기록할지 결정 필요: (a) 끼니별 한 줄 메모 + 단백질 충분/부족 체크 (가장 가벼움), (b) 끼니별 칼로리·단백질 숫자, (c) 사진/음식명 + AI 추정(P2). 테이블 diet_logs(id, user_id, log_date, meal, note, protein_level, calories nullable). 추천 알고리즘이 실제로 쓰는 값만 기록한다.",
       "doc": "docs/T-115.md",
-      "status": "needs_decision",
+      "status": "todo",
       "priority": "P1",
       "epic": "E06",
       "phase": "V1",
@@ -6282,10 +6282,10 @@
       ],
       "acceptance_criteria": [],
       "assignee": null,
-      "decision_needed": "식이 기록의 수준을 정해 주세요. (a) 끼니별 한 줄 메모 + 단백질 충분/부족 체크 (추천: 입력 부담 최소, 추천 규칙에 충분) (b) 칼로리·단백질 숫자 입력 (c) 음식 사진/이름 → AI 추정(P2, AI 공급자 결정 T-090 필요)",
+      "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T10:34:49+09:00",
-      "updated_at": "2026-10-12T10:34:49+09:00",
+      "updated_at": "2026-10-12T20:36:31+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -6294,9 +6294,20 @@
           "from": null,
           "to": "needs_decision",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T20:36:31+09:00",
+          "from": "needs_decision",
+          "to": "todo",
+          "note": "사용자 확정: (가) 끼니별 메모 + 단백질 충분/부족. 결정 해소 → todo"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T20:36:31+09:00",
+          "text": "사용자 확정: (가) 끼니별 메모 + 단백질 충분/부족. 결정 해소 → todo"
+        }
+      ]
     },
     {
       "id": "T-116",
