@@ -24,7 +24,7 @@
     "app:apk": "node tools/app-apk.mjs",
     "app:install": "adb install -r release/MyBodyOS-debug.apk",
     "app:open": "npx cap open android",
-    "db:rls": "supabase db query --linked -f supabase/tests/rls_probe.sql"
+    "db:rls": "supabase db query --linked -f supabase/tests/rls_probe.sql && supabase db query --linked -f supabase/tests/rls_probe_workout.sql"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",

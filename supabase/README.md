@@ -63,4 +63,4 @@ npm run db:types             # 원격 스키마에서 src/types/supabase.ts 재�
 - 이미 적용된 파일은 수정하지 않는다. 제약 변경은 새 파일에서 `begin; … commit;` 으로 묶는다(drop→add 사이 실패 방지).
 - 공용 함수(`mybody.set_updated_at`)는 한 곳(20261012110000)에만 정의한다. 다른 파일에서 재정의하지 않는다.
 - `service_role` 에는 권한을 주지 않는다. 서버 측 접근이 필요한 작업에서 테이블 단위로 grant 한다. 시드는 postgres(db-apply)로 넣는다.
-- 새 테이블은 `supabase/tests/rls_probe.sql` 에 anon 거부·타 사용자 격리·핵심 제약 케이스를 추가하고 `npm run db:rls` 로 확인한다.
+- 새 테이블은 프로브에 anon 거부·타 사용자 격리·핵심 제약 케이스를 추가하고 `npm run db:rls` 로 확인한다. 파일은 `supabase/tests/rls_probe.sql`(운동 사전·체중·회복)과 `rls_probe_workout.sql`(세션·동작·세트·서버 컨텍스트). 각 파일 300줄 예산 — 넘으면 테이블군별로 더 쪼갠다.
