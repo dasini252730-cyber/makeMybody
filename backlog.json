@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:04:21+09:00",
+  "updated_at": "2026-10-12T11:05:03+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1416,7 +1416,8 @@
       "estimate_minutes": 30,
       "order": 16,
       "depends_on": [
-        "T-006"
+        "T-006",
+        "T-012"
       ],
       "requirements": [
         "FR-013",
@@ -1436,7 +1437,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:03:00+09:00",
+      "updated_at": "2026-10-12T11:05:03+09:00",
       "started_at": "2026-10-12T10:57:00+09:00",
       "completed_at": null,
       "history": [
@@ -1473,6 +1474,10 @@
         {
           "at": "2026-10-12T11:03:00+09:00",
           "text": "reviewer: REWORK 치명2/중요5/사소3"
+        },
+        {
+          "at": "2026-10-12T11:05:03+09:00",
+          "text": "1차 REWORK 조치: 보정 마이그레이션 20261012113000(체지방 >0, 빈 메모 행 차단, measured_at 미래 금지, log_date KST 기본값+미래 금지, 중복 인덱스 제거, set_updated_at 재정의로 순서 의존 제거, service_role grant). 완료 조건은 docs 기준(메모만 있는 행 허용, 날짜 unique 는 recovery_logs 만)"
         }
       ]
     },
