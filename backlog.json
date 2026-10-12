@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:34:13+09:00",
+  "updated_at": "2026-10-12T11:38:22+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1885,7 +1885,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:34:13+09:00",
+      "updated_at": "2026-10-12T11:38:22+09:00",
       "started_at": "2026-10-12T11:22:24+09:00",
       "completed_at": null,
       "history": [
@@ -1922,6 +1922,10 @@
         {
           "at": "2026-10-12T11:34:13+09:00",
           "text": "1차 REWORK 조치: 보정 131000(added/assisted/dumbbell_each 설명 고정, 맨몸 런지·카프 변형 추가, category 어휘 comment). 중량 의미 확정은 T-120 needs_decision(추천안 적용 상태). 원장의 옛 완료 조건 'area_weights' 는 v1.2 7.5(점수 없음)로 폐기 — docs 가 정본"
+        },
+        {
+          "at": "2026-10-12T11:38:22+09:00",
+          "text": "reviewer: REWORK 치명1/중요4/사소5 (딥스 보조 경로 삭실, docs 41→43 미갱신, seed.sql 폐기 결정 미전파)"
         }
       ]
     },
