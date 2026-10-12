@@ -19,9 +19,16 @@
     "db:new": "supabase migration new",
     "db:push": "node tools/db-apply.mjs apply",
     "db:types": "supabase gen types typescript --linked --schema mybody > src/types/supabase.ts",
-    "db:migrations": "node tools/db-apply.mjs list"
+    "db:migrations": "node tools/db-apply.mjs list",
+    "app:sync": "npm run build && npx cap sync android",
+    "app:apk": "node tools/app-apk.mjs",
+    "app:install": "adb install -r release/MyBodyOS-debug.apk",
+    "app:open": "npx cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/cli": "8.5.3",
+    "@capacitor/core": "8.5.3",
     "@supabase/supabase-js": "2.117.3",
     "pinia": "^4.0.3",
     "vue": "^3.5.42",

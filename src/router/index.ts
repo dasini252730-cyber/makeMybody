@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { Capacitor } from '@capacitor/core'
 import { useAuthStore } from '@/stores/auth'
 
 // meta 오타가 타입 검사에 걸리게 한다. public 이 아닌 라우트는 전부 로그인 필요(default-deny).
@@ -30,8 +31,11 @@ const views = {
   settings: () => import('@/views/SettingsView.vue'),
 } satisfies Record<SectionName, () => Promise<unknown>>
 
+// 네이티브(Capacitor WebView)에서는 번들 파일을 직접 여므로 경로 기반 history 가 새로고침·딥링크에서 깨질 수 있다 → 해시 history.
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: Capacitor.isNativePlatform()
+    ? createWebHashHistory()
+    : createWebHistory(import.meta.env.BASE_URL),
   routes: [
     ...sections.map((s) => ({
       name: s.name,

@@ -2,6 +2,9 @@
 import { useId } from 'vue'
 
 // 라벨 + 입력 + 오류 메시지. v-model 로 문자열을 주고받는다.
+// autocomplete/name/enterkeyhint 같은 입력 속성은 루트 div 가 아니라 <input> 에 붙인다 (T-112, 모바일 자동완성).
+// 따라서 부모가 준 class/style 도 input 으로 간다. 레이아웃용 클래스는 이 컴포넌트를 감싸는 요소에 줄 것. id 는 항상 내부 useId 가 이긴다.
+defineOptions({ inheritAttrs: false })
 withDefaults(
   defineProps<{
     label: string
@@ -21,6 +24,7 @@ const id = useId()
   <div class="field" :class="{ invalid: !!error }">
     <label :for="id" class="label">{{ label }}</label>
     <input
+      v-bind="$attrs"
       :id="id"
       v-model="model"
       class="input"

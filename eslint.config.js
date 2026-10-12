@@ -5,7 +5,13 @@ import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescri
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 export default defineConfigWithVueTs(
-  globalIgnores(['**/dist/**', '**/coverage/**', '**/node_modules/**', 'src/types/supabase.ts']),
+  globalIgnores([
+    '**/dist/**',
+    '**/coverage/**',
+    '**/node_modules/**',
+    'src/types/supabase.ts',
+    'android/**', // Capacitor 가 생성한 네이티브 프로젝트 + 복사된 웹 번들 (T-113)
+  ]),
   pluginVue.configs['flat/recommended'],
   vueTsConfigs.recommended,
   {

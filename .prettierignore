@@ -7,3 +7,5 @@ docs
 src/types/supabase.ts
 요구사항.md
 .claude/state
+android
+capacitor-cordova-android-plugins

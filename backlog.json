@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:49:40+09:00",
+  "updated_at": "2026-10-12T10:53:28+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -5778,7 +5778,7 @@
       "title": "BaseTextField autocomplete/name 속성 전달",
       "description": "BaseTextField 가 autocomplete, name, enterkeyhint 등 입력 속성을 input 에 넘기지 않아(루트 div 로 감) 로그인 화면에서 브라우저·모바일 자동완성이 안 된다. inheritAttrs:false + v-bind=\"$attrs\" 를 input 에 적용하거나 명시 prop 추가. LoginView 에 username/current-password 적용. T-007 리뷰 사소 항목.",
       "doc": "docs/T-112.md",
-      "status": "review",
+      "status": "done",
       "priority": "P1",
       "epic": "E01",
       "phase": "V1",
@@ -5804,9 +5804,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T10:27:46+09:00",
-      "updated_at": "2026-10-12T10:48:26+09:00",
+      "updated_at": "2026-10-12T10:53:28+09:00",
       "started_at": "2026-10-12T10:41:22+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T10:53:28+09:00",
       "history": [
         {
           "at": "2026-10-12T10:27:46+09:00",
@@ -5825,6 +5825,12 @@
           "from": "in_progress",
           "to": "review",
           "note": "reviewer OK. id 우선순위 수정( 먼저), 루트 클래스·id 테스트 추가, 58 tests"
+        },
+        {
+          "at": "2026-10-12T10:53:28+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 2개 충족, 58 tests. (커밋에 review 중인 T-113 파일이 함께 포함됨 — hook git add -A)"
         }
       ],
       "notes": [
@@ -5843,6 +5849,10 @@
         {
           "at": "2026-10-12T10:48:26+09:00",
           "text": "reviewer OK. id 우선순위 수정( 먼저), 루트 클래스·id 테스트 추가, 58 tests"
+        },
+        {
+          "at": "2026-10-12T10:53:28+09:00",
+          "text": "완료 조건 2개 충족, 58 tests. (커밋에 review 중인 T-113 파일이 함께 포함됨 — hook git add -A)"
         }
       ]
     },
@@ -5851,7 +5861,7 @@
       "title": "Capacitor Android 셋업 + 갤럭시 APK 설치",
       "description": "@capacitor/core, @capacitor/cli, @capacitor/android 추가. npx cap init(appId 예: kr.mybody.os), cap add android, vite build → cap sync → gradlew assembleDebug 로 APK 생성 → adb 또는 파일 전송으로 갤럭시 설치. .env 는 빌드 시점에 번들에 포함. Supabase 매직링크 redirect 는 앱 딥링크(커스텀 스킴) 필요 → 비밀번호 로그인을 기본으로.",
       "doc": "docs/T-113.md",
-      "status": "in_progress",
+      "status": "review",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -5877,7 +5887,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T10:34:48+09:00",
-      "updated_at": "2026-10-12T10:49:40+09:00",
+      "updated_at": "2026-10-12T10:53:28+09:00",
       "started_at": "2026-10-12T10:42:03+09:00",
       "completed_at": null,
       "history": [
@@ -5892,6 +5902,12 @@
           "from": "todo",
           "to": "in_progress",
           "note": "시작. Capacitor 8.5.3, android/ 생성, 해시 history, eslint/prettier 에서 android/ 제외"
+        },
+        {
+          "at": "2026-10-12T10:53:28+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "reviewer OK. 권장 수정: @capacitor/app 제거(T-114 에서 추가), allowBackup=false, androidScheme 고정, 네이티브에서 매직링크 숨김, allowMixedContent 오타 수정, tools/app-apk.mjs. 완료 조건 2·3(기기 설치·세션 유지)은 사용자 확인 대기"
         }
       ],
       "notes": [
@@ -5906,6 +5922,10 @@
         {
           "at": "2026-10-12T10:49:40+09:00",
           "text": "reviewer: REVIEW_OK 치명0/중요4/사소4"
+        },
+        {
+          "at": "2026-10-12T10:53:28+09:00",
+          "text": "reviewer OK. 권장 수정: @capacitor/app 제거(T-114 에서 추가), allowBackup=false, androidScheme 고정, 네이티브에서 매직링크 숨김, allowMixedContent 오타 수정, tools/app-apk.mjs. 완료 조건 2·3(기기 설치·세션 유지)은 사용자 확인 대기"
         }
       ]
     },

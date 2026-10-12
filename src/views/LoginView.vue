@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, shallowRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { Capacitor } from '@capacitor/core'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseCard from '@/components/ui/BaseCard.vue'
 import BaseTextField from '@/components/ui/BaseTextField.vue'
@@ -13,6 +14,9 @@ const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 const toast = useToast()
+
+// 앱(APK)에는 서버가 없어 매직링크가 돌아올 곳이 없다(v1.3). 네이티브에서는 비밀번호 로그인만 보여준다.
+const canUseMagicLink = !Capacitor.isNativePlatform()
 
 const email = shallowRef('')
 const password = shallowRef('')
@@ -99,6 +103,9 @@ const linkLabel = computed(() =>
           label="이메일"
           type="email"
           inputmode="email"
+          name="email"
+          autocomplete="username"
+          enterkeyhint="next"
           placeholder="you@example.com"
           :error="emailError"
           :disabled="busy"
@@ -107,11 +114,20 @@ const linkLabel = computed(() =>
           v-model="password"
           label="비밀번호"
           type="password"
+          name="password"
+          autocomplete="current-password"
+          enterkeyhint="go"
           :error="passwordError"
           :disabled="busy"
         />
         <BaseButton type="submit" block :disabled="busy">로그인</BaseButton>
-        <BaseButton variant="ghost" block :disabled="busy || cooldown > 0" @click="sendMagicLink">
+        <BaseButton
+          v-if="canUseMagicLink"
+          variant="ghost"
+          block
+          :disabled="busy || cooldown > 0"
+          @click="sendMagicLink"
+        >
           {{ linkLabel }}
         </BaseButton>
         <p v-if="auth.initError" class="init-error" role="alert">
