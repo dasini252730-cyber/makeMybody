@@ -24,7 +24,8 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
 do $$ declare n int; begin
-  select count(*) into n from mybody.exercise_library; if n <> 1 then raise exception 'FAIL B should see only base exercise, saw %', n; end if;
+  select count(*) into n from mybody.exercise_library where user_id is not null; if n <> 0 then raise exception 'FAIL B sees user-owned exercises of others (%)', n; end if;
+  select count(*) into n from mybody.exercise_library where name = 'Back Squat'; if n <> 1 then raise exception 'FAIL B cannot see base exercise'; end if;
   select count(*) into n from mybody.body_metrics; if n <> 0 then raise exception 'FAIL B sees A body_metrics'; end if;
   select count(*) into n from mybody.recovery_logs; if n <> 0 then raise exception 'FAIL B sees A recovery_logs'; end if;
 end $$;
@@ -52,7 +53,8 @@ insert into mybody.exercise_library (user_id, name, measurement_type) values ('2
 insert into mybody.body_metrics (weight_kg) values (65.0);
 insert into mybody.recovery_logs (log_date, sleep_hours, sleep_quality) values ((now() at time zone 'Asia/Seoul')::date, 7, 4);
 do $$ declare n int; begin
-  select count(*) into n from mybody.exercise_library; if n <> 2 then raise exception 'FAIL B should see own+base, saw %', n; end if;
+  select count(*) into n from mybody.exercise_library where user_id = '22222222-2222-2222-2222-222222222222'; if n <> 1 then raise exception 'FAIL B should see own exercise, saw %', n; end if;
+  select count(*) into n from mybody.exercise_library where user_id is not null and user_id <> '22222222-2222-2222-2222-222222222222'; if n <> 0 then raise exception 'FAIL B sees others exercises'; end if;
   select count(*) into n from mybody.body_metrics; if n <> 1 then raise exception 'FAIL B should see own body_metrics'; end if;
   select count(*) into n from mybody.recovery_logs where user_id = '22222222-2222-2222-2222-222222222222'; if n <> 1 then raise exception 'FAIL B recovery_logs default user_id'; end if;
 end $$;
@@ -147,12 +149,51 @@ do $$ declare sid uuid := 'aaaaaaaa-0000-0000-0000-000000000001'; n int; base_id
   select count(*) into n from mybody.workout_sessions where id = a_sid and deleted_at is not null; if n <> 0 then raise exception 'FAIL B soft-deleted A session'; end if;
   -- 완료 조건 4: 소유자 A 가 자기 세션을 soft delete 하면 items 는 남고, 세션 조인 필터(deleted_at is null)에서 제외된다
   perform set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', true);
+  select count(*) into n from mybody.workout_sessions where id = a_sid and deleted_at is null; if n <> 1 then raise exception 'FAIL precondition: A session should be visible and not deleted'; end if;
+  -- 세션 날짜 상한: KST 내일은 거부
+  begin update mybody.workout_sessions set session_date = (now() at time zone 'Asia/Seoul')::date + 1 where id = a_sid; raise exception 'FAIL future session_date accepted';
+  exception when check_violation then null; end;
   update mybody.workout_sessions set deleted_at = now() where id = a_sid;
   select count(*) into n from mybody.session_items where session_id = a_sid; if n <> 1 then raise exception 'FAIL items vanished after soft delete (%)', n; end if;
   select count(*) into n from mybody.session_items i join mybody.workout_sessions s on s.id = i.session_id and s.deleted_at is null where i.session_id = a_sid;
   if n <> 0 then raise exception 'FAIL soft-deleted session items not excluded by filter'; end if;
   perform set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
 end $$;
+-- 8) 서버 컨텍스트 소유 검사 + FK deferrable (T-013 보정 125000)
 reset role;
+do $$ declare a_ex uuid; b_ex uuid; begin
+  perform set_config('request.jwt.claims', '', true);
+  select id into a_ex from mybody.exercise_library where name = 'A 전용 운동';
+  select id into b_ex from mybody.exercise_library where name = 'B 맨몸 운동';
+  -- 서버가 A 의 운동을 넣으며 B 의 비공개 운동을 부모로 지정 → 거부
+  begin
+    insert into mybody.exercise_library (user_id, name, measurement_type, parent_exercise_id) values ('11111111-1111-1111-1111-111111111111', 'A 변형', 'bodyweight', b_ex);
+    raise exception 'FAIL server context allowed foreign parent';
+  exception when check_violation then null; end;
+  -- 서버가 A 세션에 B 의 운동을 참조하는 동작을 넣음 → 거부 (세션 소유자 기준)
+  begin
+    insert into mybody.session_items (id, session_id, exercise_id, display_name_snapshot) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-00000000000a', b_ex, 'B 운동 참조');
+    raise exception 'FAIL server context allowed foreign exercise in item';
+  exception when check_violation then null; end;
+  -- 서버가 A 의 동작(A 운동 참조)을 B 세션으로 옮김 → 거부 (update of session_id 도 트리거)
+  begin
+    update mybody.session_items set session_id = 'aaaaaaaa-0000-0000-0000-000000000001' where exercise_id = a_ex;
+    raise exception 'FAIL server context moved A item (A exercise) into B session';
+  exception when check_violation then null; end;
+  -- 기록에 쓰인 운동 직접 삭제는 즉시 23503 (삭제 가드 트리거). set constraints 없이도 바로 난다
+  begin
+    delete from mybody.exercise_library where id = a_ex;
+    raise exception 'FAIL exercise used by items was deleted';
+  exception when foreign_key_violation then null; end;
+end $$;
+-- 계정 삭제는 cascade 가 끝난 뒤 FK 가 검사되어 성공해야 하고, 세션·동작·운동이 남지 않아야 한다
+do $$ begin
+  delete from auth.users where id = '11111111-1111-1111-1111-111111111111';
+  set constraints all immediate;
+  if exists (select 1 from mybody.workout_sessions where user_id = '11111111-1111-1111-1111-111111111111') then raise exception 'FAIL cascade left sessions'; end if;
+  if exists (select 1 from mybody.session_items where session_id = 'aaaaaaaa-0000-0000-0000-00000000000a') then raise exception 'FAIL cascade left items'; end if;
+  if exists (select 1 from mybody.exercise_library where user_id = '11111111-1111-1111-1111-111111111111') then raise exception 'FAIL cascade left exercises'; end if;
+exception when foreign_key_violation then raise exception 'FAIL account delete blocked by FK (%)', sqlerrm;
+end $$;
 select 'ALL RLS PROBES PASSED' as result;
 rollback;

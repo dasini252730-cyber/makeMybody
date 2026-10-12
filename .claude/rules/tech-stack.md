@@ -23,7 +23,7 @@ src/
 supabase/
   migrations/   테이블 묶음당 1파일, 모든 테이블에 RLS (요구사항 6장)
   functions/    Edge Functions (AI 구조화 프록시, P1)
-  seed.sql      exercise_library 기본 운동 (weight_basis 포함)
+  tests/        rls_probe.sql — anon·타 사용자·제약 검증 (npm run db:rls). 시드는 seed.sql 이 아니라 마이그레이션 파일로 넣는다
 e2e/            Playwright 스모크
 tools/          backlog CLI
 docs/           T-xxx.md 작업 문서

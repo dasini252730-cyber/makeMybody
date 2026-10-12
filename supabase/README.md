@@ -36,8 +36,8 @@ npm run db:types             # 원격 스키마에서 src/types/supabase.ts 재�
 
 ## 시드
 
-- `supabase/seed.sql` 은 `db push` 로 적용되지 않는다. 운동 라이브러리/목표 프리셋 시드는 별도 작업(T-023 등)에서
-  `psql` 또는 `supabase db query` 로 적용하고, 멱등하게(`on conflict do nothing`) 작성한다.
+- 시드도 **마이그레이션 파일**로 넣는다(예: `20261012130000_seed_exercise_library.sql`). `seed.sql` 은 쓰지 않는다(db-apply 가 추적하지 못함).
+- 멱등하게(`on conflict ... do nothing`) 쓰고, 이미 적용된 시드의 수정은 새 파일에서 `update` 로 한다.
 
 ## 전용 스키마 `mybody` (2026-10-12 결정)
 

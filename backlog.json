@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:41:12+09:00",
+  "updated_at": "2026-10-12T11:41:19+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1266,7 +1266,7 @@
       "title": "workout_sessions + session_items 테이블 + RLS",
       "description": "workout_sessions: id(클라이언트 UUID PK), user_id, session_date, session_type(PT/strength/mixed/walk/hike/other), started_at, ended_at, duration_minutes, raw_note(원문 메모, 구조화 후에도 유지), structured_status(none/partial/done), condition_note, general_note, source_type(manual/ai_draft/ai_confirmed/import), created_at, updated_at, deleted_at(soft delete). session_items: id, session_id, exercise_id(nullable), display_name_snapshot, sequence_no, variation_note, assistance_note, difficulty_rpe, pain_note, item_note. RLS + user_id/session_date 인덱스.",
       "doc": "docs/T-013.md",
-      "status": "in_progress",
+      "status": "done",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1296,9 +1296,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:41:12+09:00",
+      "updated_at": "2026-10-12T11:41:19+09:00",
       "started_at": "2026-10-12T11:08:21+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T11:41:19+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -1311,6 +1311,18 @@
           "from": "todo",
           "to": "in_progress",
           "note": "시작. 마이그레이션 20261012120000_workout_sessions_items.sql (T-016 과 병렬)"
+        },
+        {
+          "at": "2026-10-12T11:41:19+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "reviewer OK(3차) + 잔여 반영"
+        },
+        {
+          "at": "2026-10-12T11:41:19+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 4개 충족(rls_probe 7·8번). 보정 123000~126000, 133000 포함. (T-023 시드 파일도 함께 커밋됨 — 2차 리뷰 반영 완료, 3차 리뷰 대기)"
         }
       ],
       "notes": [
@@ -1349,6 +1361,14 @@
         {
           "at": "2026-10-12T11:41:12+09:00",
           "text": "3차 REVIEW_OK. 잔여: 133000(삭제 가드 트리거, update of session_id 복원), 프로브 8번 보강, T-016 docs 정합"
+        },
+        {
+          "at": "2026-10-12T11:41:19+09:00",
+          "text": "reviewer OK(3차) + 잔여 반영"
+        },
+        {
+          "at": "2026-10-12T11:41:19+09:00",
+          "text": "완료 조건 4개 충족(rls_probe 7·8번). 보정 123000~126000, 133000 포함. (T-023 시드 파일도 함께 커밋됨 — 2차 리뷰 반영 완료, 3차 리뷰 대기)"
         }
       ]
     },
