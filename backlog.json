@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:09:52+09:00",
+  "updated_at": "2026-10-12T11:11:10+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -6254,6 +6254,45 @@
       "history": [
         {
           "at": "2026-10-12T10:54:42+09:00",
+          "from": null,
+          "to": "needs_decision",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-119",
+      "title": "body_metrics.measurement_method 값 집합 결정",
+      "description": "체중·체성분 측정 방식을 자유 텍스트로 둘지, 고정 목록(예: 체중계/인바디/스마트워치/기타)으로 할지 결정. 고정 목록이면 check 제약 + 폼 선택지. 데이터가 쌓인 뒤 결정해도 됨.",
+      "doc": "docs/T-119.md",
+      "status": "needs_decision",
+      "priority": "P1",
+      "epic": "E06",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 119,
+      "depends_on": [
+        "T-016"
+      ],
+      "requirements": [
+        "FR-013"
+      ],
+      "tags": [
+        "db",
+        "decision"
+      ],
+      "acceptance_criteria": [],
+      "assignee": null,
+      "decision_needed": "측정 방식을 (a) 자유 텍스트 유지 (b) 고정 목록(체중계/인바디/스마트워치/기타, 추천) 중 어느 쪽으로 할까요?",
+      "blocked_reason": null,
+      "created_at": "2026-10-12T11:11:10+09:00",
+      "updated_at": "2026-10-12T11:11:10+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-12T11:11:10+09:00",
           "from": null,
           "to": "needs_decision",
           "note": "CLI로 추가"
