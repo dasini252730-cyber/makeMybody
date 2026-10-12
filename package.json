@@ -23,7 +23,8 @@
     "app:sync": "npm run build && npx cap sync android",
     "app:apk": "node tools/app-apk.mjs",
     "app:install": "adb install -r release/MyBodyOS-debug.apk",
-    "app:open": "npx cap open android"
+    "app:open": "npx cap open android",
+    "db:rls": "supabase db query --linked -f supabase/tests/rls_probe.sql"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",

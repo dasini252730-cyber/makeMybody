@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:06:43+09:00",
+  "updated_at": "2026-10-12T11:06:55+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1169,7 +1169,7 @@
       "title": "exercise_library 테이블 + RLS (weight_basis, parent_exercise_id)",
       "description": "운동 사전: id, user_id(기본 운동은 NULL), name, aliases text[], category, measurement_type(weight/bodyweight/time/distance/complex), weight_basis(barbell_total/dumbbell_each/added/machine_pin/assisted_minus, weight 타입이면 필수 CHECK), parent_exercise_id(변형의 상위 운동), description, is_archived. RLS.",
       "doc": "docs/T-012.md",
-      "status": "review",
+      "status": "done",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1195,9 +1195,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:06:43+09:00",
+      "updated_at": "2026-10-12T11:06:55+09:00",
       "started_at": "2026-10-12T10:57:00+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T11:06:55+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -1222,6 +1222,12 @@
           "from": "todo",
           "to": "review",
           "note": "reviewer OK. 권장 수정: 보정 20261012114000(user_id default auth.uid(), 부모 소유 트리거), service_role grant 는 20261012113000 에 포함. rls_probe 6개 블록 통과"
+        },
+        {
+          "at": "2026-10-12T11:06:55+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 3개 충족(rls_probe), 보정 마이그레이션 포함"
         }
       ],
       "notes": [
@@ -1248,6 +1254,10 @@
         {
           "at": "2026-10-12T11:06:43+09:00",
           "text": "reviewer OK. 권장 수정: 보정 20261012114000(user_id default auth.uid(), 부모 소유 트리거), service_role grant 는 20261012113000 에 포함. rls_probe 6개 블록 통과"
+        },
+        {
+          "at": "2026-10-12T11:06:55+09:00",
+          "text": "완료 조건 3개 충족(rls_probe), 보정 마이그레이션 포함"
         }
       ]
     },
