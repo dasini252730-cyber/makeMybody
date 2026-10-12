@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:30:29+09:00",
+  "updated_at": "2026-10-12T10:31:44+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -751,7 +751,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:27:47+09:00",
+      "updated_at": "2026-10-12T10:31:44+09:00",
       "started_at": "2026-10-12T10:19:24+09:00",
       "completed_at": null,
       "history": [
@@ -788,6 +788,10 @@
         {
           "at": "2026-10-12T10:27:47+09:00",
           "text": "1차 REWORK 조치: 스토어 전면 예외 처리(initError, run 래퍼), initPromise 메모이즈, 세션 끊김 시 App.vue watch 로 로그인 이동, 쿨다운 60초, 테스트 51개"
+        },
+        {
+          "at": "2026-10-12T10:31:44+09:00",
+          "text": "reviewer: REVIEW_OK 치명0/중요3/사소6"
         }
       ]
     },
