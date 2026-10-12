@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:17:07+09:00",
+  "updated_at": "2026-10-12T10:17:36+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -537,7 +537,7 @@
       "title": "Supabase 프로젝트 생성 및 클라이언트 모듈",
       "description": "Supabase 프로젝트를 만들고 env와 supabase-js 클라이언트를 연결한다.",
       "doc": "docs/T-005.md",
-      "status": "needs_decision",
+      "status": "done",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -562,9 +562,9 @@
       "decision_needed": "결정됨(2026-10-12): 기존 Supabase 프로젝트 공유 + 전용 스키마 mybody. 남은 것: 사용자가 .env 에 VITE_SUPABASE_URL 과 publishable(anon) key 를 넣어 주면 getSession() 확인 후 done.",
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:14:13+09:00",
+      "updated_at": "2026-10-12T10:17:36+09:00",
       "started_at": "2026-10-08T19:35:30+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T10:17:36+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -583,6 +583,24 @@
           "from": "in_progress",
           "to": "needs_decision",
           "note": "코드/테스트 완료(재리뷰 REVIEW_OK). 완료 조건 2(세션 조회)는 실제 프로젝트 필요"
+        },
+        {
+          "at": "2026-10-12T10:17:36+09:00",
+          "from": "needs_decision",
+          "to": "in_progress",
+          "note": "결정 완료(기존 프로젝트 공유 + mybody 스키마), .env 작성"
+        },
+        {
+          "at": "2026-10-12T10:17:36+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "src/lib/supabase.ts 는 T-009 6차 리뷰 범위에 포함되어 검토됨"
+        },
+        {
+          "at": "2026-10-12T10:17:36+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "getSession() 성공, env 누락 에러 메시지 기존 테스트 통과"
         }
       ],
       "notes": [
@@ -613,6 +631,18 @@
         {
           "at": "2026-10-12T10:14:13+09:00",
           "text": "2026-10-12: 기존 프로젝트 learnEnglishWithStory(uqtkmwqqigbtzcoumrly, ap-northeast-1) 선택(활성 프로젝트가 이것뿐). .env 작성, anon 클라이언트 getSession() 성공 → 완료 조건 충족. done 은 T-009 커밋 뒤 처리"
+        },
+        {
+          "at": "2026-10-12T10:17:36+09:00",
+          "text": "결정 완료(기존 프로젝트 공유 + mybody 스키마), .env 작성"
+        },
+        {
+          "at": "2026-10-12T10:17:36+09:00",
+          "text": "src/lib/supabase.ts 는 T-009 6차 리뷰 범위에 포함되어 검토됨"
+        },
+        {
+          "at": "2026-10-12T10:17:36+09:00",
+          "text": "getSession() 성공, env 누락 에러 메시지 기존 테스트 통과"
         }
       ]
     },
