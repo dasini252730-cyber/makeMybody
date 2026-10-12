@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:11:10+09:00",
+  "updated_at": "2026-10-12T11:12:37+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1471,7 +1471,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:09:21+09:00",
+      "updated_at": "2026-10-12T11:12:37+09:00",
       "started_at": "2026-10-12T10:57:00+09:00",
       "completed_at": null,
       "history": [
@@ -1516,6 +1516,10 @@
         {
           "at": "2026-10-12T11:09:21+09:00",
           "text": "reviewer: REWORK 치명1/중요6/사소2 (service_role 스키마 전체+기본권한 부여 범위이탈)"
+        },
+        {
+          "at": "2026-10-12T11:12:37+09:00",
+          "text": "2차 REWORK 조치: 121000 에서 service_role 권한 회수(스키마 usage·테이블·default privileges), recovery_logs not_empty, 미래 날짜 +1 제거, begin/commit 원자화. 프로브 6b 8건 추가. 문서 헤더 v1.2 갱신. measurement_method 는 T-119 로"
         }
       ]
     },
