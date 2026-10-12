@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:09:21+09:00",
+  "updated_at": "2026-10-12T11:09:52+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1841,7 +1841,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:45+09:00",
+      "updated_at": "2026-10-12T11:09:52+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -1856,6 +1856,10 @@
         {
           "at": "2026-10-11T22:32:45+09:00",
           "text": "v1.2 weight_basis/parent 반영"
+        },
+        {
+          "at": "2026-10-12T11:09:52+09:00",
+          "text": "briefer: 쉬운 설명/관련 파일 작성"
         }
       ]
     },
