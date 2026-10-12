@@ -18,7 +18,7 @@ export const STATUSES = [
   'cancelled',
   'on_hold',
 ]
-export const PRIORITIES = ['P0', 'P1', 'P2', 'P3', 'P4']
+export const PRIORITIES = ['P0', 'P0.5', 'P1', 'P2', 'P3', 'P4']
 export const PHASES = ['V1', 'V1.1', 'V2']
 
 export function nowIso() {

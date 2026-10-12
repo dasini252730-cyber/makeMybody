@@ -30,6 +30,17 @@ const router = createRouter({
       component: views[s.name],
       meta: { label: s.label },
     })),
+    // 공통 UI 확인 페이지. 개발 모드에서만 등록한다.
+    ...(import.meta.env.DEV
+      ? [
+          {
+            name: 'dev-ui',
+            path: '/dev/ui',
+            component: () => import('@/views/DevUiView.vue'),
+            meta: { label: 'UI KIT' },
+          },
+        ]
+      : []),
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 })

@@ -1,8 +1,8 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
 // Supabase 클라이언트 싱글톤. 타입 파라미터(Database)는 T-022(supabase gen types) 에서 붙인다.
 // 키는 publishable key(sb_publishable_...)를 권장하며, 레거시 anon key(JWT)도 허용한다.
-// service_role/secret 키는 절대 클라이언트에 두지 않는다 (.claude/rules/tech-stack.md, NFR-003).
+// service_role/secret 키는 절대 클라이언트에 두지 않는다 (.claude/rules/tech-stack.md, NFR-004).
 
 export interface SupabaseEnv {
   url: string
@@ -78,13 +78,21 @@ function asString(v: string | boolean | undefined): string {
   return typeof v === 'string' ? v.trim() : ''
 }
 
-let client: SupabaseClient | null = null
+/** 기존 Supabase 프로젝트를 다른 앱과 공유하므로 이 앱의 모든 테이블은 전용 스키마에 둔다 (T-005 결정, 2026-10-12). */
+export const APP_SCHEMA = 'mybody' as const
+
+function makeClient(url: string, key: string) {
+  return createClient(url, key, { db: { schema: APP_SCHEMA } })
+}
+export type AppSupabaseClient = ReturnType<typeof makeClient>
+
+let client: AppSupabaseClient | null = null
 
 /** 앱 전역에서 공유하는 클라이언트. 처음 호출될 때 env 를 검증하고 생성한다. */
-export function getSupabase(): SupabaseClient {
+export function getSupabase(): AppSupabaseClient {
   if (!client) {
     const { url, key } = readSupabaseEnv()
-    client = createClient(url, key)
+    client = makeClient(url, key)
   }
   return client
 }

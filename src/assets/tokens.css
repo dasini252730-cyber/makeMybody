@@ -1,0 +1,43 @@
+/* 디자인 토큰. 변수만 둔다(규칙은 style.css). 컴포넌트는 반드시 이 변수만 쓴다. 다크모드는 OS 설정을 따른다. */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f6f6f8;
+  --color-text: #1a1a1f;
+  --color-muted: #6b6b75;
+  --color-border: #e1e1e6;
+  --color-accent: #2f6df6;
+  --color-accent-contrast: #ffffff;
+  --color-success: #157a42; /* 흰 글자 대비 5.4:1 (AA) */
+  --color-success-contrast: #ffffff;
+  --color-danger: #d9363e;
+  --color-danger-contrast: #ffffff;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+
+  --tap-min: 44px; /* NFR-001 한 손 조작 · NFR-006 최소 터치 타깃 */
+  --tabbar-h: 56px; /* BottomTabs 높이. 하단에 떠 있는 요소(Toast 등)는 이 값 위에 둔다 */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 8%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #121216;
+    --color-surface: #1c1c22;
+    --color-text: #f1f1f4;
+    --color-muted: #a0a0ab;
+    --color-border: #2c2c34;
+    --color-accent: #7ea4ff;
+    --color-accent-contrast: #0b1a3a;
+    --color-success: #4cc27f;
+    --color-success-contrast: #05240f; /* 어두운 글자 대비 7.7:1 */
+    --color-danger: #ff6b70;
+    --color-danger-contrast: #2a0607;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  }
+}

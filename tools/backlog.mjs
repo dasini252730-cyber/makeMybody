@@ -36,7 +36,7 @@ const HELP = `backlog CLI — backlog.json 조회/수정/추가
   add --title "제목" [--desc "설명"] [--epic E04] [--priority P0] [--phase V1]
       [--deps T-001,T-002] [--req FR-002] [--tags ui,mobile] [--ac "조건1" --ac "조건2"]
       [--status todo|on_hold|needs_decision] [--decision "질문"]
-  set <id> [--status s] [--title] [--desc] [--priority] [--epic] [--phase] [--deps] [--tags]
+  set <id> [--status s] [--title] [--desc] [--priority] [--epic] [--phase] [--deps] [--tags] [--req]
       [--assignee] [--decision "질문"] [--blocked "사유"] [--note "메모"] [--force]
   status <id> <status> [--note "메모"]      set --status 축약형
   note <id> "메모"                          notes에 추가 + 문서 작업 기록에 append
@@ -246,6 +246,10 @@ function cmdSet(data, id, o) {
   if (o.tags !== undefined) {
     t.tags = csv(o.tags) ?? []
     changes.push('tags')
+  }
+  if (o.req !== undefined) {
+    t.requirements = csv(o.req) ?? []
+    changes.push('requirements')
   }
   if (o.assignee !== undefined) {
     t.assignee = o.assignee || null

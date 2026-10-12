@@ -2,11 +2,12 @@
 import { computed, ref, watch } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import BottomTabs from '@/components/layout/BottomTabs.vue'
+import ToastHost from '@/components/ui/ToastHost.vue'
 
 // 모바일 우선 앱 셸: 헤더(현재 섹션) + 스크롤 콘텐츠 + 하단 탭.
-// 셸이 뷰포트 높이를 차지하고 .content 만 스크롤되므로 헤더/탭은 항상 보인다(NFR-004).
-// PC(≥1024px)에서는 셸 전체 폭을 제한해 이력/그래프 화면이 읽기 좋게 한다(NFR-005).
-// 색 토큰(--color-*)은 T-009 에서 정의한다. 그 전까지는 시스템 색(Canvas/CanvasText)으로 다크모드를 따른다.
+// 셸이 뷰포트 높이를 차지하고 .content 만 스크롤되므로 헤더/탭은 항상 보인다(NFR-001).
+// PC(≥1024px)에서는 셸 전체 폭을 제한해 구조화/분석 화면이 읽기 좋게 한다(요구사항 5장).
+// 색·간격 토큰(--color-*, --space-*, --tabbar-h)은 src/assets/tokens.css 에 있다. 다크모드는 OS 설정을 따른다.
 const route = useRoute()
 const content = ref<HTMLElement | null>(null)
 const title = computed(() => (route.meta.label as string | undefined) ?? 'MY BODY OS')
@@ -31,6 +32,7 @@ watch(
       <RouterView />
     </main>
     <BottomTabs />
+    <ToastHost />
   </div>
 </template>
 

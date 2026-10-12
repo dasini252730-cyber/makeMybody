@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:16:59+09:00",
+  "updated_at": "2026-10-12T10:17:07+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -833,7 +833,7 @@
       "title": "공통 UI 컴포넌트 세트",
       "description": "Button, Card, TextField, NumberStepper, Toast 를 만든다.",
       "doc": "docs/T-009.md",
-      "status": "review",
+      "status": "done",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -858,9 +858,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:16:59+09:00",
+      "updated_at": "2026-10-12T10:17:07+09:00",
       "started_at": "2026-10-08T20:04:27+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T10:17:07+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -879,6 +879,12 @@
           "from": "in_progress",
           "to": "review",
           "note": "reviewer OK (6차). 권장 수정 반영: 오른쪽 버튼/두 번째 손가락 무시, repeated 는 fire 성공 후 설정, 기준값 지연 계산, 테스트 2건 추가(40 tests)"
+        },
+        {
+          "at": "2026-10-12T10:17:07+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 2개 충족, 40 tests, lint/build 통과"
         }
       ],
       "notes": [
@@ -933,6 +939,10 @@
         {
           "at": "2026-10-12T10:16:59+09:00",
           "text": "reviewer OK (6차). 권장 수정 반영: 오른쪽 버튼/두 번째 손가락 무시, repeated 는 fire 성공 후 설정, 기준값 지연 계산, 테스트 2건 추가(40 tests)"
+        },
+        {
+          "at": "2026-10-12T10:17:07+09:00",
+          "text": "완료 조건 2개 충족, 40 tests, lint/build 통과"
         }
       ]
     },

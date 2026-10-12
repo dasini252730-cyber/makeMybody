@@ -1,6 +1,6 @@
 # MY BODY OS
 
-개인 운동 성장 분석 앱. "내 몸이 얼마나 강해지고 있는가"를 Fitness Score · 성장 그래프 · Goal Readiness 로 보여준다. V1 은 단일 사용자(개발자 본인). 요구사항 원본: `요구사항.md` (V1.0).
+개인 운동 기록·성장 분석 앱. 운동 직후 **원문 메모 한 줄**로 기록을 시작하고, 나중에 동작·세트로 구조화해 같은 조건의 과거 기록과 비교한다. 종합 체력 점수·준비도 점수는 만들지 않는다 (7.5). 단일 사용자(개발자 본인). 요구사항 원본: `요구사항.md` (**v1.2**, 2026-10-11 개정. v1.0 은 `docs/archive/`). 우선순위는 P0(기록이 쌓인다) → P0.5(쌓인 기록을 본다) → P1 → P2.
 
 스택: Vue 3 + Vite + TS · Pinia · Vue Router · Supabase(PostgreSQL/Auth/RLS/Edge Functions) · Vercel · Vitest · Playwright.
 

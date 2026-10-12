@@ -2,7 +2,7 @@
 import { RouterLink, useRoute } from 'vue-router'
 import { sections } from '@/router'
 
-// 6개 섹션 탭. 한 손 조작(NFR-004): 터치 타깃 44px 이상, 화면 하단 고정.
+// 6개 섹션 탭. 한 손 조작(NFR-001): 터치 타깃 44px 이상(NFR-006), 화면 하단 고정.
 const route = useRoute()
 const isActive = (name: string) => route.name === name
 </script>
@@ -36,7 +36,7 @@ const isActive = (name: string) => route.name === name
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 56px;
+  min-height: var(--tabbar-h);
   min-width: 0;
   padding: 0 2px;
   text-decoration: none;
