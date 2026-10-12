@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T20:36:31+09:00",
+  "updated_at": "2026-10-12T20:39:40+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -6314,7 +6314,7 @@
       "title": "비PT일 운동 추천 규칙 설계 (FR-022, v1.3 신설)",
       "description": "PT 세션(session_type=PT)이 아닌 날에 오늘 무엇을 하면 좋을지 추천. 입력: 최근 7~14일 세션(부위/운동별 마지막 수행일·볼륨·RPE), 통증 메모, 수면·음주·컨디션(recovery_logs), 체중 추세, 식이(FR-021), 목표. 출력: 추천 유형(근력/유산소/회복/휴식) + 추천 운동·세트 초안 + 근거 문장(사실/계산/추정 구분, 진단 문구 금지). 규칙 기반(점수표)인지 AI 인지, 규칙의 구체 임계값은 사용자 확정 필요.",
       "doc": "docs/T-116.md",
-      "status": "needs_decision",
+      "status": "todo",
       "priority": "P1",
       "epic": "E16",
       "phase": "V1",
@@ -6336,10 +6336,10 @@
       ],
       "acceptance_criteria": [],
       "assignee": null,
-      "decision_needed": "운동 추천을 어떤 방식으로 할까요? (a) 규칙 기반: 부위별 마지막 수행일·주간 볼륨·통증·수면·음주로 점수표를 만들어 추천 (추천: 설명 가능, AI 비용 없음, 테스트 가능) (b) AI(LLM)가 최근 기록 요약을 보고 추천(T-090 공급자 결정 필요, 비용 발생) (c) a 를 기본으로 하고 b 는 설명문 생성에만 사용. 그리고 추천에 넣을 지표(예: 같은 부위 48시간 이내 반복 금지, 통증 부위 제외, 수면 5시간 미만이면 회복일, 음주 다음날 유산소/저강도) 초안을 제가 만들어 승인받을까요?",
+      "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-12T10:34:49+09:00",
-      "updated_at": "2026-10-12T10:34:49+09:00",
+      "updated_at": "2026-10-12T20:39:40+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -6348,9 +6348,20 @@
           "from": null,
           "to": "needs_decision",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T20:39:40+09:00",
+          "from": "needs_decision",
+          "to": "todo",
+          "note": "사용자 확정: (다) 규칙 기반 추천 + AI 는 설명문만. 다음 단계: 규칙 초안 작성 → 승인"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T20:39:40+09:00",
+          "text": "사용자 확정: (다) 규칙 기반 추천 + AI 는 설명문만. 다음 단계: 규칙 초안 작성 → 승인"
+        }
+      ]
     },
     {
       "id": "T-117",
@@ -6665,6 +6676,50 @@
       "history": [
         {
           "at": "2026-10-12T11:39:48+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-122",
+      "title": "추천 설명문 AI 다듬기 (FR-022, 선택)",
+      "description": "T-117 이 만든 규칙 기반 추천(유형·운동·근거 키워드)을 LLM 에 보내 자연스러운 한국어 설명 한두 문장으로 바꾼다. 추천 내용 자체는 바꾸지 않는다(규칙 결과를 그대로 전달, 판정 문구 금지). AI 실패 시 규칙이 만든 기본 문장을 그대로 보여준다. 건강 메모 외부 전송은 설정에서 켠 경우만(NFR-004).",
+      "doc": "docs/T-122.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E16",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 122,
+      "depends_on": [
+        "T-117",
+        "T-091"
+      ],
+      "requirements": [
+        "FR-022",
+        "NFR-004"
+      ],
+      "tags": [
+        "ai",
+        "recommend"
+      ],
+      "acceptance_criteria": [
+        "AI 꺼짐/실패 시에도 추천 카드가 기본 문장으로 뜸",
+        "AI 문장에 추천과 다른 운동·판정 문구가 없음(테스트 프롬프트 검증)"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-12T20:39:40+09:00",
+      "updated_at": "2026-10-12T20:39:40+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-12T20:39:40+09:00",
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
