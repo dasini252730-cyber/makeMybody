@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T09:54:15+09:00",
+  "updated_at": "2026-10-12T09:59:24+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -850,7 +850,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T09:53:43+09:00",
+      "updated_at": "2026-10-12T09:59:24+09:00",
       "started_at": "2026-10-08T20:04:27+09:00",
       "completed_at": null,
       "history": [
@@ -899,6 +899,10 @@
         {
           "at": "2026-10-12T09:53:43+09:00",
           "text": "3차 REWORK 조치: display 문자열 바인딩(useStepperValue), 포인터 플래그를 stop 후 다음 태스크에 해제(useHoldRepeat), 새 토스트 축출 제외, input 이벤트만 쓰는 테스트로 교체. assertive 전환은 T-111 로 이관"
+        },
+        {
+          "at": "2026-10-12T09:59:24+09:00",
+          "text": "reviewer: REWORK 치명1/중요2/사소3"
         }
       ]
     },
