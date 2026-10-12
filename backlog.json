@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T20:57:36+09:00",
+  "updated_at": "2026-10-12T21:00:20+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1404,7 +1404,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T20:52:51+09:00",
+      "updated_at": "2026-10-12T21:00:20+09:00",
       "started_at": "2026-10-12T11:42:25+09:00",
       "completed_at": null,
       "history": [
@@ -1449,6 +1449,10 @@
         {
           "at": "2026-10-12T20:52:51+09:00",
           "text": "reviewer: REWORK 치명2/중요4/사소3"
+        },
+        {
+          "at": "2026-10-12T21:00:20+09:00",
+          "text": "reviewer: REWORK 치명1/중요3/사소2 (부분 payload 재번호 upsert 23514)"
         }
       ]
     },
@@ -2891,7 +2895,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T20:57:36+09:00",
+      "updated_at": "2026-10-12T21:00:20+09:00",
       "started_at": "2026-10-12T20:51:43+09:00",
       "completed_at": null,
       "history": [
@@ -2932,6 +2936,10 @@
         {
           "at": "2026-10-12T20:57:36+09:00",
           "text": "1차 REWORK 조치: 짧은 기간 창 겹침 제거(floor(days/2)), insufficient 반환 통일, 0 이하 결측 처리, direction+FLAT_BAND 상수, 이중 반올림 제거, 날짜 키 검증·오프셋 없는 문자열 KST 해석, 테스트 80개"
+        },
+        {
+          "at": "2026-10-12T21:00:20+09:00",
+          "text": "reviewer: REVIEW_OK 치명0/중요3/사소3"
         }
       ]
     },
