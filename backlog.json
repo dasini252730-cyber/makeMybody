@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:38:44+09:00",
+  "updated_at": "2026-10-12T10:39:00+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -726,7 +726,7 @@
       "title": "이메일 로그인/로그아웃 화면과 라우터 가드",
       "description": "Supabase Auth 이메일(매직링크 또는 비밀번호) 로그인 1개 계정. 회원가입 UI 없음(대시보드에서 계정 생성). 로그인/로그아웃 화면 + 라우터 가드. 1단계(스키마)와 동시 적용.",
       "doc": "docs/T-007.md",
-      "status": "review",
+      "status": "done",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -751,9 +751,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T10:35:55+09:00",
+      "updated_at": "2026-10-12T10:39:00+09:00",
       "started_at": "2026-10-12T10:19:24+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T10:39:00+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -772,6 +772,12 @@
           "from": "in_progress",
           "to": "review",
           "note": "reviewer OK(2차). 권장 수정 반영: init 실패 시 재시도, 로그인 성공 시 구독 보강, App watch 테스트, RouteMeta 타입, PKCE/persistSession 명시. 54 tests"
+        },
+        {
+          "at": "2026-10-12T10:39:00+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 3개 충족, 54 tests, lint/build 통과. 기기당 1회 로그인 정책(v1.3)"
         }
       ],
       "notes": [
@@ -802,6 +808,10 @@
         {
           "at": "2026-10-12T10:35:55+09:00",
           "text": "reviewer OK(2차). 권장 수정 반영: init 실패 시 재시도, 로그인 성공 시 구독 보강, App watch 테스트, RouteMeta 타입, PKCE/persistSession 명시. 54 tests"
+        },
+        {
+          "at": "2026-10-12T10:39:00+09:00",
+          "text": "완료 조건 3개 충족, 54 tests, lint/build 통과. 기기당 1회 로그인 정책(v1.3)"
         }
       ]
     },
