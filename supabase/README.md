@@ -63,4 +63,11 @@ npm run db:types             # 원격 스키마에서 src/types/supabase.ts 재�
 - 이미 적용된 파일은 수정하지 않는다. 제약 변경은 새 파일에서 `begin; … commit;` 으로 묶는다(drop→add 사이 실패 방지).
 - 공용 함수(`mybody.set_updated_at`)는 한 곳(20261012110000)에만 정의한다. 다른 파일에서 재정의하지 않는다.
 - `service_role` 에는 권한을 주지 않는다. 서버 측 접근이 필요한 작업에서 테이블 단위로 grant 한다. 시드는 postgres(db-apply)로 넣는다.
-- 새 테이블은 프로브에 anon 거부·타 사용자 격리·핵심 제약 케이스를 추가하고 `npm run db:rls` 로 확인한다. 파일은 `supabase/tests/rls_probe.sql`(운동 사전·체중·회복)과 `rls_probe_workout.sql`(세션·동작·세트·서버 컨텍스트). 각 파일 300줄 예산 — 넘으면 테이블군별로 더 쪼갠다.
+- 새 테이블은 프로브에 anon 거부·타 사용자 격리·핵심 제약 케이스를 추가하고 `npm run db:rls` 로 확인한다. 파일은 `supabase/tests/rls_probe.sql`(운동 사전·체중·회복), `rls_probe_workout.sql`(세션·동작·세트·활동·서버 컨텍스트), `rls_probe_views.sql`(뷰, 자체 픽스처). 실행기 `tools/db-rls.mjs` 가 폴더의 모든 .sql 을 돌리고 `ALL ... PROBES PASSED` 가 없으면 실패한다. 각 파일 300줄 예산 — 넘으면 테이블군별로 더 쪼갠다.
+
+## REST 경로 RLS 테스트 (T-021)
+
+- `npm run db:probe-user` 로 프로브 계정 A/B 를 만들고(.env 에 RLS_PROBE__/RLS_PROBE_B__ 기록) B 소유 고정 데이터를 심은 뒤, `npm run test:rls` 로 실제 API 경로를 검증한다(anon 42501, A→B 데이터 조회 0건·수정/삭제 0행, upsert, 뷰).
+- 프로브 B 의 고정 데이터는 실 프로젝트에 남는다(RLS 상 실사용 계정에는 안 보이지만 대시보드/postgres 에서는 보임). 정리는 후속 작업(db:probe-clean). 스크립트는 @mybody.local 이메일만 받는다(실계정 비밀번호 덮어쓰기 방지).
+- 프로브 계정은 auth.users 직접 insert 라 GoTrue 가 바뀌면 "Database error querying schema" 로 로그인이 깨질 수 있다. 그때는 토큰 컬럼(빈 문자열) 과 CLI 버전을 확인한다.
+- 환경 변수가 없으면 `npm test` 에서 자동 skip. 원격 의존이라 hook 에 넣지 않는다.

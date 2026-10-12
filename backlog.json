@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:43:45+09:00",
+  "updated_at": "2026-10-12T21:46:17+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1860,7 +1860,7 @@
       "title": "RLS 검증 테스트 (2번째 사용자 접근 차단)",
       "description": "P0 테이블(exercise_library, workout_sessions, session_items, exercise_sets)에 대해 (1) 로그인 없이(anon) 어떤 테이블도 읽기/쓰기 불가, (2) 2번째 사용자 접근 차단을 검증하는 테스트. P0.5/P1 테이블은 각 마이그레이션 작업에서 같은 테스트를 확장.",
       "doc": "docs/T-021.md",
-      "status": "in_progress",
+      "status": "done",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1887,9 +1887,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T21:43:45+09:00",
+      "updated_at": "2026-10-12T21:46:17+09:00",
       "started_at": "2026-10-12T21:23:22+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T21:46:17+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -1902,6 +1902,18 @@
           "from": "todo",
           "to": "in_progress",
           "note": "시작. SQL 프로브 실행기(tools/db-rls.mjs) + REST 통합 테스트(rls.rest.test.ts, 환경 변수 게이트) + 프로브 전용 계정(tools/db-probe-user.mjs)"
+        },
+        {
+          "at": "2026-10-12T21:46:17+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "reviewer OK(3차). 권장 반영: recovery_logs·activity_records anon 쓰기, B body_metrics 고정 행 격리, afterAll 가드, export 제거. rls_probe_views.sql 은 T-123 소유·실행기는 T-021"
+        },
+        {
+          "at": "2026-10-12T21:46:17+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 2개 충족(SQL 프로브 3파일 + REST 6건). T-123 산출물(뷰 보정·뷰 프로브·규칙)이 같은 커밋에 포함됨 — T-123 은 review 상태(3차 OK), 다음 커밋에서 done"
         }
       ],
       "notes": [
@@ -1940,6 +1952,14 @@
         {
           "at": "2026-10-12T21:43:45+09:00",
           "text": "reviewer: REVIEW_OK 치명0/중요2/사소4 (중요: anon 쓰기 루프에 recovery_logs·activity_records 없음 — 두 테이블 anon insert/update/delete 는 SQL 프로브에도 없다 / B 소유 body_metrics 고정 행 미시드로 REST 에 체중 A→B 격리 없음. 사소: 키 변수 우선순위가 앱 readSupabaseEnv 와 반대·스키마 문자열 하드코딩, afterAll 가드 없음, db-probe-user 의 PROBE_B_* export 미사용·상수 이중 정의, env 없을 때 조용한 skip)"
+        },
+        {
+          "at": "2026-10-12T21:46:17+09:00",
+          "text": "reviewer OK(3차). 권장 반영: recovery_logs·activity_records anon 쓰기, B body_metrics 고정 행 격리, afterAll 가드, export 제거. rls_probe_views.sql 은 T-123 소유·실행기는 T-021"
+        },
+        {
+          "at": "2026-10-12T21:46:17+09:00",
+          "text": "완료 조건 2개 충족(SQL 프로브 3파일 + REST 6건). T-123 산출물(뷰 보정·뷰 프로브·규칙)이 같은 커밋에 포함됨 — T-123 은 review 상태(3차 OK), 다음 커밋에서 done"
         }
       ]
     },

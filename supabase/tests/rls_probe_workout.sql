@@ -186,29 +186,6 @@ do $$ declare act_id uuid := 'cccccccc-0000-0000-0000-000000000001'; hike_sid uu
 end $$;
 reset role;
 
--- 7d) v_working_sets (T-123): working 만, 세션 soft delete 제외, 타 사용자 0건, 볼륨 계산, assisted_minus 볼륨 NULL
-set local role authenticated;
-select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
-do $$ declare b_item uuid; sid uuid := 'aaaaaaaa-0000-0000-0000-000000000001'; n int; v numeric; begin
-  select id into b_item from mybody.session_items where session_id = sid limit 1;
-  insert into mybody.exercise_sets (id, session_item_id, set_no, set_kind, weight_kg, reps) values (gen_random_uuid(), b_item, 20, 'warmup', 40, 10);
-  select count(*) into n from mybody.v_working_sets where session_id = sid and set_no = 20; if n <> 0 then raise exception 'FAIL warmup leaked into v_working_sets'; end if;
-  select count(*) into n from mybody.v_working_sets where user_id <> '22222222-2222-2222-2222-222222222222'; if n <> 0 then raise exception 'FAIL view shows other users (%)', n; end if;
-  select volume_kg into v from mybody.v_working_sets where id = 'bbbbbbbb-0000-0000-0000-000000000001'; if v <> 360 then raise exception 'FAIL volume (%)', v; end if; -- 60kg × 6
-  update mybody.workout_sessions set deleted_at = now() where id = sid;
-  select count(*) into n from mybody.v_working_sets where session_id = sid; if n <> 0 then raise exception 'FAIL soft-deleted session sets visible in view'; end if;
-  update mybody.workout_sessions set deleted_at = null where id = sid;
-  select count(*) into n from mybody.v_working_sets where session_id = sid; if n < 1 then raise exception 'FAIL view empty after restore'; end if;
-end $$;
-reset role;
--- anon 은 뷰도 못 읽는다
-set local role anon;
-do $$ begin
-  begin perform count(*) from mybody.v_working_sets; raise exception 'FAIL anon select v_working_sets allowed';
-  exception when insufficient_privilege then null; end;
-end $$;
-reset role;
-
 -- 8) 서버 컨텍스트 소유 검사 + FK deferrable (T-013 보정 125000)
 reset role;
 do $$ declare a_ex uuid; b_ex uuid; begin

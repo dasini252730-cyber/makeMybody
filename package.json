@@ -24,7 +24,9 @@
     "app:apk": "node tools/app-apk.mjs",
     "app:install": "adb install -r release/MyBodyOS-debug.apk",
     "app:open": "npx cap open android",
-    "db:rls": "supabase db query --linked -f supabase/tests/rls_probe.sql && supabase db query --linked -f supabase/tests/rls_probe_workout.sql"
+    "db:rls": "node tools/db-rls.mjs",
+    "db:probe-user": "node tools/db-probe-user.mjs",
+    "test:rls": "node --env-file-if-exists=.env ./node_modules/vitest/vitest.mjs run rls.rest"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",
