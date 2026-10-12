@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T11:31:36+09:00",
+  "updated_at": "2026-10-12T11:34:13+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1885,7 +1885,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:31:36+09:00",
+      "updated_at": "2026-10-12T11:34:13+09:00",
       "started_at": "2026-10-12T11:22:24+09:00",
       "completed_at": null,
       "history": [
@@ -1918,6 +1918,10 @@
         {
           "at": "2026-10-12T11:31:36+09:00",
           "text": "reviewer: REWORK 치명2/중요4/사소4"
+        },
+        {
+          "at": "2026-10-12T11:34:13+09:00",
+          "text": "1차 REWORK 조치: 보정 131000(added/assisted/dumbbell_each 설명 고정, 맨몸 런지·카프 변형 추가, category 어휘 comment). 중량 의미 확정은 T-120 needs_decision(추천안 적용 상태). 원장의 옛 완료 조건 'area_weights' 는 v1.2 7.5(점수 없음)로 폐기 — docs 가 정본"
         }
       ]
     },
@@ -3105,7 +3109,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:47+09:00",
+      "updated_at": "2026-10-12T11:34:13+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -3120,6 +3124,10 @@
         {
           "at": "2026-10-11T22:32:47+09:00",
           "text": "v1.2 FR-009/7.2 반영"
+        },
+        {
+          "at": "2026-10-12T11:34:13+09:00",
+          "text": "weight_basis=assisted_minus 세트는 PR 후보에서 제외(보조가 줄수록 향상이라 최고 중량 의미가 반대). added 는 추가 중량 기준으로 비교. 확정은 T-120"
         }
       ]
     },
@@ -5781,7 +5789,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-11T22:33:31+09:00",
-      "updated_at": "2026-10-11T22:33:31+09:00",
+      "updated_at": "2026-10-12T11:34:13+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -5792,7 +5800,12 @@
           "note": "CLI로 추가"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T11:34:13+09:00",
+          "text": "볼륨: assisted_minus 세트 제외, added 는 추가 중량×반복(맨몸 0 → 볼륨 0 이지만 '제외' 아님), dumbbell_each 는 ×2 안 함. 확정은 T-120"
+        }
+      ]
     },
     {
       "id": "T-109",
@@ -6369,6 +6382,46 @@
       "history": [
         {
           "at": "2026-10-12T11:11:10+09:00",
+          "from": null,
+          "to": "needs_decision",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-120",
+      "title": "weight_basis added/assisted_minus 의 저장 의미와 계산 규칙 확정",
+      "description": "시드 리뷰에서 드러난 미확정: (1) added(턱걸이·딥스): 추가 중량만 저장하고 맨몸은 0 저장 vs 체중 포함 총부하 저장. (2) assisted_minus(어시스트 풀업): 보조 감량을 저장하되 볼륨·PR 계산에서 제외 vs 실부하(체중−보조)로 환산. (3) 보조 기록 경로를 세트의 is_assisted 와 별도 운동 중 하나로 통일. 현재 적용된 추천안: added=추가 중량만(맨몸 0), assisted_minus=저장만·계산 제외, 보조는 별도 운동(어시스트 풀업)+is_assisted 는 밴드 등 임시 보조 표시용. T-049(PR)·T-108(볼륨) 구현 전 확정 필요.",
+      "doc": "docs/T-120.md",
+      "status": "needs_decision",
+      "priority": "P0.5",
+      "epic": "E03",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 120,
+      "depends_on": [
+        "T-023"
+      ],
+      "requirements": [
+        "FR-003",
+        "FR-009"
+      ],
+      "tags": [
+        "calc",
+        "decision"
+      ],
+      "acceptance_criteria": [],
+      "assignee": null,
+      "decision_needed": "(1) added 는 추가 중량만 저장(맨몸 0) — 추천 / 또는 체중 포함 총부하. (2) assisted_minus 는 저장만 하고 볼륨·PR 에서 제외 — 추천 / 또는 체중−보조 환산. (3) 보조 기록은 별도 운동 — 추천 / 또는 is_assisted 플래그만. 이대로 가도 될까요?",
+      "blocked_reason": null,
+      "created_at": "2026-10-12T11:34:13+09:00",
+      "updated_at": "2026-10-12T11:34:13+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-12T11:34:13+09:00",
           "from": null,
           "to": "needs_decision",
           "note": "CLI로 추가"
