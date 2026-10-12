@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T19:55:48+09:00",
+  "updated_at": "2026-10-12T19:58:17+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -2800,7 +2800,7 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T11:20:43+09:00",
+      "updated_at": "2026-10-12T19:58:17+09:00",
       "started_at": null,
       "completed_at": null,
       "history": [
@@ -2815,6 +2815,10 @@
         {
           "at": "2026-10-12T11:20:43+09:00",
           "text": "T-016 결정: body_metrics 는 하루 N행(날짜 unique 없음). 같은 날 재입력은 upsert 가 아니라 새 insert. 측정 시각 ≤ now()+5분"
+        },
+        {
+          "at": "2026-10-12T19:58:17+09:00",
+          "text": "T-119 확정: measurement_method 는 scale/inbody/watch/other 코드 저장, 폼은 4개 칩 선택(라벨 체중계/인바디/스마트워치/기타), 기본값 마지막 사용 방식"
         }
       ]
     },
@@ -6460,7 +6464,7 @@
       "title": "body_metrics.measurement_method 값 집합 결정",
       "description": "체중·체성분 측정 방식을 자유 텍스트로 둘지, 고정 목록(예: 체중계/인바디/스마트워치/기타)으로 할지 결정. 고정 목록이면 check 제약 + 폼 선택지. 데이터가 쌓인 뒤 결정해도 됨.",
       "doc": "docs/T-119.md",
-      "status": "needs_decision",
+      "status": "done",
       "priority": "P1",
       "epic": "E06",
       "phase": "V1",
@@ -6481,18 +6485,49 @@
       "decision_needed": "측정 방식을 (a) 자유 텍스트 유지 (b) 고정 목록(체중계/인바디/스마트워치/기타, 추천) 중 어느 쪽으로 할까요?",
       "blocked_reason": null,
       "created_at": "2026-10-12T11:11:10+09:00",
-      "updated_at": "2026-10-12T11:11:10+09:00",
-      "started_at": null,
-      "completed_at": null,
+      "updated_at": "2026-10-12T19:58:17+09:00",
+      "started_at": "2026-10-12T19:58:17+09:00",
+      "completed_at": "2026-10-12T19:58:17+09:00",
       "history": [
         {
           "at": "2026-10-12T11:11:10+09:00",
           "from": null,
           "to": "needs_decision",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T19:58:17+09:00",
+          "from": "needs_decision",
+          "to": "in_progress",
+          "note": "사용자 확정: 고정 목록(가)"
+        },
+        {
+          "at": "2026-10-12T19:58:17+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "check 제약 적용·검증"
+        },
+        {
+          "at": "2026-10-12T19:58:17+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 충족"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T19:58:17+09:00",
+          "text": "사용자 확정: 고정 목록(가)"
+        },
+        {
+          "at": "2026-10-12T19:58:17+09:00",
+          "text": "check 제약 적용·검증"
+        },
+        {
+          "at": "2026-10-12T19:58:17+09:00",
+          "text": "완료 조건 충족"
+        }
+      ]
     },
     {
       "id": "T-120",
