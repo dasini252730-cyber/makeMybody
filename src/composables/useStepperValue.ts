@@ -40,6 +40,10 @@ export function useStepperValue(model: Ref<number>, bounds: () => StepperBounds)
 
   /** 화면에 보이는 숫자 (버튼 활성 판단용). 유효하지 않으면 model. */
   const shown = computed(() => parse(display.value) ?? model.value)
+  /** 경계 판정. 버튼의 aria-disabled 와 핸들러 가드가 같은 값을 쓴다. */
+  const atMin = computed(() => shown.value <= bounds().min)
+  const atMax = computed(() => shown.value >= bounds().max)
+  const blocked = (dir: 1 | -1) => (dir < 0 ? atMin.value : atMax.value)
 
   watch(model, (v) => {
     if (parse(display.value) !== v) display.value = String(v)
@@ -74,5 +78,5 @@ export function useStepperValue(model: Ref<number>, bounds: () => StepperBounds)
     return parse(display.value) !== model.value ? commit() : model.value
   }
 
-  return { display, shown, onInput, commit, bumpFrom, baseValue }
+  return { display, shown, atMin, atMax, blocked, onInput, commit, bumpFrom, baseValue }
 }

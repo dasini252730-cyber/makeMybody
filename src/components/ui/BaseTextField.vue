@@ -57,11 +57,6 @@ const id = useId()
   background: var(--color-bg);
 }
 
-.input:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 1px;
-}
-
 .invalid .input {
   border-color: var(--color-danger);
 }

@@ -1,6 +1,14 @@
 # 기술 스택 / 코드 규칙
 
-스택: Vue 3 + Vite + TypeScript, Pinia, Vue Router, Supabase(PostgreSQL · Auth · RLS · Storage · Edge Functions), Vercel 호스팅, Vitest, Playwright(E2E).
+스택: Vue 3 + Vite + TypeScript, Pinia, Vue Router, Supabase(PostgreSQL · Auth · RLS, 기존 프로젝트의 `mybody` 스키마), **Capacitor Android 앱(APK)** — 서버 호스팅 없음(v1.3, 2026-10-12), Vitest, Playwright(E2E).
+
+## Android 앱 (Capacitor)
+
+- 웹 빌드(`npm run build` → `dist/`)를 `npx cap sync android` 로 `android/` 프로젝트에 복사하고 Gradle 로 APK 를 만든다. 갤럭시에 설치해 쓴다.
+- 이 PC: Android Studio + SDK(platforms 34/36, build-tools 34~36.1), JDK 21(Android Studio JBR). `ANDROID_HOME` 미설정이면 `%LOCALAPPDATA%\Android\Sdk` 를 쓴다.
+- 라우터는 `createWebHistory` 대신 앱에서는 `createWebHashHistory` 또는 Capacitor 의 `https://localhost` 기준 history 가 동작하는지 T-113 에서 확인한다.
+- 매직링크는 앱 딥링크가 필요하므로 **비밀번호 로그인이 기본**. 로그인은 기기당 1회, 세션은 기기에 저장(persistSession).
+- `.env` 값은 빌드 시 번들에 들어간다. anon key 만 허용(service_role 금지)은 그대로.
 
 ## 디렉터리
 

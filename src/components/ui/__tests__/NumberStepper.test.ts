@@ -46,6 +46,7 @@ async function tap(btn: Btn, touch = false) {
 
 afterEach(() => {
   vi.useRealTimers()
+  vi.restoreAllMocks()
   document.body.innerHTML = ''
 })
 
@@ -93,7 +94,7 @@ describe('NumberStepper', () => {
     const plus = w.findAll('button')[1]!
     await tap(plus)
     expect(w.props('modelValue')).toBe(100)
-    expect(plus.attributes('disabled')).toBeDefined()
+    expect(plus.attributes('aria-disabled')).toBe('true')
   })
 
   it('길게 누르면 400ms 뒤부터 점점 빨라지며 반복하고, 떼면 멈추며 호환 click 이 추가 증감을 만들지 않는다', async () => {
@@ -157,7 +158,7 @@ describe('NumberStepper', () => {
     expect(emittedValues(w).length).toBe(n)
   })
 
-  it('길게 누르다 max 에 닿으면(버튼 disabled) 타이머가 스스로 멈춘다', async () => {
+  it('길게 누르다 max 에 닿으면(버튼 aria-disabled) 타이머가 스스로 멈춘다', async () => {
     vi.useFakeTimers()
     const w = mountStepper({ modelValue: 98, max: 100 })
     await w.findAll('button')[1]!.trigger('pointerdown')
@@ -202,9 +203,9 @@ describe('NumberStepper', () => {
   it('model 이 min 이어도 타이핑 중인 값이 크면 − 가 활성화된다 (NFR-001)', async () => {
     const w = mountStepper({ modelValue: 0, min: 0 })
     const minus = w.findAll('button')[0]!
-    expect(minus.attributes('disabled')).toBeDefined()
+    expect(minus.attributes('aria-disabled')).toBe('true')
     await type(w, '40')
-    expect(minus.attributes('disabled')).toBeUndefined()
+    expect(minus.attributes('aria-disabled')).toBeUndefined()
     await tap(minus)
     expect(w.props('modelValue')).toBe(39)
   })
@@ -229,8 +230,25 @@ describe('NumberStepper', () => {
     expect(noLabel.find('label').exists()).toBe(false)
     expect(noLabel.find('input').attributes('aria-label')).toBe('중량 (kg)')
 
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    expect(warn).not.toHaveBeenCalled() // 위의 label/ariaLabel 있는 경우는 경고 없음
     const none = mountStepper({ label: '' })
     expect(none.find('input').attributes('aria-label')).toBe('값')
     expect(none.findAll('button')[0]!.attributes('aria-label')).toBe('값 감소')
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('label 또는 ariaLabel')) // DEV 경고 (T-111)
+  })
+
+  it('경계의 버튼은 disabled 가 아니라 aria-disabled 라 키보드 포커스를 잃지 않고, 눌러도 값이 안 바뀐다 (NFR-006)', async () => {
+    const w = mountStepper({ modelValue: 1, min: 0 })
+    const minus = w.findAll('button')[0]!
+    ;(minus.element as HTMLButtonElement).focus()
+    await minus.trigger('click') // 키보드 Enter → 0
+    expect(w.props('modelValue')).toBe(0)
+    expect(minus.attributes('aria-disabled')).toBe('true')
+    expect(minus.attributes('disabled')).toBeUndefined()
+    expect(document.activeElement).toBe(minus.element) // 포커스 유지
+    await minus.trigger('click')
+    await tap(minus)
+    expect(w.props('modelValue')).toBe(0)
   })
 })

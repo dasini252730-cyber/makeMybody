@@ -29,17 +29,19 @@ const props = withDefaults(
 const model = defineModel<number>({ default: 0 })
 const inputId = useId()
 const hold = useHoldRepeat()
-const { display, shown, onInput, commit, bumpFrom, baseValue } = useStepperValue(model, () => ({
-  min: props.min,
-  max: props.max,
-  step: props.step,
-  decimals: props.decimals,
-}))
+const { display, atMin, atMax, blocked, onInput, commit, bumpFrom, baseValue } = useStepperValue(
+  model,
+  () => ({
+    min: props.min,
+    max: props.max,
+    step: props.step,
+    decimals: props.decimals,
+  }),
+)
 
-/** pointerdown 은 길게 누르기 반복만 예약한다. 단발 증감은 click 이 담당해 스크롤 오터치(pointercancel)에 값이 안 바뀐다. */
+/** pointerdown 은 길게 누르기 반복만 예약한다(단발 증감은 click). 오른쪽 버튼·두 번째 손가락·경계(aria-disabled)는 무시. */
 function onPointerDown(e: PointerEvent, dir: 1 | -1) {
-  // 오른쪽/가운데 버튼, 멀티터치의 두 번째 손가락은 무시한다.
-  if ((e.button ?? 0) !== 0 || (e.pointerType === 'touch' && !e.isPrimary)) return
+  if ((e.button ?? 0) !== 0 || (e.pointerType === 'touch' && !e.isPrimary) || blocked(dir)) return
   let cur: number | null = null // 기준값은 첫 반복 때 계산 (pointerdown 에서 commit 해 버튼이 disabled 되는 것 방지)
   hold.start(() => {
     const before = cur ?? baseValue()
@@ -49,11 +51,13 @@ function onPointerDown(e: PointerEvent, dir: 1 | -1) {
 }
 /** 탭·키보드 Enter/Space·보조기기 활성화 모두 click 으로 온다. 길게 누르기가 이미 바꾼 뒤의 호환 click 만 건너뛴다. */
 function onClick(e: MouseEvent, dir: 1 | -1) {
-  if (hold.shouldIgnoreClick(e)) return
+  if (hold.shouldIgnoreClick(e) || blocked(dir)) return
   bumpFrom(baseValue(), dir)
 }
-/** 버튼 접근성 이름. label·ariaLabel 둘 다 비면 최소한 "값" 으로 읽힌다 (NFR-006). */
+/** 버튼 접근성 이름. label·ariaLabel 둘 다 비면 "값" 으로 읽히며 개발 모드에서 경고한다 (NFR-006, T-111). */
 const name = computed(() => props.label || props.ariaLabel || '값')
+if (import.meta.env.DEV && !props.label && !props.ariaLabel)
+  console.warn('[NumberStepper] label 또는 ariaLabel 중 하나는 반드시 주세요 (NFR-006).')
 // max 기본값(Infinity)은 DOM 속성으로 무효라 유한수일 때만 바인딩한다. step 은 제약 검증(:invalid)을 피해 any.
 const domMax = computed(() => (Number.isFinite(props.max) ? props.max : undefined))
 </script>
@@ -79,7 +83,7 @@ const domMax = computed(() => (Number.isFinite(props.max) ? props.max : undefine
       <button
         type="button"
         class="btn"
-        :disabled="shown <= min"
+        :aria-disabled="atMin || undefined"
         :aria-label="`${name} 감소`"
         @pointerdown="onPointerDown($event, -1)"
         @pointerleave="hold.pause"
@@ -90,7 +94,7 @@ const domMax = computed(() => (Number.isFinite(props.max) ? props.max : undefine
       <button
         type="button"
         class="btn"
-        :disabled="shown >= max"
+        :aria-disabled="atMax || undefined"
         :aria-label="`${name} 증가`"
         @pointerdown="onPointerDown($event, 1)"
         @pointerleave="hold.pause"
@@ -134,7 +138,7 @@ const domMax = computed(() => (Number.isFinite(props.max) ? props.max : undefine
   user-select: none;
 }
 
-.btn:disabled {
+.btn[aria-disabled='true'] {
   opacity: 0.4;
 }
 

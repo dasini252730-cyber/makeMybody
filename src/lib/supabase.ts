@@ -82,7 +82,16 @@ function asString(v: string | boolean | undefined): string {
 export const APP_SCHEMA = 'mybody' as const
 
 function makeClient(url: string, key: string) {
-  return createClient(url, key, { db: { schema: APP_SCHEMA } })
+  // 세션은 기기에 저장해 한 번 로그인하면 유지한다(T-007). PKCE 로 매직링크 토큰이 URL 해시에 남지 않게 한다(NFR-004).
+  return createClient(url, key, {
+    db: { schema: APP_SCHEMA },
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce',
+    },
+  })
 }
 export type AppSupabaseClient = ReturnType<typeof makeClient>
 

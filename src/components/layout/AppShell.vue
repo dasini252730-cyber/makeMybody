@@ -31,7 +31,7 @@ watch(
     <main ref="content" class="content">
       <RouterView />
     </main>
-    <BottomTabs />
+    <BottomTabs v-if="!route.meta.public" />
     <ToastHost />
   </div>
 </template>
