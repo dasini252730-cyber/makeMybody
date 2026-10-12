@@ -17,6 +17,12 @@ do $$ begin
   exception when insufficient_privilege then null; end;
   begin perform count(*) from mybody.recovery_logs; raise exception 'FAIL anon select recovery_logs allowed';
   exception when insufficient_privilege then null; end;
+  begin perform count(*) from mybody.workout_sessions; raise exception 'FAIL anon select workout_sessions allowed';
+  exception when insufficient_privilege then null; end;
+  begin perform count(*) from mybody.session_items; raise exception 'FAIL anon select session_items allowed';
+  exception when insufficient_privilege then null; end;
+  begin perform count(*) from mybody.exercise_sets; raise exception 'FAIL anon select exercise_sets allowed';
+  exception when insufficient_privilege then null; end;
 end $$;
 reset role;
 
@@ -184,7 +190,27 @@ do $$ declare b_item uuid; a_item uuid; set_id uuid := 'bbbbbbbb-0000-0000-0000-
   begin insert into mybody.exercise_sets (id, session_item_id, set_no, reps, set_kind) values (gen_random_uuid(), b_item, 2, 5, 'maxout'); raise exception 'FAIL bad set_kind accepted';
   exception when check_violation then null; end;
   insert into mybody.exercise_sets (id, session_item_id, set_no, raw_value_note) values (gen_random_uuid(), b_item, 2, '무게 기억 안 남');
-  select count(*) into n from mybody.exercise_sets; if n <> 2 then raise exception 'FAIL B set visibility (%)', n; end if;
+  -- A 의 세트를 서버 컨텍스트로 넣은 뒤, B 는 보지도 고치지도 지우지도 못한다 (완료 조건 1)
+  reset role; perform set_config('request.jwt.claims', '', true);
+  insert into mybody.exercise_sets (id, session_item_id, set_no, weight_kg, reps) values ('bbbbbbbb-0000-0000-0000-00000000000a', a_item, 1, 100, 1);
+  set local role authenticated; perform set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
+  select count(*) into n from mybody.exercise_sets; if n <> 2 then raise exception 'FAIL B sees A sets (%)', n; end if;
+  update mybody.exercise_sets set reps = 99 where id = 'bbbbbbbb-0000-0000-0000-00000000000a';
+  get diagnostics n = row_count; if n <> 0 then raise exception 'FAIL B updated A set'; end if;
+  delete from mybody.exercise_sets where id = 'bbbbbbbb-0000-0000-0000-00000000000a';
+  get diagnostics n = row_count; if n <> 0 then raise exception 'FAIL B deleted A set'; end if;
+  -- 재번호 upsert: 2세트 삭제 후 3세트를 2번으로 — 같은 트랜잭션 안에서 unique 가 지연 검사되어 통과
+  insert into mybody.exercise_sets (id, session_item_id, set_no, reps) values ('bbbbbbbb-0000-0000-0000-000000000003', b_item, 3, 8);
+  delete from mybody.exercise_sets where session_item_id = b_item and set_no = 2;
+  insert into mybody.exercise_sets (id, session_item_id, set_no, reps) values ('bbbbbbbb-0000-0000-0000-000000000003', b_item, 2, 8)
+    on conflict (id) do update set set_no = excluded.set_no;
+  select count(*) into n from mybody.exercise_sets where session_item_id = b_item; if n <> 2 then raise exception 'FAIL renumber (%)', n; end if;
+  -- soft delete 된 세션의 세트는 세션 조인 필터로 제외된다 (계산 계층 규칙)
+  update mybody.workout_sessions set deleted_at = now() where id = 'aaaaaaaa-0000-0000-0000-000000000001';
+  select count(*) into n from mybody.exercise_sets e join mybody.session_items i on i.id = e.session_item_id
+    join mybody.workout_sessions s on s.id = i.session_id and s.deleted_at is null where i.id = b_item;
+  if n <> 0 then raise exception 'FAIL sets of soft-deleted session not excluded'; end if;
+  update mybody.workout_sessions set deleted_at = null where id = 'aaaaaaaa-0000-0000-0000-000000000001';
 end $$;
 reset role;
 
