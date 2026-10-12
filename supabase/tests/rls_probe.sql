@@ -159,6 +159,35 @@ do $$ declare sid uuid := 'aaaaaaaa-0000-0000-0000-000000000001'; n int; base_id
   if n <> 0 then raise exception 'FAIL soft-deleted session items not excluded by filter'; end if;
   perform set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
 end $$;
+-- 7b) 세트 (T-014): B 는 자기 동작에만 세트 추가, A 동작에는 불가, 같은 id upsert 1건, 빈 세트 거부, set_kind 검증
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
+do $$ declare b_item uuid; a_item uuid; set_id uuid := 'bbbbbbbb-0000-0000-0000-000000000001'; n int; begin
+  select id into b_item from mybody.session_items where session_id = 'aaaaaaaa-0000-0000-0000-000000000001' limit 1;
+  insert into mybody.exercise_sets (id, session_item_id, set_no, weight_kg, reps) values (set_id, b_item, 1, 60, 5)
+    on conflict (id) do update set reps = excluded.reps;
+  insert into mybody.exercise_sets (id, session_item_id, set_no, weight_kg, reps) values (set_id, b_item, 1, 60, 6)
+    on conflict (id) do update set reps = excluded.reps;
+  select count(*) into n from mybody.exercise_sets where session_item_id = b_item; if n <> 1 then raise exception 'FAIL set upsert produced % rows', n; end if;
+  select reps into n from mybody.exercise_sets where id = set_id; if n <> 6 then raise exception 'FAIL set upsert did not update'; end if;
+  -- A 의 동작 id 를 알아도 세트를 붙일 수 없다
+  reset role; perform set_config('request.jwt.claims', '', true);
+  select id into a_item from mybody.session_items where session_id = 'aaaaaaaa-0000-0000-0000-00000000000a' limit 1;
+  set local role authenticated; perform set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
+  begin
+    insert into mybody.exercise_sets (id, session_item_id, set_no, reps) values (gen_random_uuid(), a_item, 1, 10);
+    raise exception 'FAIL B added set to A item';
+  exception when insufficient_privilege then null; end;
+  -- 빈 세트·잘못된 종류 거부, 메모만 있는 세트는 허용
+  begin insert into mybody.exercise_sets (id, session_item_id, set_no) values (gen_random_uuid(), b_item, 2); raise exception 'FAIL empty set accepted';
+  exception when check_violation then null; end;
+  begin insert into mybody.exercise_sets (id, session_item_id, set_no, reps, set_kind) values (gen_random_uuid(), b_item, 2, 5, 'maxout'); raise exception 'FAIL bad set_kind accepted';
+  exception when check_violation then null; end;
+  insert into mybody.exercise_sets (id, session_item_id, set_no, raw_value_note) values (gen_random_uuid(), b_item, 2, '무게 기억 안 남');
+  select count(*) into n from mybody.exercise_sets; if n <> 2 then raise exception 'FAIL B set visibility (%)', n; end if;
+end $$;
+reset role;
+
 -- 8) 서버 컨텍스트 소유 검사 + FK deferrable (T-013 보정 125000)
 reset role;
 do $$ declare a_ex uuid; b_ex uuid; begin

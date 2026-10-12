@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T14:53:34+09:00",
+  "updated_at": "2026-10-12T14:58:42+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -6372,7 +6372,7 @@
       "title": "Supabase 대시보드: Exposed schemas 에 mybody 추가",
       "description": "PostgREST 가 mybody 스키마를 노출하도록 대시보드 Settings → API → Exposed schemas 에 mybody 를 추가한다(수동). 대안인 SQL(authenticator 역할의 pgrst.db_schemas 변경)은 공유 프로젝트 설정 변경이라 자동 승인이 거부됐으므로 사용자 지시가 있을 때만 실행. 마이그레이션 적용(db-apply)에는 필요 없고, 앱/RLS 테스트의 API 접근에 필요.",
       "doc": "docs/T-118.md",
-      "status": "needs_decision",
+      "status": "done",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -6395,18 +6395,49 @@
       "decision_needed": "대시보드에서 직접 mybody 를 Exposed schemas 에 추가해 주시거나, 역할 설정 SQL 실행해도 돼 라고 답해 주세요(그러면 제가 alter role authenticator set pgrst.db_schemas 로 추가합니다).",
       "blocked_reason": null,
       "created_at": "2026-10-12T10:54:42+09:00",
-      "updated_at": "2026-10-12T10:54:42+09:00",
-      "started_at": null,
-      "completed_at": null,
+      "updated_at": "2026-10-12T14:58:42+09:00",
+      "started_at": "2026-10-12T14:58:42+09:00",
+      "completed_at": "2026-10-12T14:58:42+09:00",
       "history": [
         {
           "at": "2026-10-12T10:54:42+09:00",
           "from": null,
           "to": "needs_decision",
           "note": "CLI로 추가"
+        },
+        {
+          "at": "2026-10-12T14:58:42+09:00",
+          "from": "needs_decision",
+          "to": "in_progress",
+          "note": "사용자 지시: SQL 로 실행"
+        },
+        {
+          "at": "2026-10-12T14:58:42+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "실측: anon 오류가 PGRST106 → 42501 로 바뀜(스키마 노출 확인)"
+        },
+        {
+          "at": "2026-10-12T14:58:42+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 충족"
         }
       ],
-      "notes": []
+      "notes": [
+        {
+          "at": "2026-10-12T14:58:42+09:00",
+          "text": "사용자 지시: SQL 로 실행"
+        },
+        {
+          "at": "2026-10-12T14:58:42+09:00",
+          "text": "실측: anon 오류가 PGRST106 → 42501 로 바뀜(스키마 노출 확인)"
+        },
+        {
+          "at": "2026-10-12T14:58:42+09:00",
+          "text": "완료 조건 충족"
+        }
+      ]
     },
     {
       "id": "T-119",
