@@ -115,8 +115,12 @@ do $$ declare b_item uuid; a_item uuid; set_id uuid := 'bbbbbbbb-0000-0000-0000-
       on conflict (id) do update set set_no = excluded.set_no;
     raise exception 'FAIL partial-payload upsert accepted';
   exception when check_violation then null; end;
-  -- 메모만 있는 성공 본세트는 허용 (143000: 기록 유실 방지)
+  -- 메모만 있는 성공 본세트는 허용 (143000: 기록 유실 방지) — 단 reps=0 + 메모는 거부 (144000: 0회 100kg 가 PR 후보가 되지 않게)
   insert into mybody.exercise_sets (id, session_item_id, set_no, set_kind, success, raw_value_note) values (gen_random_uuid(), b_item, 8, 'working', true, '횟수 기억 안 남');
+  begin
+    insert into mybody.exercise_sets (id, session_item_id, set_no, set_kind, success, weight_kg, reps, raw_value_note) values (gen_random_uuid(), b_item, 10, 'working', true, 100, 0, '바가 안 올라감');
+    raise exception 'FAIL reps 0 with note accepted as successful working set';
+  exception when check_violation then if sqlerrm not like '%has_effort%' then raise exception 'FAIL wrong constraint: %', sqlerrm; end if; end;
   -- 진짜 중복은 commit(=제약 즉시화) 시점에 거부된다
   begin
     insert into mybody.exercise_sets (id, session_item_id, set_no, reps) values (gen_random_uuid(), b_item, 2, 5);
@@ -134,6 +138,34 @@ do $$ declare b_item uuid; a_item uuid; set_id uuid := 'bbbbbbbb-0000-0000-0000-
     join mybody.workout_sessions s on s.id = i.session_id and s.deleted_at is null where i.id = b_item;
   if n <> 0 then raise exception 'FAIL sets of soft-deleted session not excluded'; end if;
   update mybody.workout_sessions set deleted_at = null where id = 'aaaaaaaa-0000-0000-0000-000000000001';
+end $$;
+reset role;
+
+-- 7c) 활동 기록 (T-104): B 는 자기 세션에만 추가, A 세션엔 불가(42501), 빈 행 거부, 메모만 허용, 잘못된 유형 거부, upsert 1건
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
+do $$ declare act_id uuid := 'cccccccc-0000-0000-0000-000000000001'; n int; begin
+  insert into mybody.activity_records (id, session_id, activity_type, distance_meters, duration_minutes) values (act_id, 'aaaaaaaa-0000-0000-0000-000000000001', 'hike', 8000, 150)
+    on conflict (id) do update set distance_meters = excluded.distance_meters;
+  insert into mybody.activity_records (id, session_id, activity_type, distance_meters, duration_minutes) values (act_id, 'aaaaaaaa-0000-0000-0000-000000000001', 'hike', 8200, 150)
+    on conflict (id) do update set distance_meters = excluded.distance_meters;
+  select count(*) into n from mybody.activity_records; if n <> 1 then raise exception 'FAIL activity upsert (%)', n; end if;
+  begin insert into mybody.activity_records (id, session_id, activity_type, distance_meters) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-00000000000a', 'walk', 1000); raise exception 'FAIL B added activity to A session';
+  exception when insufficient_privilege then null; end;
+  begin insert into mybody.activity_records (id, session_id, activity_type) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-000000000001', 'walk'); raise exception 'FAIL empty activity accepted';
+  exception when check_violation then null; end;
+  begin insert into mybody.activity_records (id, session_id, activity_type, distance_meters) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-000000000001', 'swim', 1000); raise exception 'FAIL bad activity_type accepted';
+  exception when check_violation then null; end;
+  insert into mybody.activity_records (id, session_id, activity_type, pain_recovery_note) values (gen_random_uuid(), 'aaaaaaaa-0000-0000-0000-000000000001', 'walk', '하산 후 무릎 뻐근'); -- 메모만: 허용
+  -- A 의 활동을 서버 컨텍스트로 만든 뒤 B 는 보지도 고치지도 지우지도 못한다
+  reset role; perform set_config('request.jwt.claims', '', true);
+  insert into mybody.activity_records (id, session_id, activity_type, distance_meters) values ('cccccccc-0000-0000-0000-00000000000a', 'aaaaaaaa-0000-0000-0000-00000000000a', 'hike', 12000);
+  set local role authenticated; perform set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', true);
+  select count(*) into n from mybody.activity_records; if n <> 2 then raise exception 'FAIL B sees A activity (%)', n; end if;
+  update mybody.activity_records set distance_meters = 1 where id = 'cccccccc-0000-0000-0000-00000000000a';
+  get diagnostics n = row_count; if n <> 0 then raise exception 'FAIL B updated A activity'; end if;
+  delete from mybody.activity_records where id = 'cccccccc-0000-0000-0000-00000000000a';
+  get diagnostics n = row_count; if n <> 0 then raise exception 'FAIL B deleted A activity'; end if;
 end $$;
 reset role;
 
@@ -171,6 +203,8 @@ do $$ begin
   if exists (select 1 from mybody.workout_sessions where user_id = '11111111-1111-1111-1111-111111111111') then raise exception 'FAIL cascade left sessions'; end if;
   if exists (select 1 from mybody.session_items where session_id = 'aaaaaaaa-0000-0000-0000-00000000000a') then raise exception 'FAIL cascade left items'; end if;
   if exists (select 1 from mybody.exercise_library where user_id = '11111111-1111-1111-1111-111111111111') then raise exception 'FAIL cascade left exercises'; end if;
+  if exists (select 1 from mybody.exercise_sets where id = 'bbbbbbbb-0000-0000-0000-00000000000a') then raise exception 'FAIL cascade left A sets'; end if;
+  if exists (select 1 from mybody.activity_records where id = 'cccccccc-0000-0000-0000-00000000000a') then raise exception 'FAIL cascade left A activities'; end if;
 exception when foreign_key_violation then raise exception 'FAIL account delete blocked by FK (%)', sqlerrm;
 end $$;
 select 'ALL WORKOUT PROBES PASSED' as result;

@@ -23,6 +23,8 @@ do $$ begin
   exception when insufficient_privilege then null; end;
   begin perform count(*) from mybody.exercise_sets; raise exception 'FAIL anon select exercise_sets allowed';
   exception when insufficient_privilege then null; end;
+  begin perform count(*) from mybody.activity_records; raise exception 'FAIL anon select activity_records allowed';
+  exception when insufficient_privilege then null; end;
 end $$;
 reset role;
 

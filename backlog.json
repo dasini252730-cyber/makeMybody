@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:09:13+09:00",
+  "updated_at": "2026-10-12T21:09:58+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1377,7 +1377,7 @@
       "title": "exercise_sets 테이블 + RLS + 인덱스",
       "description": "exercise_sets: id(클라이언트 UUID), session_item_id, set_no, set_kind(working/warmup/drop/failed_attempt), success(bool nullable=unknown), weight_kg numeric, reps, duration_seconds, distance_meters, rounds, side(both/left/right/alternating/unknown), is_assisted, raw_value_note. 미기록은 NULL. RLS(session 조인) + 인덱스.",
       "doc": "docs/T-014.md",
-      "status": "in_progress",
+      "status": "done",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1404,9 +1404,9 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T21:08:29+09:00",
+      "updated_at": "2026-10-12T21:09:58+09:00",
       "started_at": "2026-10-12T11:42:25+09:00",
-      "completed_at": null,
+      "completed_at": "2026-10-12T21:09:58+09:00",
       "history": [
         {
           "at": "2026-10-08T00:00:00+09:00",
@@ -1419,6 +1419,18 @@
           "from": "todo",
           "to": "in_progress",
           "note": "시작. 마이그레이션 20261012140000_exercise_sets.sql"
+        },
+        {
+          "at": "2026-10-12T21:09:58+09:00",
+          "from": "in_progress",
+          "to": "review",
+          "note": "reviewer OK(4차). 권장 수정: 144000(메모 예외는 수량 전부 NULL 일 때만), 프로브 reps0+메모 거부·제약명 단정·cascade 세트/활동 잔존 검사"
+        },
+        {
+          "at": "2026-10-12T21:09:58+09:00",
+          "from": "review",
+          "to": "done",
+          "note": "완료 조건 3개 충족(프로브). 보정 141000~144000 포함. (T-104 활동 테이블 파일도 함께 커밋됨 — 리뷰 대기 중)"
         }
       ],
       "notes": [
@@ -1461,6 +1473,14 @@
         {
           "at": "2026-10-12T21:08:29+09:00",
           "text": "reviewer: REVIEW_OK 치명0/중요2/사소4 (143000 note 예외가 reps=0 을 덮음)"
+        },
+        {
+          "at": "2026-10-12T21:09:58+09:00",
+          "text": "reviewer OK(4차). 권장 수정: 144000(메모 예외는 수량 전부 NULL 일 때만), 프로브 reps0+메모 거부·제약명 단정·cascade 세트/활동 잔존 검사"
+        },
+        {
+          "at": "2026-10-12T21:09:58+09:00",
+          "text": "완료 조건 3개 충족(프로브). 보정 141000~144000 포함. (T-104 활동 테이블 파일도 함께 커밋됨 — 리뷰 대기 중)"
         }
       ]
     },
