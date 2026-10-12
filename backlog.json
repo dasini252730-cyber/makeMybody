@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T10:17:36+09:00",
+  "updated_at": "2026-10-12T10:19:24+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -726,7 +726,7 @@
       "title": "이메일 로그인/로그아웃 화면과 라우터 가드",
       "description": "Supabase Auth 이메일(매직링크 또는 비밀번호) 로그인 1개 계정. 회원가입 UI 없음(대시보드에서 계정 생성). 로그인/로그아웃 화면 + 라우터 가드. 1단계(스키마)와 동시 적용.",
       "doc": "docs/T-007.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0",
       "epic": "E01",
       "phase": "V1",
@@ -751,8 +751,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-11T22:32:44+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T10:19:24+09:00",
+      "started_at": "2026-10-12T10:19:24+09:00",
       "completed_at": null,
       "history": [
         {
@@ -760,6 +760,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-12T10:19:24+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. 스토어 src/stores/auth.ts + LoginView + 라우터 가드 + 설정 화면 로그아웃"
         }
       ],
       "notes": [
@@ -770,6 +776,10 @@
         {
           "at": "2026-10-11T22:32:44+09:00",
           "text": "v1.2 NFR-004 강화 반영"
+        },
+        {
+          "at": "2026-10-12T10:19:24+09:00",
+          "text": "시작. 스토어 src/stores/auth.ts + LoginView + 라우터 가드 + 설정 화면 로그아웃"
         }
       ]
     },
