@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-12T21:21:25+09:00",
+  "updated_at": "2026-10-12T21:23:22+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -1860,7 +1860,7 @@
       "title": "RLS 검증 테스트 (2번째 사용자 접근 차단)",
       "description": "P0 테이블(exercise_library, workout_sessions, session_items, exercise_sets)에 대해 (1) 로그인 없이(anon) 어떤 테이블도 읽기/쓰기 불가, (2) 2번째 사용자 접근 차단을 검증하는 테스트. P0.5/P1 테이블은 각 마이그레이션 작업에서 같은 테스트를 확장.",
       "doc": "docs/T-021.md",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "P0",
       "epic": "E02",
       "phase": "V1",
@@ -1887,8 +1887,8 @@
       "decision_needed": null,
       "blocked_reason": null,
       "created_at": "2026-10-08T00:00:00+09:00",
-      "updated_at": "2026-10-12T21:19:15+09:00",
-      "started_at": null,
+      "updated_at": "2026-10-12T21:23:22+09:00",
+      "started_at": "2026-10-12T21:23:22+09:00",
       "completed_at": null,
       "history": [
         {
@@ -1896,6 +1896,12 @@
           "from": null,
           "to": "todo",
           "note": "backlog 생성"
+        },
+        {
+          "at": "2026-10-12T21:23:22+09:00",
+          "from": "todo",
+          "to": "in_progress",
+          "note": "시작. SQL 프로브 실행기(tools/db-rls.mjs) + REST 통합 테스트(rls.rest.test.ts, 환경 변수 게이트) + 프로브 전용 계정(tools/db-probe-user.mjs)"
         }
       ],
       "notes": [
@@ -1910,6 +1916,10 @@
         {
           "at": "2026-10-12T21:19:15+09:00",
           "text": "briefer: 쉬운 설명/관련 파일 작성"
+        },
+        {
+          "at": "2026-10-12T21:23:22+09:00",
+          "text": "시작. SQL 프로브 실행기(tools/db-rls.mjs) + REST 통합 테스트(rls.rest.test.ts, 환경 변수 게이트) + 프로브 전용 계정(tools/db-probe-user.mjs)"
         }
       ]
     },
