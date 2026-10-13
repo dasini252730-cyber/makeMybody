@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createClient } from '@supabase/supabase-js'
+import type { Database } from '@/types/supabase'
 
 // REST 경로 RLS 통합 테스트 (T-021, 요구사항 11장 P0 수용 기준 1·NFR-004).
 // 프로브 계정 A(RLS_PROBE_*)와 B(RLS_PROBE_B_*)를 쓴다. B 는 tools/db-probe-user.mjs 가 심어 둔 고정 id 데이터를 소유한다.
@@ -21,7 +22,7 @@ const B_EXERCISE = 'b0000000-0000-4000-8000-000000000004'
 const DENIED = '42501'
 
 const make = () =>
-  createClient(url!, key!, { db: { schema: 'mybody' }, auth: { persistSession: false } })
+  createClient<Database>(url!, key!, { db: { schema: 'mybody' }, auth: { persistSession: false } })
 async function login(c: ReturnType<typeof make>, who: { email?: string; password?: string }) {
   const { data, error } = await c.auth.signInWithPassword({
     email: who.email!,
@@ -65,7 +66,11 @@ const readTables = [
 const B_BODY = 'b0000000-0000-4000-8000-000000000005'
 
 describe.skipIf(!enabled)('RLS over REST (anon / 사용자 A / 사용자 B)', () => {
-  const anon = make()
+  // anon 은 테이블 이름을 동적으로 돌리므로 제네릭 없이 만든다(권한 검증이 목적). A/B 는 타입 검사된 클라이언트.
+  const anon = createClient(url!, key!, {
+    db: { schema: 'mybody' },
+    auth: { persistSession: false },
+  })
   const a = make()
   const b = make()
   let aId = ''
@@ -138,12 +143,14 @@ describe.skipIf(!enabled)('RLS over REST (anon / 사용자 A / 사용자 B)', ()
       ['session_items', B_ITEM],
       ['exercise_sets', B_SET],
       ['body_metrics', B_BODY],
-      ['v_working_sets', B_SET],
     ] as const) {
       const r = await a.from(table).select('id').eq('id', id)
       expect(r.error, table).toBeNull()
       expect(r.data?.length, table).toBe(0)
     }
+    const v = await a.from('v_working_sets').select('id').eq('id', B_SET) // 뷰는 오버로드가 달라 따로
+    expect(v.error).toBeNull()
+    expect(v.data?.length).toBe(0)
   })
 
   it('A 는 B 의 행을 수정·삭제할 수 없고(0행), B 의 세션에 동작을 붙이거나 user_id 를 위조해 쓸 수 없다', async () => {

@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import type { Database } from '@/types/supabase'
 
 // Supabase 클라이언트 싱글톤. 타입 파라미터(Database)는 T-022(supabase gen types) 에서 붙인다.
 // 키는 publishable key(sb_publishable_...)를 권장하며, 레거시 anon key(JWT)도 허용한다.
@@ -83,7 +84,8 @@ export const APP_SCHEMA = 'mybody' as const
 
 function makeClient(url: string, key: string) {
   // 세션은 기기에 저장해 한 번 로그인하면 유지한다(T-007). PKCE 로 매직링크 토큰이 URL 해시에 남지 않게 한다(NFR-004).
-  return createClient(url, key, {
+  // Database 타입은 `npm run db:types` 산출물(src/types/supabase.ts, T-022). 스키마가 바뀌면 재생성한다.
+  return createClient<Database>(url, key, {
     db: { schema: APP_SCHEMA },
     auth: {
       persistSession: true,
