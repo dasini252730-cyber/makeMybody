@@ -4,7 +4,7 @@
   "schema_version": 1,
   "unit_minutes": 30,
   "generated_at": "2026-10-08",
-  "updated_at": "2026-10-13T18:44:18+09:00",
+  "updated_at": "2026-10-13T18:45:22+09:00",
   "statuses": {
     "todo": {
       "label": "할 일",
@@ -7272,6 +7272,47 @@
       "history": [
         {
           "at": "2026-10-12T21:39:31+09:00",
+          "from": null,
+          "to": "todo",
+          "note": "CLI로 추가"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "T-127",
+      "title": "생성 타입 드리프트 감지 (db:types 재실행 후 git diff)",
+      "description": "마이그레이션 적용 후 src/types/supabase.ts 를 재생성하지 않으면 런타임 PGRST204 가 난다. 검사 스크립트(db:types → git diff --exit-code src/types/supabase.ts)를 만들고 done hook 또는 db-apply 뒤에 자동 실행할지 결정.",
+      "doc": "docs/T-127.md",
+      "status": "todo",
+      "priority": "P2",
+      "epic": "E17",
+      "phase": "V1",
+      "estimate_minutes": 30,
+      "order": 127,
+      "depends_on": [
+        "T-022"
+      ],
+      "requirements": [
+        "NFR-003"
+      ],
+      "tags": [
+        "tooling",
+        "types"
+      ],
+      "acceptance_criteria": [
+        "드리프트가 있으면 검사 스크립트가 종료 코드 1"
+      ],
+      "assignee": null,
+      "decision_needed": null,
+      "blocked_reason": null,
+      "created_at": "2026-10-13T18:45:22+09:00",
+      "updated_at": "2026-10-13T18:45:22+09:00",
+      "started_at": null,
+      "completed_at": null,
+      "history": [
+        {
+          "at": "2026-10-13T18:45:22+09:00",
           "from": null,
           "to": "todo",
           "note": "CLI로 추가"
